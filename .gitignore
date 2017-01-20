@@ -1,0 +1,8 @@
+*.DS_Store
+.mc-lists.el
+auto-save-list/*
+bak/*
+elpa/*
+eshell/*
+ido.last
+smex-items
