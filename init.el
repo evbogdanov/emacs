@@ -445,8 +445,7 @@ will be replaced."
   (custom-set-variables
    '(custom-enabled-themes (quote (zenburn)))
    '(custom-safe-themes
-     (quote
-      ("14f0fbf6f7851bfa60bf1f30347003e2348bf7a1005570fd758133c87dafe08f" default)))))
+     (quote ("9d91458c4ad7c74cf946bd97ad085c0f6a40c370ac0a1cbeb2e3879f15b40553" default)))))
 
 ;; MODE: IDO (BUILT-IN)
 ;; -----------------------------------------------------------------------------
@@ -513,9 +512,9 @@ will be replaced."
 
 ;; Customize decision chars for avy and ace-window modes:
 (setq my-avy-and-ace-keys '(
-;;	         ?r ?t ?y ?u
+;;           ?r ?t ?y ?u
     ?a ?s ?d ?f ?g ?h ?j ?k ?l
-;;	         ?v ?b ?n ?m
+;;           ?v ?b ?n ?m
 ))
 
 (setq avy-keys my-avy-and-ace-keys)
