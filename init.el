@@ -622,6 +622,10 @@ will be replaced."
                                          (interactive)
                                          (find-alternate-file "..")))
 
+;; Always delete and copy recursively
+(setq dired-recursive-deletes 'always)
+(setq dired-recursive-copies  'always)
+
 ;; PERL MODE
 ;; -----------------------------------------------------------------------------
 
