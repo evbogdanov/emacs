@@ -1,107 +1,8 @@
-;; NAKED EMACS
-;; -----------------------------------------------------------------------------
-
-;; Hide top menu
-(menu-bar-mode 0)
-
-;; Hide welcome screen
-(setq inhibit-startup-screen t)
-
-;; No default messages in *scratch* buffer
-(setq initial-scratch-message nil)
-
-;; Don't hurt my ears (and my eyes)
-(setq ring-bell-function 'ignore)
-
-;; Fat-free yes/no
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; TABS AND SPACES
-;; -----------------------------------------------------------------------------
-
-(setq-default tab-width 4)
-
-;; No tabs, use spaces
-(setq-default indent-tabs-mode nil)
-
-;; Use it to nicely format text via `M-q`
-(setq-default fill-column 80)
-
-;; BACKUP
-;; -----------------------------------------------------------------------------
-
-;; Where to put backup files (file1~ file2~ etc)
-(setq backup-directory-alist '(("." . "~/emacs/bak/")))
-
-;; Auto-save files (#file1# #file2# etc)
-(setq auto-save-file-name-transforms '((".*" "~/emacs/bak/" t)))
-
-;; Options
-(setq make-backup-files t         ; backup of a file the first time it is saved.
-      backup-by-copying t         ; don't clobber symlinks
-      version-control t           ; version numbers for backup files
-      delete-old-versions t       ; delete excess backup files silently
-      delete-by-moving-to-trash t ;
-      kept-old-versions 2         ; oldest versions to keep when a new numbered backup is made (default: 2)
-      kept-new-versions 2         ; newest versions to keep when a new numbered backup is made (default: 2)
-      auto-save-default t         ; auto-save every buffer that visits a file
-      auto-save-timeout 20        ; number of seconds idle time before auto-save (default: 30)
-      auto-save-interval 200)     ; number of keystrokes between auto-saves (default: 300)
-
-;; LITTLE HELPERS
-;; -----------------------------------------------------------------------------
-
-;; Automatically indent new lines
-(electric-indent-mode t)
-
-;; Typed text replaces the selection
-(delete-selection-mode t)
-
-;; Show matched parentheses
-(show-paren-mode t)
-
-;; RUSSIAN MAC KEYBOARD
-;; -----------------------------------------------------------------------------
-
-;; "russian-computer" doesn't work flawlessly with mac keyboard, read this:
-;; http://ru-emacs.livejournal.com/83575.html
-
-(quail-define-package "russian-mac" "Russian" "RU" nil
-                      "ЙЦУКЕН Russian Mac layout"
-                      nil t t t t nil nil nil nil nil t)
-
-(quail-define-rules
- ;; row 1
- ("§" ?>)
-
- ;; row 2
- ("q" ?й) ("w" ?ц) ("e" ?у) ("r" ?к) ("t" ?е)
- ("y" ?н) ("u" ?г) ("i" ?ш) ("o" ?щ) ("p" ?з) ("[" ?х) ("]" ?ъ)
-
- ;; row 3
- ("a" ?ф) ("s" ?ы) ("d" ?в) ("f" ?а) ("g" ?п)
- ("h" ?р) ("j" ?о) ("k" ?л) ("l" ?д) (";" ?ж) ("'" ?э) ("\\" ?ё)
-
- ;; row 4
- ("`" ?\]) ("z" ?я) ("x" ?ч) ("c" ?с) ("v" ?м) ("b" ?и)
- ("n" ?т)  ("m" ?ь) ("," ?б) ("." ?ю)
-
- ;; shift row 1
- ("±" ?<) ("@" ?\") ("#" ?№) ("$" ?%) ("%" ?:) ("^" ?,) ("&" ?.) ("*" ?\;)
-
- ;; shift row 2
- ("Q" ?Й) ("W" ?Ц) ("E" ?У) ("R" ?К) ("T" ?Е)
- ("Y" ?Н) ("U" ?Г) ("I" ?Ш) ("O" ?Щ) ("P" ?З) ("{" ?Х) ("}" ?Ъ)
-
- ;; shift row 3
- ("A" ?Ф) ("S" ?Ы) ("D" ?В) ("F" ?А) ("G" ?П)
- ("H" ?Р) ("J" ?О) ("K" ?Л) ("L" ?Д) (":" ?Ж) ("\"" ?Э) ("|" ?Ё)
-
- ;; shift row 4
- ("~" ?\[) ("Z" ?Я) ("X" ?Ч) ("C" ?С) ("V" ?М) ("B" ?И)
- ("N" ?Т)  ("M" ?Ь) ("<" ?Б) (">" ?Ю))
-
-(setq default-input-method "russian-mac")
+(load "~/emacs/my/naked-emacs")
+(load "~/emacs/my/tabs-and-spaces")
+(load "~/emacs/my/backup")
+(load "~/emacs/my/little-helpers")
+(load "~/emacs/my/russian-mac-keyboard")
 
 ;; PREFIX KEY: C-O
 ;; -----------------------------------------------------------------------------
@@ -428,52 +329,10 @@ will be replaced."
 
 (package-initialize)
 
-;; THEME: GUI
+;; THEME
 ;; -----------------------------------------------------------------------------
 
-(when window-system
-  ;; Cursor, please don't blink
-  (blink-cursor-mode 0)
-
-  ;; Scroll bar? no, thanks
-  (scroll-bar-mode 0)
-
-  ;; No annoying tooltips
-  (tooltip-mode 0)
-
-  ;; Hide very top menu
-  (tool-bar-mode 0)
-
-  ;; Hide vertical scroll bar
-  (toggle-scroll-bar 0)
-
-  ;; Custom font
-  (set-face-attribute 'default nil
-                      :family "Menlo"
-                      :height 120
-                      :weight 'normal)
-
-  ;; Initial size
-  (setq initial-frame-alist
-        '((width . 100) (height . 50)))
-
-  ;; Solarized light theme
-  (setq solarized-use-less-bold t)
-  (custom-set-variables
-   '(custom-enabled-themes (quote (solarized-light)))
-   '(custom-safe-themes
-     (quote ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))))
-
-;; THEME: TERMINAL
-;; -----------------------------------------------------------------------------
-
-(unless window-system
-  (custom-set-faces '(default ((t (:background "nil")))))
-
-  (custom-set-variables
-   '(custom-enabled-themes (quote (zenburn)))
-   '(custom-safe-themes
-     (quote ("9d91458c4ad7c74cf946bd97ad085c0f6a40c370ac0a1cbeb2e3879f15b40553" default)))))
+(load "~/emacs/my/theme")
 
 ;; MODE: IDO (BUILT-IN)
 ;; -----------------------------------------------------------------------------
