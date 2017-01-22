@@ -289,7 +289,7 @@ see its code to understand what's going on here"
   "By default, M-k runs the command kill-sentence, i want it to behave
 differently: kill the characters from the current point to the beginning of the
 line. If the point is already at the beginning of the line, the current
-line is joined with the previous one.)
+line is joined with the previous one.
 "
   (interactive)
   (if (= 0 (current-column))
@@ -297,6 +297,32 @@ line is joined with the previous one.)
     (kill-line 0)))
 
 (global-set-key (kbd "M-k") 'my-backward-kill-line)
+
+;; KEYS: C-M-K
+;; -----------------------------------------------------------------------------
+
+;; Emacs reply to Vim-ish `d d`
+(global-set-key (kbd "C-M-k") 'kill-whole-line)
+
+;; KEYS: C-M-Y
+;; -----------------------------------------------------------------------------
+
+(defun my-yank-line ()
+  "Copy and paste current line."
+  (interactive)
+  (setq kill-ring (cons "" kill-ring)) ;; Don't append previous kill
+  (let ((beg)
+        (end))
+    (move-beginning-of-line nil)
+    (setq beg (point))
+    (move-end-of-line nil)
+    (setq end (point))
+    (kill-ring-save beg end)
+    (open-line 1)
+    (next-line)
+    (yank)))
+
+(global-set-key (kbd "C-M-y") 'my-yank-line)
 
 ;; KEYS: M-\
 ;; -----------------------------------------------------------------------------
@@ -361,15 +387,17 @@ will be replaced."
 (global-set-key (kbd "C-x p") 'mark-paragraph)
 
 ;; Select [l]ine
-(global-set-key (kbd "C-x l")
-                '(lambda ()
-                   (interactive)
-                   (end-of-line)
-                   (set-mark (line-beginning-position))))
+(defun my-mark-line ()
+  "Function name says it all."
+  (interactive)
+  (end-of-line)
+  (set-mark (line-beginning-position)))
+
+(global-set-key (kbd "C-x l") 'my-mark-line)
 
 ;; Select [w]ord
 (defun my-mark-word ()
-  "better 'mark-word', imho"
+  "Better 'mark-word', imho."
   (interactive)
   (forward-word)
   (backward-word)
