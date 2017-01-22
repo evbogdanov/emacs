@@ -88,6 +88,9 @@ the point position."
 
 (global-set-key (kbd "C-a") 'my-c-a)
 
+;; Restore "C-a" in visual-line-mode
+(define-key visual-line-mode-map (kbd "C-a") 'beginning-of-visual-line)
+
 ;; KEYS: C-X C-H
 ;; -----------------------------------------------------------------------------
 
@@ -516,3 +519,8 @@ will be replaced."
 (define-key my-f13 (kbd "8") '(lambda () (interactive) (column-marker-1 80)))
 
 (define-key my-f13 (kbd "0") '(lambda () (interactive) (column-marker-1 -1)))
+
+;; SERVER
+;; -----------------------------------------------------------------------------
+
+(server-start)
