@@ -605,7 +605,7 @@ will be replaced."
 (global-set-key (kbd "ESC <left>")  'mc/mark-previous-like-this)
 (global-set-key (kbd "ESC <right>") 'mc/mark-next-like-this)
 
-;; DIRED: C-M AND M-M
+;; DIRED
 ;; -----------------------------------------------------------------------------
 
 (require 'dired )
