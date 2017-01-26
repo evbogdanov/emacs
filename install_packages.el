@@ -17,12 +17,9 @@
 (package-install 'emmet-mode)
 (package-install 'smex)
 (package-install 'multiple-cursors)
-
 (package-install 'erlang)
 (package-install 'alchemist)
-
 (package-install 'osx-clipboard)
-
 (package-install 'column-marker)
 
 ;; M-x eval-buffer
