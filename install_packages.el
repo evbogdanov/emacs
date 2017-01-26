@@ -5,7 +5,7 @@
 
 (package-initialize)
 
-;; M-x list-packages
+;; M-x packages-list-packages
 
 (package-install 'solarized-theme)
 (package-install 'zenburn-theme)
