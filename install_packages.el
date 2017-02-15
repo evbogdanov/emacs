@@ -19,6 +19,7 @@
 (package-install 'multiple-cursors)
 (package-install 'erlang)
 (package-install 'alchemist)
+(package-install 'go-mode)
 (package-install 'osx-clipboard)
 (package-install 'column-marker)
 
