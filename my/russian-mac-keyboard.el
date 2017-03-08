@@ -10,7 +10,8 @@
 
 (quail-define-rules
  ;; row 1
- ("§" ?>)
+ ;; keep § as my help command
+ ;; ("§" ?>)
 
  ;; row 2
  ("q" ?й) ("w" ?ц) ("e" ?у) ("r" ?к) ("t" ?е)
