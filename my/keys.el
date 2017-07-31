@@ -103,6 +103,11 @@
   (define-key shell-mode-map (kbd "<C-up>")   'windmove-up)
   (define-key shell-mode-map (kbd "<C-down>") 'windmove-down))
 
+;; KEYS: LIST ALL BUFFERS IN THE CURRENT WINDOW
+;; -----------------------------------------------------------------------------
+
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+
 ;; KEYS: M-K
 ;; -----------------------------------------------------------------------------
 
