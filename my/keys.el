@@ -52,9 +52,11 @@
 ;; Restore "C-a" in visual-line-mode
 (define-key visual-line-mode-map (kbd "C-a") 'beginning-of-visual-line)
 
-;; KEYS: C-X C-H
+;; KEYS: HEADING
 ;; -----------------------------------------------------------------------------
 
+;; I chose "C-x C-h" because it acts very similar to Emacs's built-in combos
+;; "C-x C-u" and "C-x C-l"
 (global-set-key (kbd "C-x C-h") 'my-heading)
 
 ;; KEYS: C-SPC
