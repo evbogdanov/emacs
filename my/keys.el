@@ -154,10 +154,11 @@
 
 (global-set-key (kbd "C-x SPC") 'set-mark-command)
 
-;; KEYS: C-X C-P
+;; KEYS: C-X C-P, C-X C-N
 ;; -----------------------------------------------------------------------------
 
-(global-set-key (kbd "C-x C-p") 'my-perl-eval-buffer)
+(global-set-key (kbd "C-x C-p") 'my-eval-buffer-as-perl)
+(global-set-key (kbd "C-x C-n") 'my-eval-buffer-as-node)
 
 ;; KEYS: EM DASH
 ;; -----------------------------------------------------------------------------

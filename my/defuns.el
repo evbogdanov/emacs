@@ -149,7 +149,9 @@ will be replaced."
   (mark-word)
   (exchange-point-and-mark))
 
-(defun my-perl-eval-buffer ()
-  "Feed current buffer to Perl interpreter. Acme equivalent: Edit , > perl"
-  (interactive)
-  (shell-command-on-region 1 (point-max) "perl"))
+(defun my-eval-buffer-as (interpreter)
+  "Feed current buffer to some interpreter (Perl, Node, etc)"
+  (shell-command-on-region 1 (point-max) interpreter))
+
+(defun my-eval-buffer-as-perl () (interactive) (my-eval-buffer-as "perl"))
+(defun my-eval-buffer-as-node () (interactive) (my-eval-buffer-as "node"))
