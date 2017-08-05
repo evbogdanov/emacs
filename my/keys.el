@@ -169,3 +169,10 @@
 ;; -----------------------------------------------------------------------------
 
 (global-set-key "§" help-map)
+
+;; KEYS: BLOCKS
+;; -----------------------------------------------------------------------------
+
+(define-key my-f13 (kbd "{") 'my-insert-block-curly-braces)
+(define-key my-f13 (kbd "[") 'my-insert-block-square-brackets)
+(define-key my-f13 (kbd "(") 'my-insert-block-parentheses)

@@ -155,3 +155,26 @@ will be replaced."
 
 (defun my-eval-buffer-as-perl () (interactive) (my-eval-buffer-as "perl"))
 (defun my-eval-buffer-as-node () (interactive) (my-eval-buffer-as "node"))
+
+(defun my-insert-block-and-indent (block-opening block-closing)
+  "Insert {...}, [...] or (...) block and indent it."
+  (insert block-opening)
+  (open-line 2)
+  (next-line 2)
+  (back-to-indentation)
+  (insert block-closing)
+  (indent-for-tab-command)
+  (previous-line)
+  (indent-for-tab-command))
+
+(defun my-insert-block-curly-braces ()
+  (interactive)
+  (my-insert-block-and-indent "{" "}"))
+
+(defun my-insert-block-square-brackets ()
+  (interactive)
+  (my-insert-block-and-indent "[" "]"))
+
+(defun my-insert-block-parentheses ()
+  (interactive)
+  (my-insert-block-and-indent "(" ")"))
