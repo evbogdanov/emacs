@@ -157,7 +157,7 @@
 ;; KEYS: C-X C-P, C-X C-N
 ;; -----------------------------------------------------------------------------
 
-(global-set-key (kbd "C-x C-p") 'my-eval-buffer-as-perl)
+(global-set-key (kbd "C-x C-p") 'my-eval-buffer-as-python3)
 (global-set-key (kbd "C-x C-n") 'my-eval-buffer-as-node)
 
 ;; KEYS: EM DASH

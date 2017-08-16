@@ -153,7 +153,7 @@ will be replaced."
   "Feed current buffer to some interpreter (Perl, Node, etc)"
   (shell-command-on-region 1 (point-max) interpreter))
 
-(defun my-eval-buffer-as-perl () (interactive) (my-eval-buffer-as "perl"))
+(defun my-eval-buffer-as-python3 () (interactive) (my-eval-buffer-as "python3"))
 (defun my-eval-buffer-as-node () (interactive) (my-eval-buffer-as "node"))
 
 (defun my-insert-block-and-indent (block-opening block-closing)

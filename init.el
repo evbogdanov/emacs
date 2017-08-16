@@ -29,7 +29,6 @@
                  "emmet"
                  "smex"
                  "multiple-cursors"
-                 "perl"
                  "c"
                  "macos"
                  "column-marker"
