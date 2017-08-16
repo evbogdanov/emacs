@@ -150,7 +150,7 @@ will be replaced."
   (exchange-point-and-mark))
 
 (defun my-eval-buffer-as (interpreter)
-  "Feed current buffer to some interpreter (Perl, Node, etc)"
+  "Feed current buffer to some interpreter (Python, Node, etc)"
   (shell-command-on-region 1 (point-max) interpreter))
 
 (defun my-eval-buffer-as-python3 () (interactive) (my-eval-buffer-as "python3"))
