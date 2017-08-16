@@ -1,30 +1,39 @@
-;; Package configuration must come first
+;; PACKAGE CONFIGURATION MUST COME FIRST
+;; -----------------------------------------------------------------------------
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-;; Party like an Emacsian
-(load "~/emacs/my/naked-emacs")
-(load "~/emacs/my/tabs-and-spaces")
-(load "~/emacs/my/backup")
-(load "~/emacs/my/little-helpers")
-(load "~/emacs/my/russian-mac-keyboard")
-(load "~/emacs/my/defuns")
-(load "~/emacs/my/keys")
-(load "~/emacs/my/theme")
-(load "~/emacs/my/dired")
-(load "~/emacs/my/ido")
-(load "~/emacs/my/html")
-(load "~/emacs/my/erlang")
-(load "~/emacs/my/neotree")
-(load "~/emacs/my/expand-region")
-(load "~/emacs/my/web")
-(load "~/emacs/my/avy-and-ace-window")
-(load "~/emacs/my/emmet")
-(load "~/emacs/my/smex")
-(load "~/emacs/my/multiple-cursors")
-(load "~/emacs/my/perl")
-(load "~/emacs/my/c")
-(load "~/emacs/my/macos")
-(load "~/emacs/my/column-marker")
-(load "~/emacs/my/server")
+;; LET'S GET THE PARTY STARTED
+;; -----------------------------------------------------------------------------
+
+(setq my-dir "~/github/emacs/my")
+
+(setq my-files '("naked-emacs"
+                 "tabs-and-spaces"
+                 "backup"
+                 "little-helpers"
+                 "russian-mac-keyboard"
+                 "defuns"
+                 "keys"
+                 "theme"
+                 "dired"
+                 "ido"
+                 "html"
+                 "erlang"
+                 "neotree"
+                 "expand-region"
+                 "web"
+                 "avy-and-ace-window"
+                 "emmet"
+                 "smex"
+                 "multiple-cursors"
+                 "perl"
+                 "c"
+                 "macos"
+                 "column-marker"
+                 "server"))
+
+(dolist (my-file my-files)
+  (load (concat my-dir "/" my-file)))

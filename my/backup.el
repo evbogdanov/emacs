@@ -2,10 +2,10 @@
 ;; -----------------------------------------------------------------------------
 
 ;; Where to put backup files (file1~ file2~ etc)
-(setq backup-directory-alist '(("." . "~/emacs/bak/")))
+(setq backup-directory-alist '(("." . "~/github/emacs/bak/")))
 
 ;; Auto-save files (#file1# #file2# etc)
-(setq auto-save-file-name-transforms '((".*" "~/emacs/bak/" t)))
+(setq auto-save-file-name-transforms '((".*" "~/github/emacs/bak/" t)))
 
 ;; Options
 (setq make-backup-files t         ; backup of a file the first time it is saved.
