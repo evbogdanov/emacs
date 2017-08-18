@@ -37,10 +37,33 @@ the point position."
         (back-to-indentation)))))
 
 (defun my-heading ()
-  "Create heading via `h+` script."
+  "Create a pretty heading."
   (interactive)
-  (shell-command-on-region
-   (line-beginning-position) (line-end-position) "h+" t t))
+  (move-beginning-of-line nil)
+  (let* ((comment-symbols '(?# ?% ?/ ?\;))
+         (default-comment-symbol (car comment-symbols))
+         (char-at-beginning-of-line (char-after))
+         (comment-symbol (if (member char-at-beginning-of-line comment-symbols)
+                             char-at-beginning-of-line
+                           default-comment-symbol))
+         (comment-symbol-str (char-to-string comment-symbol))
+         (comment-str (concat comment-symbol-str comment-symbol-str " "))
+         (comment-str-sep (make-string 77 ?-)))
+
+    (loop
+     (let ((ch (char-after)))
+       (if (or (eq ch ? ) (eq ch comment-symbol))
+           (delete-char 1)
+         (return))))
+
+    (upcase-region (line-beginning-position) (line-end-position))
+    (move-beginning-of-line 1)
+    (insert comment-str)
+    (end-of-line)
+    (newline)
+    (insert comment-str comment-str-sep)
+    (newline)
+    (newline)))
 
 (defun my-no-space ()
   "Delete all spaces and tabs around point."
