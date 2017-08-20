@@ -14,7 +14,6 @@
                  "tabs-and-spaces"
                  "backup"
                  "little-helpers"
-                 "russian-mac-keyboard"
                  "defuns"
                  "keys"
                  "theme"
