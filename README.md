@@ -1,4 +1,4 @@
-# My Emacs config
+# It used to be my Emacs config
 
 ## Use it
 
