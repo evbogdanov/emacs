@@ -1,10 +1,5 @@
-# My Emacs config
-
-## Use it
+# It used to be my Emacs config
 
 ```
-cd $HOME/github/
-git clone https://github.com/evbogdanov/emacs
-cd emacs
-./install.sh
+ln -s $PLAN9/bin/acme /usr/bin/emacs
 ```
