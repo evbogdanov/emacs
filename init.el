@@ -14,6 +14,7 @@
                  "tabs-and-spaces"
                  "backup"
                  "little-helpers"
+                 "russian-computer"
                  "defuns"
                  "keys"
                  "theme"

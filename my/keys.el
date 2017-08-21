@@ -59,6 +59,13 @@
 ;; "C-x C-u" and "C-x C-l"
 (global-set-key (kbd "C-x C-h") 'my-heading)
 
+;; KEYS: C-SPC
+;; -----------------------------------------------------------------------------
+
+;; Let's emacs be symmetrical to my macOS language switcher
+(global-set-key (kbd "C-SPC") 'toggle-input-method)
+(global-set-key (kbd "C-@")   'toggle-input-method) ;; special for -nw mode
+
 ;; KEYS: M-SPC
 ;; -----------------------------------------------------------------------------
 
