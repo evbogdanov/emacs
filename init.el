@@ -1,5 +1,5 @@
 ;; SETTING UP THE PACKAGE MANAGER
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 (require 'package)
 
@@ -12,7 +12,7 @@
   (package-install 'use-package))
 
 ;; NAKED EMACS
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; Hide top menu
 (menu-bar-mode 0)
@@ -31,7 +31,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; TABS AND SPACES
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 (setq-default tab-width 4)
 
@@ -42,7 +42,7 @@
 (setq-default fill-column 79)
 
 ;; BACKUP
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; Where to put backup files (file1~ file2~ etc)
 (setq backup-directory-alist '(("." . "~/github/emacs/bak/")))
@@ -63,7 +63,7 @@
       auto-save-interval 200)     ; number of keystrokes between auto-saves (default: 300)
 
 ;; LITTLE HELPERS
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; Automatically indent new lines
 (electric-indent-mode t)
@@ -75,7 +75,7 @@
 (show-paren-mode t)
 
 ;; RUSSIAN MAC KEYBOARD
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; "russian-computer" doesn't work flawlessly with mac keyboard, read this:
 ;; http://ru-emacs.livejournal.com/83575.html
@@ -118,13 +118,13 @@
 (setq default-input-method "my-russian-computer")
 
 ;; MY VARIABLES
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; The same keys for ace-window and avy
 (setq my-ace-avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;; MY FUNCTIONS
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 (defun my-current-position-in-line ()
   "Function `(current-column)` has a fatal flaw: it doesn't treat tab as a
@@ -155,8 +155,37 @@ the point position."
   (interactive)
   (scroll-other-window `-))
 
+(defun my-heading ()
+  "Create a pretty heading."
+  (interactive)
+  (move-beginning-of-line nil)
+  (let* ((comment-symbols '(?# ?% ?/ ?\;))
+         (default-comment-symbol (car comment-symbols))
+         (char-at-beginning-of-line (char-after))
+         (comment-symbol (if (member char-at-beginning-of-line comment-symbols)
+                             char-at-beginning-of-line
+                           default-comment-symbol))
+         (comment-symbol-str (char-to-string comment-symbol))
+         (comment-str (concat comment-symbol-str comment-symbol-str " "))
+         (comment-str-sep (make-string 76 ?-)))
+
+    (cl-loop
+     (let ((ch (char-after)))
+       (if (or (eq ch ? ) (eq ch comment-symbol))
+           (delete-char 1)
+         (cl-return))))
+
+    (upcase-region (line-beginning-position) (line-end-position))
+    (move-beginning-of-line 1)
+    (insert comment-str)
+    (end-of-line)
+    (newline)
+    (insert comment-str comment-str-sep)
+    (newline)
+    (newline)))
+
 ;; PACKAGES
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 (use-package bind-key
   :ensure t)
@@ -178,7 +207,7 @@ the point position."
         avy-keys my-ace-avy-keys))
 
 ;; KEYS
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 
 ;; Enhanced C-a
 (bind-key "C-a" 'my-move-beginning-of-line)
@@ -216,5 +245,8 @@ the point position."
 ;; Better than tons of unused commands
 (bind-key "M-s" 'avy-goto-word-1)
 
+;; Replace 'mark-paragraph
+(bind-key "M-h" 'my-heading)
+
 ;; THE END
-;; -----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
