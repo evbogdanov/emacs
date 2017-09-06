@@ -283,16 +283,16 @@ line is joined with the previous one.
 (bind-key "C-x f" 'find-file)
 
 ;; Stuff in other window
-(bind-keys :prefix-map my-other-window-map
-           :prefix "C-o"
-           ("b"   . switch-to-buffer-other-window)
-           ("d"   . dired-other-window)
-           ("f"   . find-file-other-window)
-           ("C-f" . find-file-other-window)
-           ("r"   . find-file-read-only-other-window)
-           ("C-r" . find-file-read-only-other-window)
-           ("o"   . ace-window)
-           ("C-o" . ace-window))
+(bind-keys* :prefix-map my-other-window-map
+            :prefix "C-o"
+            ("b"   . switch-to-buffer-other-window)
+            ("d"   . dired-other-window)
+            ("f"   . find-file-other-window)
+            ("C-f" . find-file-other-window)
+            ("r"   . find-file-read-only-other-window)
+            ("C-r" . find-file-read-only-other-window)
+            ("o"   . ace-window)
+            ("C-o" . ace-window))
 
 ;; Better 'other-window. Alias to C-o C-o
 (bind-key "C-x o" 'ace-window)
