@@ -184,6 +184,36 @@ the point position."
     (newline)
     (newline)))
 
+(defun my-str-join (words)
+  "Good old words join like in many other programming languages."
+  (reduce
+   (lambda (w1 w2) (concat w1 " " w2))
+   words))
+
+(defun my-str-kill-last-word (str)
+  "Return string without last word."
+  (let ((words (split-string str)))
+    (if (>= 1 (length words))
+        ""
+      (my-str-join (butlast words)))))
+
+(defun my-isearch-del-word ()
+  "Delete word from end of search string and search again.
+Note: this function is heavily inspired by `isearch-del-char`,
+see its code to understand what's going on here."
+  (interactive)
+  (if (= 0 (length isearch-string))
+      (ding)
+    ;; The only difference is how i set isearch-string
+    (setq isearch-string  (my-str-kill-last-word isearch-string)
+          isearch-message (mapconcat 'isearch-text-char-description
+                                     isearch-string "")))
+  ;; Next lines are shamelessly copy/pasted from isearch-del-char
+  (if isearch-other-end (goto-char isearch-other-end))
+  (isearch-search)
+  (isearch-push-state)
+  (isearch-update))
+
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
 
@@ -247,6 +277,11 @@ the point position."
 
 ;; Replace 'mark-paragraph
 (bind-key "M-h" 'my-heading)
+
+;; Make DEL and M-DEL act as they do everywhere else
+(bind-keys :map isearch-mode-map
+           ("DEL"   . isearch-del-char)
+           ("M-DEL" . my-isearch-del-word))
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
