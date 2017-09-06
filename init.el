@@ -186,7 +186,7 @@ the point position."
 
 (defun my-str-join (words)
   "Good old words join like in many other programming languages."
-  (reduce
+  (cl-reduce
    (lambda (w1 w2) (concat w1 " " w2))
    words))
 
@@ -197,15 +197,16 @@ the point position."
         ""
       (my-str-join (butlast words)))))
 
-(defun my-isearch-del-word ()
-  "Delete word from end of search string and search again.
+(defun my-isearch-del (what)
+  "Delete word or line from isearch.
 Note: this function is heavily inspired by `isearch-del-char`,
 see its code to understand what's going on here."
-  (interactive)
   (if (= 0 (length isearch-string))
       (ding)
     ;; The only difference is how i set isearch-string
-    (setq isearch-string  (my-str-kill-last-word isearch-string)
+    (setq isearch-string (if (string= what "word")
+                             (my-str-kill-last-word isearch-string)
+                           "")
           isearch-message (mapconcat 'isearch-text-char-description
                                      isearch-string "")))
   ;; Next lines are shamelessly copy/pasted from isearch-del-char
@@ -213,6 +214,33 @@ see its code to understand what's going on here."
   (isearch-search)
   (isearch-push-state)
   (isearch-update))
+
+(defun my-isearch-del-word ()
+  "Delete a word from the end of isearch."
+  (interactive)
+  (my-isearch-del "word"))
+
+(defun my-isearch-del-line ()
+  "Delete a whole isearch line."
+  (interactive)
+  (my-isearch-del "line"))
+
+(defun my-backward-kill-line ()
+  "Kill the characters from the current point to the beginning of the
+line. If the point is already at the beginning of the line, the current
+line is joined with the previous one.
+"
+  (interactive)
+  (if (= 0 (current-column))
+      (delete-backward-char 1)
+    (kill-line 0)))
+
+(defun my-backward-kill-word-or-region (&optional arg)
+  "Kill word backward or go with defaults and kill region."
+  (interactive "p")
+  (if (use-region-p)
+      (kill-region (region-beginning) (region-end))    
+    (backward-kill-word arg)))
 
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
@@ -278,10 +306,14 @@ see its code to understand what's going on here."
 ;; Replace 'mark-paragraph
 (bind-key "M-h" 'my-heading)
 
-;; Make DEL and M-DEL act as they do everywhere else
+;; Familiar shell-like behaviour for C-h, C-w and C-u
+(bind-key "C-h" 'delete-backward-char)
+(bind-key "C-w" 'my-backward-kill-word-or-region)
+(bind-key "C-u" 'my-backward-kill-line)
 (bind-keys :map isearch-mode-map
-           ("DEL"   . isearch-del-char)
-           ("M-DEL" . my-isearch-del-word))
+           ("C-h" . isearch-del-char)
+           ("C-w" . my-isearch-del-word)
+           ("C-u" . my-isearch-del-line))
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
