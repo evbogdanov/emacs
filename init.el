@@ -225,15 +225,17 @@ see its code to understand what's going on here."
   (interactive)
   (my-isearch-del "line"))
 
-(defun my-backward-kill-line ()
-  "Kill the characters from the current point to the beginning of the
-line. If the point is already at the beginning of the line, the current
-line is joined with the previous one.
-"
-  (interactive)
-  (if (= 0 (current-column))
-      (delete-backward-char 1)
-    (kill-line 0)))
+(defun my-backward-kill-line (&optional arg)
+  "Kill line(s) backward.
+
+TODO: Make it work nicely with multiple lines. Now I have to
+press an extra C-u after passing a digit argument."
+  (interactive "p")
+  (if (> arg 1)
+      (kill-line (- (- arg 1)))
+    (if (= 0 (current-column))
+        (delete-backward-char 1)
+      (kill-line 0))))
 
 (defun my-backward-kill-word-or-region (&optional arg)
   "Kill word backward or go with defaults and kill region."
@@ -307,9 +309,9 @@ line is joined with the previous one.
 (bind-key "M-h" 'my-heading)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
-(bind-key "C-h" 'delete-backward-char)
-(bind-key "C-w" 'my-backward-kill-word-or-region)
-(bind-key "C-u" 'my-backward-kill-line)
+(bind-key* "C-h" 'delete-backward-char)
+(bind-key* "C-w" 'my-backward-kill-word-or-region)
+(bind-key* "C-u" 'my-backward-kill-line)
 (bind-keys :map isearch-mode-map
            ("C-h" . isearch-del-char)
            ("C-w" . my-isearch-del-word)
