@@ -258,6 +258,30 @@ press an extra C-u after passing a digit argument."
   (end-of-line)
   (set-mark (line-beginning-position)))
 
+(defun my-yank-line ()
+  "Copy and paste current line."
+  (interactive)
+  (setq kill-ring (cons "" kill-ring)) ;; Don't append previous kill
+  (let ((beg)
+        (end))
+    (move-beginning-of-line nil)
+    (setq beg (point))
+    (move-end-of-line nil)
+    (setq end (point))
+    (kill-ring-save beg end)
+    (open-line 1)
+    (next-line)
+    (yank)))
+
+(defun my-mark-paragraph ()
+  "My own 'mark-paragraph that does exactly what I want it to do."
+  (interactive)
+  (mark-paragraph)
+  (let ((n (line-number-at-pos)))
+    (when (/= n 1)
+      (forward-char)))
+  (exchange-point-and-mark))
+
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
 
@@ -370,9 +394,12 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-spc (kbd "C-@") 'set-mark-command)
 (define-key my-c-spc (kbd "w") 'my-mark-word)
 (define-key my-c-spc (kbd "l") 'my-mark-line)
-(define-key my-c-spc (kbd "p") 'mark-paragraph)
+(define-key my-c-spc (kbd "p") 'my-mark-paragraph)
 (define-key my-c-spc (kbd "b") 'mark-whole-buffer)
 (define-key my-c-spc (kbd ".") 'er/expand-region)
+
+;; C-M-y is undefined by default
+(global-set-key (kbd "C-M-y") 'my-yank-line)
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
