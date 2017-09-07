@@ -247,9 +247,6 @@ press an extra C-u after passing a digit argument."
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
 
-(use-package bind-key
-  :ensure t)
-
 (use-package osx-clipboard
   :ensure t
   :config
@@ -266,56 +263,87 @@ press an extra C-u after passing a digit argument."
   (setq avy-all-windows nil
         avy-keys my-ace-avy-keys))
 
+(use-package ido
+  :ensure t
+  :config
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point 'guess
+        ido-max-prospects 10
+        ido-default-file-method 'selected-window
+        ido-separator "\n")
+  (ido-mode 1)
+  (ido-everywhere 1))
+
+(use-package flx-ido
+  :ensure t
+  :config
+  (flx-ido-mode 1)
+  ;; Disable ido faces to see flx highlights
+  (setq ido-use-faces nil))
+
+(use-package smex
+  :ensure t)
+
 ;; KEYS
 ;; ----------------------------------------------------------------------------
 
 ;; Enhanced C-a
-(bind-key "C-a" 'my-move-beginning-of-line)
-(bind-keys :map visual-line-mode-map
-           ("C-a" . beginning-of-visual-line))
+(global-set-key (kbd "C-a") 'my-move-beginning-of-line)
+(define-key visual-line-mode-map (kbd "C-a") 'beginning-of-visual-line)
 
 ;; Easier scrolling
-(bind-key "C-z" 'scroll-down-command)
-(bind-key "C-M-z" 'my-scroll-other-window-down)
+(global-set-key (kbd "C-z") 'scroll-down-command)
+(global-set-key (kbd "C-M-z") 'my-scroll-other-window-down)
 
 ;; List all buffers in the current window
-(bind-key "C-x C-b" 'buffer-menu)
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
 
 ;; Alias to C-x C-f
-(bind-key "C-x f" 'find-file)
+(global-set-key (kbd "C-x f") 'find-file)
 
 ;; Stuff in other window
-(bind-keys* :prefix-map my-other-window-map
-            :prefix "C-o"
-            ("b"   . switch-to-buffer-other-window)
-            ("d"   . dired-other-window)
-            ("f"   . find-file-other-window)
-            ("C-f" . find-file-other-window)
-            ("r"   . find-file-read-only-other-window)
-            ("C-r" . find-file-read-only-other-window)
-            ("o"   . ace-window)
-            ("C-o" . ace-window))
+(define-prefix-command 'my-c-o)
+(global-set-key (kbd "C-o") 'my-c-o)
+(define-key my-c-o (kbd "b") 'switch-to-buffer-other-window)
+(define-key my-c-o (kbd "d") 'dired-other-window)
+(define-key my-c-o (kbd "f") 'find-file-other-window)
+(define-key my-c-o (kbd "C-f") 'find-file-other-window)
+(define-key my-c-o (kbd "r") 'find-file-read-only-other-window)
+(define-key my-c-o (kbd "C-r") 'find-file-read-only-other-window)
+(define-key my-c-o (kbd "o") 'ace-window)
+(define-key my-c-o (kbd "C-o") 'ace-window)
 
 ;; Better 'other-window. Alias to C-o C-o
-(bind-key "C-x o" 'ace-window)
+(global-set-key (kbd "C-x o") 'ace-window)
 
 ;; Better 'move-to-window-line-top-bottom
-(bind-key "M-r" 'avy-goto-line)
+(global-set-key (kbd "M-r") 'avy-goto-line)
 
 ;; Better than tons of unused commands
-(bind-key "M-s" 'avy-goto-word-1)
+(global-set-key (kbd "M-s") 'avy-goto-word-1)
 
 ;; Replace 'mark-paragraph
-(bind-key "M-h" 'my-heading)
+(global-set-key (kbd "M-h") 'my-heading)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
-(bind-key* "C-h" 'delete-backward-char)
-(bind-key* "C-w" 'my-backward-kill-word-or-region)
-(bind-key* "C-u" 'my-backward-kill-line)
-(bind-keys :map isearch-mode-map
-           ("C-h" . isearch-del-char)
-           ("C-w" . my-isearch-del-word)
-           ("C-u" . my-isearch-del-line))
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "C-w") 'my-backward-kill-word-or-region)
+(global-set-key (kbd "C-u") 'my-backward-kill-line)
+(define-key isearch-mode-map (kbd "C-h") 'isearch-del-char)
+(define-key isearch-mode-map (kbd "C-w") 'my-isearch-del-word)
+(define-key isearch-mode-map (kbd "C-u") 'my-isearch-del-line)
+(add-hook
+ 'ido-setup-hook
+ (lambda ()
+   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
+   (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
+   (define-key ido-completion-map (kbd "<f1> f") 'smex-describe-function)))
+
+;; Replace 'execute-extended-command
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
