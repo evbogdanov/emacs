@@ -244,6 +244,20 @@ press an extra C-u after passing a digit argument."
       (kill-region (region-beginning) (region-end))    
     (backward-kill-word arg)))
 
+(defun my-mark-word ()
+  "Better 'mark-word', IMO."
+  (interactive)
+  (forward-word)
+  (backward-word)
+  (mark-word)
+  (exchange-point-and-mark))
+
+(defun my-mark-line ()
+  "Function name says it all."
+  (interactive)
+  (end-of-line)
+  (set-mark (line-beginning-position)))
+
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
 
@@ -285,6 +299,11 @@ press an extra C-u after passing a digit argument."
 
 (use-package smex
   :ensure t)
+
+(use-package expand-region
+  :ensure t
+  :config
+  (setq expand-region-contract-fast-key ","))
 
 ;; KEYS
 ;; ----------------------------------------------------------------------------
@@ -344,6 +363,16 @@ press an extra C-u after passing a digit argument."
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+;; Marking
+(define-prefix-command 'my-c-spc)
+(global-set-key (kbd "C-@") 'my-c-spc)
+(define-key my-c-spc (kbd "C-@") 'set-mark-command)
+(define-key my-c-spc (kbd "w") 'my-mark-word)
+(define-key my-c-spc (kbd "l") 'my-mark-line)
+(define-key my-c-spc (kbd "p") 'mark-paragraph)
+(define-key my-c-spc (kbd "b") 'mark-whole-buffer)
+(define-key my-c-spc (kbd ".") 'er/expand-region)
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
