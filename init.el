@@ -1,4 +1,10 @@
-;; SETTING UP THE PACKAGE MANAGER
+;; ENVIRONMENT VARIABLES
+;; ----------------------------------------------------------------------------
+
+;; Get rid of backspace characters in Unix man output
+(setenv "PAGER" "nobs")
+
+;; PACKAGE MANAGER
 ;; ----------------------------------------------------------------------------
 
 (require 'package)
@@ -282,6 +288,40 @@ press an extra C-u after passing a digit argument."
       (forward-char)))
   (exchange-point-and-mark))
 
+(defun my-pipe (prompt output-buffer replace)
+  "Pipe a whole buffer if no selection. Otherwise pipe just a selected region."
+  (let ((start (point-min))
+        (end (point-max))
+        (cmd (read-shell-command prompt)))
+    (when (use-region-p)
+      (setq start (region-beginning)
+            end (region-end)))
+    (shell-command-on-region start end cmd output-buffer replace)))
+
+(defun my-pipe-replace ()
+  "Pipe and replace a whole buffer or selected region."
+  (interactive)
+  (my-pipe " | " t t))
+
+(defun my-pipe-do-not-replace ()
+  "Pipe and NOT replace a whole buffer or selected region."
+  (interactive)
+  (my-pipe " > " nil nil))
+
+(defun my-eval-buffer (interpreter)
+  "Feed current buffer to some interpreter (Python, Bash, etc)."
+  (shell-command-on-region 1 (point-max) interpreter))
+
+(defun my-eval-buffer-python3 ()
+  "Feed current buffer to Python 3 interpreter."
+  (interactive)
+  (my-eval-buffer"python3"))
+
+(defun my-eval-buffer-bash ()
+  "Feed current buffer to Bash interpreter."
+  (interactive)
+  (my-eval-buffer "bash"))
+
 ;; PACKAGES
 ;; ----------------------------------------------------------------------------
 
@@ -400,6 +440,15 @@ press an extra C-u after passing a digit argument."
 
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
+
+;; Piping
+(define-prefix-command 'my-m-spc)
+(global-set-key (kbd "M-SPC") 'my-m-spc)
+(define-key my-m-spc (kbd "M-SPC") 'my-pipe-replace)
+(define-key my-m-spc (kbd ".") 'my-pipe-do-not-replace)
+(define-key my-m-spc (kbd "l") 'eval-buffer)
+(define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
+(define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
 
 ;; THE END
 ;; ----------------------------------------------------------------------------
