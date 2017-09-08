@@ -2,7 +2,7 @@
 ;; ----------------------------------------------------------------------------
 
 ;; Get rid of backspace characters in Unix man output
-(setenv "PAGER" "nobs")
+(setenv "PAGER" "sed 's/.//g'")
 
 ;; PACKAGE MANAGER
 ;; ----------------------------------------------------------------------------
