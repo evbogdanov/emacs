@@ -1,5 +1,6 @@
-;; PACKAGE MANAGER
-;; ----------------------------------------------------------------------------
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Package manager
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'package)
 
@@ -11,8 +12,10 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-;; NAKED EMACS
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Naked Emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Hide top menu
 (menu-bar-mode 0)
@@ -33,8 +36,10 @@
 ;; Turn off syntax highlighting
 (global-font-lock-mode 0)
 
-;; TABS AND SPACES
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Tabs and spaces
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq-default tab-width 4)
 
@@ -44,8 +49,10 @@
 ;; Use it to nicely format text via `M-q`
 (setq-default fill-column 79)
 
-;; BACKUP
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Backup
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Where to put backup files (file1~ file2~ etc)
 (setq backup-directory-alist '(("." . "~/github/emacs/bak/")))
@@ -65,8 +72,10 @@
       auto-save-timeout 20        ; number of seconds idle time before auto-save (default: 30)
       auto-save-interval 200)     ; number of keystrokes between auto-saves (default: 300)
 
-;; LITTLE HELPERS
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Little helpers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Automatically indent new lines
 (electric-indent-mode t)
@@ -77,8 +86,10 @@
 ;; Show matched parentheses
 (show-paren-mode t)
 
-;; RUSSIAN MAC KEYBOARD
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Russian Mac keyboard
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; "russian-computer" doesn't work flawlessly with mac keyboard, read this:
 ;; http://ru-emacs.livejournal.com/83575.html
@@ -120,14 +131,18 @@
 
 (setq default-input-method "my-russian-computer")
 
-;; MY VARIABLES
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; My variables
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; The same keys for ace-window and avy
 (setq my-ace-avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
-;; MY FUNCTIONS
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; My functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun my-current-position-in-line ()
   "Function `(current-column)` has a fatal flaw: it doesn't treat tab as a
@@ -169,8 +184,9 @@ the point position."
                              char-at-beginning-of-line
                            default-comment-symbol))
          (comment-symbol-str (char-to-string comment-symbol))
-         (comment-str (concat comment-symbol-str comment-symbol-str " "))
-         (comment-str-sep (make-string 76 ?-)))
+         (comment-str (concat comment-symbol-str comment-symbol-str
+                              comment-symbol-str " "))
+         (comment-str-sep (make-string 80 comment-symbol)))
 
     (cl-loop
      (let ((ch (char-after)))
@@ -178,13 +194,13 @@ the point position."
            (delete-char 1)
          (cl-return))))
 
-    (upcase-region (line-beginning-position) (line-end-position))
     (move-beginning-of-line 1)
+    (insert comment-str-sep)
+    (newline)
     (insert comment-str)
     (end-of-line)
     (newline)
-    (insert comment-str comment-str-sep)
-    (newline)
+    (insert comment-str-sep)
     (newline)))
 
 (defun my-str-join (words)
@@ -319,8 +335,10 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (my-eval-buffer "bash"))
 
-;; PACKAGES
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package osx-clipboard
   :ensure t
@@ -366,8 +384,10 @@ press an extra C-u after passing a digit argument."
   :config
   (setq expand-region-contract-fast-key ","))
 
-;; KEYS
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Keys
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Enhanced C-a
 (global-set-key (kbd "C-a") 'my-move-beginning-of-line)
@@ -447,5 +467,7 @@ press an extra C-u after passing a digit argument."
 (define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
 (define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
 
-;; THE END
-;; ----------------------------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; The end
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
