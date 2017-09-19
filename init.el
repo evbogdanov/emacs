@@ -335,6 +335,40 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (my-eval-buffer "bash"))
 
+(defun my-open-url ()
+  "Open string under cursor as URL."
+  (interactive)
+  (if (not (eq system-type 'darwin))
+      (error "Sorry, macOS only")
+    (let ((str (thing-at-point 'url))
+          (cmd "open "))
+      (if (null str)
+          (error "URL not found")
+        (shell-command (concat cmd str))))))
+
+(defun my-open-url-search (base-url)
+  "Search something on a specific website. Target word(s) are chosen
+from either selection or user input."
+  (let* ((q (if (use-region-p)
+                (buffer-substring (region-beginning) (region-end))
+              (read-string "Search: ")))
+         (q-encoded (url-encode-url q))
+         (buff-name "*eww*"))
+    (when (not (string= (buffer-name) buff-name))
+      (switch-to-buffer-other-window buff-name))
+    (eww (concat base-url q-encoded))))
+
+(defun my-open-url-search-macmillandictionary ()
+  "Search something on macmillandictionary.com"
+  (interactive)
+  (my-open-url-search
+   "http://www.macmillandictionary.com/search/british/direct/?q="))
+
+(defun my-open-url-search-urbandictionary ()
+  "Search something on urbandictionary.com"
+  (interactive)
+  (my-open-url-search "http://www.urbandictionary.com/define.php?term="))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -463,9 +497,16 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "M-SPC") 'my-m-spc)
 (define-key my-m-spc (kbd "M-SPC") 'my-pipe-replace)
 (define-key my-m-spc (kbd ".") 'my-pipe-do-not-replace)
-(define-key my-m-spc (kbd "l") 'eval-buffer)
+(define-key my-m-spc (kbd "e") 'eval-buffer)
 (define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
 (define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
+
+;; URL openings
+(define-prefix-command 'my-m-o)
+(global-set-key (kbd "M-o") 'my-m-o)
+(define-key my-m-o (kbd "M-o") 'my-open-url)
+(define-key my-m-o (kbd "m") 'my-open-url-search-macmillandictionary)
+(define-key my-m-o (kbd "u") 'my-open-url-search-urbandictionary)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
