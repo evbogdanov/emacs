@@ -433,6 +433,7 @@ from either selection or user input."
 
 ;; List all buffers in the current window
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
+(define-key Buffer-menu-mode-map (kbd "C-o") nil)
 
 ;; Alias to C-x C-f
 (global-set-key (kbd "C-x f") 'find-file)
@@ -507,6 +508,31 @@ from either selection or user input."
 (define-key my-m-o (kbd "M-o") 'my-open-url)
 (define-key my-m-o (kbd "m") 'my-open-url-search-macmillandictionary)
 (define-key my-m-o (kbd "u") 'my-open-url-search-urbandictionary)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dired
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'dired)
+
+;; Open files and directories right in the dired buffer
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Don't mess with my C-o C-o
+(define-key dired-mode-map (kbd "C-o") nil)
+
+;; Go directory/file forward
+(define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
+
+;; Go directory backward
+(define-key dired-mode-map (kbd "b") (lambda ()
+                                       (interactive)
+                                       (find-alternate-file "..")))
+
+;; Always delete and copy recursively
+(setq dired-recursive-deletes 'always)
+(setq dired-recursive-copies 'always)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
