@@ -519,8 +519,9 @@ from either selection or user input."
 ;; Open files and directories right in the dired buffer
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; Don't mess with my C-o C-o
+;; Don't mess with my keybindings
 (define-key dired-mode-map (kbd "C-o") nil)
+(define-key dired-mode-map (kbd "M-s") nil)
 
 ;; Go directory/file forward
 (define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
