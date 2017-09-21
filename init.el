@@ -525,6 +525,7 @@ from either selection or user input."
 
 ;; Go directory/file forward
 (define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 
 ;; Go directory backward
 (define-key dired-mode-map (kbd "b") (lambda ()
