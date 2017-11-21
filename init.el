@@ -328,7 +328,12 @@ press an extra C-u after passing a digit argument."
 (defun my-eval-buffer-python3 ()
   "Feed current buffer to Python 3 interpreter."
   (interactive)
-  (my-eval-buffer"python3"))
+  (my-eval-buffer "python3"))
+
+(defun my-eval-buffer-node ()
+  "Feed current buffer to Node.js interpreter."
+  (interactive)
+  (my-eval-buffer "node"))
 
 (defun my-eval-buffer-bash ()
   "Feed current buffer to Bash interpreter."
@@ -500,6 +505,7 @@ from either selection or user input."
 (define-key my-m-spc (kbd ".") 'my-pipe-do-not-replace)
 (define-key my-m-spc (kbd "e") 'eval-buffer)
 (define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
+(define-key my-m-spc (kbd "n") 'my-eval-buffer-node)
 (define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
 
 ;; URL openings
