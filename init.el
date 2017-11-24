@@ -41,7 +41,7 @@
 ;;; Tabs and spaces
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 
 ;; No tabs, use spaces
 (setq-default indent-tabs-mode nil)
@@ -422,6 +422,24 @@ from either selection or user input."
   :ensure t
   :config
   (setq expand-region-contract-fast-key ","))
+
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-style-padding 2
+        web-mode-script-padding 2))
+
+(use-package emmet-mode
+  :ensure t
+  :config
+  (setq emmet-self-closing-tag-style "")
+  (add-hook 'html-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook  'emmet-mode)
+  (add-hook 'web-mode-hook  'emmet-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
