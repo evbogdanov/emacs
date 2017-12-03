@@ -379,6 +379,27 @@ from either selection or user input."
   (interactive)
   (my-open-url-search "http://www.urbandictionary.com/define.php?term="))
 
+(defun my-move-after-tag ()
+  "Find the next `>` and move point after."
+  (interactive)
+  (loop (forward-char)
+        (if (= (point) (point-max))
+            (return)
+          (let ((ch (string (char-after))))
+            (when (string= ch ">")
+              (forward-char)
+              (return))))))
+
+(defun my-move-beginning-of-tag ()
+  "Find `<` and move point to it."
+  (interactive)
+  (loop (backward-char)
+        (if (= (point) (point-min))
+            (return)
+          (let ((ch (string (char-after))))
+            (when (string= ch "<")
+              (return))))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -436,7 +457,9 @@ from either selection or user input."
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
         web-mode-style-padding 2
-        web-mode-script-padding 2))
+        web-mode-script-padding 2)
+  (define-key web-mode-map (kbd "M-a") 'my-move-beginning-of-tag)
+  (define-key web-mode-map (kbd "M-e") 'my-move-after-tag))
 
 (use-package emmet-mode
   :ensure t
