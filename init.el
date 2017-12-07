@@ -429,6 +429,11 @@ from either selection or user input."
             (when (string= ch "<")
               (return))))))
 
+(defun my-comment-line ()
+  "Comment or uncomment current line and leave point where it was."
+  (interactive)
+  (save-excursion (comment-line 1)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -590,6 +595,10 @@ from either selection or user input."
 (define-key my-m-o (kbd "M-o") 'my-open-url)
 (define-key my-m-o (kbd "m") 'my-open-url-search-macmillandictionary)
 (define-key my-m-o (kbd "u") 'my-open-url-search-urbandictionary)
+
+;; Comments
+(global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
+(global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
