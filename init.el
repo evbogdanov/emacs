@@ -144,6 +144,17 @@
 ;;; My functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun my-current-line ()
+  "Read current line as a string.
+Note that this also returns any newline at the end of the line."
+  (thing-at-point 'line t))
+
+(defun my-line-starts-with (str)
+  "Determine whether a line begins with the specified string.
+Return `t` or `nil` as appropriate."
+  (let ((res (search str (my-current-line))))
+    (and (numberp res) (zerop res))))
+
 (defun my-current-position-in-line ()
   "Function `(current-column)` has a fatal flaw: it doesn't treat tab as a
 single character. In order to use functions which work with char indexes, I need
@@ -160,7 +171,7 @@ something else."
 the point position."
   (interactive)
   (let* ((pos (my-current-position-in-line))
-         (ss (substring (thing-at-point 'line t) 0 pos))
+         (ss (substring (my-current-line) 0 pos))
          (ch (char-after)))
     (if (= pos 0)
         (back-to-indentation)
@@ -173,10 +184,21 @@ the point position."
   (interactive)
   (scroll-other-window `-))
 
-(defun my-heading ()
-  "Create a pretty heading."
-  (interactive)
-  (move-beginning-of-line nil)
+(defun my-heading-c-style ()
+  "Create a pretty C-style heading. This type of heading starts with `/*`"
+  (move-beginning-of-line 1)
+  (forward-char)
+  (insert "*******************************************************************************")
+  (newline)
+  (insert " **")
+  (end-of-line)
+  (newline)
+  (insert " ******************************************************************************/")
+  (newline))
+
+(defun my-heading-other ()
+  "Create a non-C-style heading."
+  (move-beginning-of-line 1)
   (let* ((comment-symbols '(?# ?% ?/ ?\;))
          (default-comment-symbol (car comment-symbols))
          (char-at-beginning-of-line (char-after))
@@ -202,6 +224,13 @@ the point position."
     (newline)
     (insert comment-str-sep)
     (newline)))
+
+(defun my-heading ()
+  "Create a pretty heading. C-style or not."
+  (interactive)
+  (if (my-line-starts-with "/*")
+      (my-heading-c-style)
+    (my-heading-other)))
 
 (defun my-str-join (words)
   "Good old words join like in many other programming languages."
