@@ -643,6 +643,9 @@ from either selection or user input."
 (setq css-indent-offset 2)
 (setq js-indent-level 2)
 
+;; Make Emacs understand camelCase
+(add-hook 'js-mode-hook (lambda () (subword-mode 1)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The end
