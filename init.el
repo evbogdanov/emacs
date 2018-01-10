@@ -47,7 +47,7 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Use it to nicely format text via `M-q`
-(setq-default fill-column 79)
+(setq-default fill-column 80)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -374,40 +374,6 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (my-eval-buffer "tidy"))
 
-(defun my-open-url ()
-  "Open string under cursor as URL."
-  (interactive)
-  (if (not (eq system-type 'darwin))
-      (error "Sorry, macOS only")
-    (let ((str (thing-at-point 'url))
-          (cmd "open "))
-      (if (null str)
-          (error "URL not found")
-        (shell-command (concat cmd str))))))
-
-(defun my-open-url-search (base-url)
-  "Search something on a specific website. Target word(s) are chosen
-from either selection or user input."
-  (let* ((q (if (use-region-p)
-                (buffer-substring (region-beginning) (region-end))
-              (read-string "Search: ")))
-         (q-encoded (url-encode-url q))
-         (buff-name "*eww*"))
-    (when (not (string= (buffer-name) buff-name))
-      (switch-to-buffer-other-window buff-name))
-    (eww (concat base-url q-encoded))))
-
-(defun my-open-url-search-macmillandictionary ()
-  "Search something on macmillandictionary.com"
-  (interactive)
-  (my-open-url-search
-   "http://www.macmillandictionary.com/search/british/direct/?q="))
-
-(defun my-open-url-search-urbandictionary ()
-  "Search something on urbandictionary.com"
-  (interactive)
-  (my-open-url-search "http://www.urbandictionary.com/define.php?term="))
-
 (defun my-move-after-tag ()
   "Find the next `>` and move point after."
   (interactive)
@@ -589,13 +555,6 @@ from either selection or user input."
 (define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
 (define-key my-m-spc (kbd "t") 'my-eval-buffer-tidy)
 
-;; URL openings
-(define-prefix-command 'my-m-o)
-(global-set-key (kbd "M-o") 'my-m-o)
-(define-key my-m-o (kbd "M-o") 'my-open-url)
-(define-key my-m-o (kbd "m") 'my-open-url-search-macmillandictionary)
-(define-key my-m-o (kbd "u") 'my-open-url-search-urbandictionary)
-
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
@@ -629,22 +588,11 @@ from either selection or user input."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; C
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq c-default-style "k&r"
-      c-basic-offset 4)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Front end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq css-indent-offset 2)
 (setq js-indent-level 2)
-
-;; Make Emacs understand camelCase
-(add-hook 'js-mode-hook (lambda () (subword-mode 1)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
