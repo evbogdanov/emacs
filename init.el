@@ -400,6 +400,11 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (save-excursion (comment-line 1)))
 
+(defun my-ace-window-swap ()
+  "Swap between the selected window and the current window."
+  (interactive)
+  (ace-window 4))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -501,6 +506,8 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-o (kbd "C-r") 'find-file-read-only-other-window)
 (define-key my-c-o (kbd "o") 'ace-window)
 (define-key my-c-o (kbd "C-o") 'ace-window)
+(define-key my-c-o (kbd "C-s") 'my-ace-window-swap)
+(define-key my-c-o (kbd "s") 'my-ace-window-swap)
 
 ;; Better 'other-window. Alias to C-o C-o
 (global-set-key (kbd "C-x o") 'ace-window)
@@ -594,6 +601,19 @@ press an extra C-u after passing a digit argument."
 
 (setq css-indent-offset 2)
 (setq js-indent-level 2)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Python
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq tab-width 4)
+            (setq python-indent 4)
+            (custom-set-variables
+             '(python-guess-indent nil)
+             '(python-indent-offset 4))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
