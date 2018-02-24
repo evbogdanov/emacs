@@ -601,6 +601,7 @@ press an extra C-u after passing a digit argument."
 
 (setq css-indent-offset 2)
 (setq js-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.ts$" . javascript-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
