@@ -405,6 +405,16 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (ace-window 4))
 
+(defun my-move-to-neotree ()
+  "Move to the window containing Neotree buffer"
+  (interactive)
+  (let ((i 1) (max-tries 5))
+    (loop (windmove-left)
+          (if (or (string= (buffer-name) " *NeoTree*")
+                  (> i max-tries))
+              (return)
+            (setq i (+ i 1))))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -475,6 +485,17 @@ press an extra C-u after passing a digit argument."
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'web-mode-hook  'emmet-mode))
 
+(use-package neotree
+  :ensure t
+  :config
+  (setq-default neo-show-hidden-files t)
+  (setq-default neo-theme 'ascii)
+  (define-key neotree-mode-map (kbd "F") 'neotree-change-root)
+  (define-key neotree-mode-map (kbd "f")
+    (neotree-make-executor :file-fn 'neo-open-file
+                           :dir-fn  'neo-open-dir))
+  (define-key neotree-mode-map (kbd "b") 'neotree-select-up-node))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -498,16 +519,18 @@ press an extra C-u after passing a digit argument."
 ;; Stuff in other window
 (define-prefix-command 'my-c-o)
 (global-set-key (kbd "C-o") 'my-c-o)
+(define-key my-c-o (kbd "C-o") 'ace-window)
 (define-key my-c-o (kbd "b") 'switch-to-buffer-other-window)
 (define-key my-c-o (kbd "d") 'dired-other-window)
 (define-key my-c-o (kbd "f") 'find-file-other-window)
-(define-key my-c-o (kbd "C-f") 'find-file-other-window)
 (define-key my-c-o (kbd "r") 'find-file-read-only-other-window)
-(define-key my-c-o (kbd "C-r") 'find-file-read-only-other-window)
-(define-key my-c-o (kbd "o") 'ace-window)
-(define-key my-c-o (kbd "C-o") 'ace-window)
+(define-key my-c-o (kbd "C-f") 'windmove-right)
+(define-key my-c-o (kbd "C-b") 'windmove-left)
+(define-key my-c-o (kbd "C-p") 'windmove-up)
+(define-key my-c-o (kbd "C-n") 'windmove-down)
 (define-key my-c-o (kbd "C-s") 'my-ace-window-swap)
-(define-key my-c-o (kbd "s") 'my-ace-window-swap)
+(define-key my-c-o (kbd "t") 'neotree-toggle)
+(define-key my-c-o (kbd "C-t") 'my-move-to-neotree)
 
 ;; Better 'other-window. Alias to C-o C-o
 (global-set-key (kbd "C-x o") 'ace-window)
