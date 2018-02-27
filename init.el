@@ -445,6 +445,7 @@ press an extra C-u after passing a digit argument."
         ido-use-filename-at-point 'guess
         ido-max-prospects 10
         ido-default-file-method 'selected-window
+        ido-auto-merge-work-directories-length -1
         ido-separator "\n")
   (ido-mode 1)
   (ido-everywhere 1))
