@@ -433,7 +433,13 @@ press an extra C-u after passing a digit argument."
 (use-package avy
   :ensure t
   :config
+  (custom-set-faces
+   '(avy-lead-face ((t (:foreground "red"))))
+   '(avy-lead-face-0 ((t (:foreground "red"))))
+   '(avy-lead-face-1 ((t (:foreground "red"))))
+   '(avy-lead-face-2 ((t (:foreground "red")))))
   (setq avy-all-windows nil
+        avy-background t
         avy-keys my-ace-avy-keys))
 
 (use-package ido
