@@ -406,7 +406,7 @@ press an extra C-u after passing a digit argument."
   (ace-window 4))
 
 (defun my-move-to-neotree ()
-  "Move to the window containing Neotree buffer"
+  "Move to the window containing Neotree buffer."
   (interactive)
   (let ((i 1) (max-tries 5))
     (loop (windmove-left)
@@ -414,6 +414,21 @@ press an extra C-u after passing a digit argument."
                   (> i max-tries))
               (return)
             (setq i (+ i 1))))))
+
+(defun my-transpose-lines ()
+  "Adjust `transpose-lines` to my taste."
+  (interactive)
+  (transpose-lines 1)
+  (previous-line 2)
+  (end-of-line))
+
+(defun my-transpose-lines-backwards ()
+  "Transpose lines backwards."
+  (interactive)
+  (next-line)
+  (transpose-lines 1)
+  (previous-line)
+  (end-of-line))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -596,6 +611,10 @@ press an extra C-u after passing a digit argument."
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
+
+;; Transposing lines
+(global-set-key (kbd "C-x C-t") 'my-transpose-lines)          ; was `transpose-lines`
+(global-set-key (kbd "C-x t") 'my-transpose-lines-backwards)  ; was undefined
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
