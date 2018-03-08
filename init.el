@@ -415,20 +415,32 @@ press an extra C-u after passing a digit argument."
               (return)
             (setq i (+ i 1))))))
 
-(defun my-transpose-lines ()
+(defun my-transpose-lines-up ()
   "Adjust `transpose-lines` to my taste."
   (interactive)
   (transpose-lines 1)
   (previous-line 2)
   (end-of-line))
 
-(defun my-transpose-lines-backwards ()
+(defun my-transpose-lines-down ()
   "Transpose lines backwards."
   (interactive)
   (next-line)
   (transpose-lines 1)
   (previous-line)
   (end-of-line))
+
+(defvar my-transpose-lines-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "p" #'my-transpose-lines-up)
+    (define-key map "n" #'my-transpose-lines-down)
+    map))
+
+(defun my-transpose-lines ()
+  "Activate transposing."
+  (interactive)
+  (message "Move line up (p) or down (n)")
+  (set-transient-map my-transpose-lines-map t))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -613,8 +625,7 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
 
 ;; Transposing lines
-(global-set-key (kbd "C-x C-t") 'my-transpose-lines)          ; was `transpose-lines`
-(global-set-key (kbd "C-x t") 'my-transpose-lines-backwards)  ; was undefined
+(global-set-key (kbd "C-x C-t") 'my-transpose-lines) ; was `transpose-lines`
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
