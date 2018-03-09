@@ -369,11 +369,6 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (my-eval-buffer "bash"))
 
-(defun my-eval-buffer-tidy ()
-  "Validate HTML with a little help from http://www.html-tidy.org"
-  (interactive)
-  (my-eval-buffer "tidy"))
-
 (defun my-move-after-tag ()
   "Find the next `>` and move point after."
   (interactive)
@@ -618,7 +613,6 @@ press an extra C-u after passing a digit argument."
 (define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
 (define-key my-m-spc (kbd "n") 'my-eval-buffer-node)
 (define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
-(define-key my-m-spc (kbd "t") 'my-eval-buffer-tidy)
 
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
