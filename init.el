@@ -525,6 +525,31 @@ press an extra C-u after passing a digit argument."
                            :dir-fn  'neo-open-dir))
   (define-key neotree-mode-map (kbd "b") 'neotree-select-up-node))
 
+(use-package dired
+  :config
+  ;; Open files and directories right in the dired buffer
+  (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; Don't mess with my keybindings
+  (define-key dired-mode-map (kbd "C-o") nil)
+  (define-key dired-mode-map (kbd "M-s") nil)
+
+  ;; Go directory/file forward
+  (define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+
+  ;; Go directory backward
+  (define-key dired-mode-map (kbd "b") (lambda ()
+                                         (interactive)
+                                         (find-alternate-file "..")))
+
+  ;; Always delete and copy recursively
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always)
+
+  ;; Dired Extra (enables dired-jump C-x C-j)
+  (require 'dired-x))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -560,6 +585,7 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-o (kbd "C-s") 'my-ace-window-swap)
 (define-key my-c-o (kbd "t") 'neotree-toggle)
 (define-key my-c-o (kbd "C-t") 'my-move-to-neotree)
+(define-key my-c-o (kbd "C-j") 'dired-jump-other-window)
 
 ;; Better 'other-window. Alias to C-o C-o
 (global-set-key (kbd "C-x o") 'ace-window)
@@ -620,33 +646,6 @@ press an extra C-u after passing a digit argument."
 
 ;; Transposing lines
 (global-set-key (kbd "C-x C-t") 'my-transpose-lines) ; was `transpose-lines`
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Dired
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'dired)
-
-;; Open files and directories right in the dired buffer
-(put 'dired-find-alternate-file 'disabled nil)
-
-;; Don't mess with my keybindings
-(define-key dired-mode-map (kbd "C-o") nil)
-(define-key dired-mode-map (kbd "M-s") nil)
-
-;; Go directory/file forward
-(define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
-(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-
-;; Go directory backward
-(define-key dired-mode-map (kbd "b") (lambda ()
-                                       (interactive)
-                                       (find-alternate-file "..")))
-
-;; Always delete and copy recursively
-(setq dired-recursive-deletes 'always)
-(setq dired-recursive-copies 'always)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
