@@ -645,7 +645,8 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
 
 ;; Transposing lines
-(global-set-key (kbd "C-x C-t") 'my-transpose-lines) ; was `transpose-lines`
+(global-set-key (kbd "C-x C-t") 'my-transpose-lines-up) ; was `transpose-lines`
+(global-set-key (kbd "C-x t") 'my-transpose-lines)      ; was undefined
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
