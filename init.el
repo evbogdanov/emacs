@@ -437,6 +437,37 @@ press an extra C-u after passing a digit argument."
   (message "Move line up (p) or down (n)")
   (set-transient-map my-transpose-lines-map t))
 
+(defun my-4-windows ()
+  "Split Emacs into 4 windows."
+  (interactive)
+  (delete-other-windows)
+  (split-window-right)
+  (split-window-below)
+  (windmove-right)
+  (split-window-below)
+  (windmove-left))
+
+(defun my-4-windmove-diagonal ()
+  "Select the window that is diagonally across from the current window."
+  (interactive)
+  (let ((is-top (null (windmove-find-other-window 'up)))
+        (is-bottom (window-minibuffer-p (windmove-find-other-window 'down)))
+        (is-right (null (windmove-find-other-window 'right))))
+    (cond ((and is-top is-right)
+           (windmove-left)
+           (windmove-down))
+          (is-top
+           (windmove-right)
+           (windmove-down))
+          ((and is-bottom is-right)
+           (windmove-left)
+           (windmove-up))
+          (is-bottom
+           (windmove-right)
+           (windmove-up))
+          (t
+           (user-error "Something's wrong with the windows' layout")))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -570,6 +601,9 @@ press an extra C-u after passing a digit argument."
 ;; Alias to C-x C-f
 (global-set-key (kbd "C-x f") 'find-file)
 
+;; 4 windows
+(global-set-key (kbd "C-x 4") 'my-4-windows)
+
 ;; Stuff in other window
 (define-prefix-command 'my-c-o)
 (global-set-key (kbd "C-o") 'my-c-o)
@@ -582,6 +616,7 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-o (kbd "C-b") 'windmove-left)
 (define-key my-c-o (kbd "C-p") 'windmove-up)
 (define-key my-c-o (kbd "C-n") 'windmove-down)
+(define-key my-c-o (kbd "C-d") 'my-4-windmove-diagonal)
 (define-key my-c-o (kbd "C-s") 'my-ace-window-swap)
 (define-key my-c-o (kbd "t") 'neotree-toggle)
 (define-key my-c-o (kbd "C-t") 'my-move-to-neotree)
