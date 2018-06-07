@@ -631,11 +631,10 @@ press an extra C-u after passing a digit argument."
 ;; Better than tons of unused commands
 (global-set-key (kbd "M-s") 'avy-goto-word-1)
 
-;; Enable C-x C-u, C-x C-l
+;; Enable C-x C-u and C-x C-l.
+;; Add similar combo for heading (C-x C-h is undefined by default)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-;; C-x C-h is undefined by default
 (global-set-key (kbd "C-x C-h") 'my-heading)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
