@@ -631,8 +631,12 @@ press an extra C-u after passing a digit argument."
 ;; Better than tons of unused commands
 (global-set-key (kbd "M-s") 'avy-goto-word-1)
 
-;; Replace 'mark-paragraph
-(global-set-key (kbd "M-h") 'my-heading)
+;; Enable C-x C-u, C-x C-l
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; C-x C-h is undefined by default
+(global-set-key (kbd "C-x C-h") 'my-heading)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
 (global-set-key (kbd "C-h") 'delete-backward-char)
