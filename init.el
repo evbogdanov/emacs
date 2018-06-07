@@ -586,6 +586,11 @@ press an extra C-u after passing a digit argument."
 ;;; Keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Quicker access to help
+;; M-h was mapped to `mark-paragraph`
+(global-set-key (kbd "M-h") help-map)
+(global-set-key (kbd "M-h M-h") 'help-for-help)
+
 ;; Enhanced C-a
 (global-set-key (kbd "C-a") 'my-move-beginning-of-line)
 (define-key visual-line-mode-map (kbd "C-a") 'beginning-of-visual-line)
@@ -646,7 +651,7 @@ press an extra C-u after passing a digit argument."
  (lambda ()
    (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
    (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
-   (define-key ido-completion-map (kbd "<f1> f") 'smex-describe-function)))
+   (define-key ido-completion-map (kbd "M-h f") 'smex-describe-function)))
 
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
