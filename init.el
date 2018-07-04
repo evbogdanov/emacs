@@ -410,29 +410,25 @@ press an extra C-u after passing a digit argument."
               (return)
             (setq i (+ i 1))))))
 
-(defun my-transpose-lines-up ()
-  "Adjust `transpose-lines` to my taste."
-  (interactive)
+(defun my-transpose-lines (direction previous-line-n-times)
+  "Do transposing."
+  (when (eq direction 'down) (next-line))
   (transpose-lines 1)
-  (previous-line 2)
+  (previous-line previous-line-n-times)
   (end-of-line))
 
-(defun my-transpose-lines-down ()
-  "Transpose lines backwards."
-  (interactive)
-  (next-line)
-  (transpose-lines 1)
-  (previous-line)
-  (end-of-line))
+(defun my-transpose-lines-simple () (interactive) (my-transpose-lines 'up 1))
+(defun my-transpose-lines-up     () (interactive) (my-transpose-lines 'up 2))
+(defun my-transpose-lines-down   () (interactive) (my-transpose-lines 'down 1))
 
 (defvar my-transpose-lines-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "p" #'my-transpose-lines-up)
-    (define-key map "n" #'my-transpose-lines-down)
+    (define-key map "p" 'my-transpose-lines-up)
+    (define-key map "n" 'my-transpose-lines-down)
     map))
 
-(defun my-transpose-lines ()
-  "Activate transposing."
+(defun my-transpose-lines-interactively ()
+  "Activate interactive transposing."
   (interactive)
   (message "Move line up (p) or down (n)")
   (set-transient-map my-transpose-lines-map t))
@@ -685,8 +681,8 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
 
 ;; Transposing lines
-(global-set-key (kbd "C-x C-t") 'my-transpose-lines-up) ; was `transpose-lines`
-(global-set-key (kbd "C-x t") 'my-transpose-lines)      ; was undefined
+(global-set-key (kbd "C-x C-t") 'my-transpose-lines-simple)      ; was `transpose-lines`
+(global-set-key (kbd "C-x t") 'my-transpose-lines-interactively) ; was undefined
 
 ;; macOS-like behaviour of Fn+Left/Right arrows
 (global-set-key (kbd "<home>") 'beginning-of-buffer)
