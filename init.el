@@ -330,6 +330,30 @@ press an extra C-u after passing a digit argument."
       (forward-char)))
   (exchange-point-and-mark))
 
+(defun my-eval-buffer ()
+  "Eval current buffer depending on the major mode."
+  (interactive)
+  (if (or (string= major-mode "lisp-mode")
+          (string= major-mode "emacs-lisp-mode"))
+      (eval-buffer)
+    (my-eval-buffer-interpreted)))
+
+(defun my-eval-buffer-interpreted ()
+  "Feed current buffer to some interpreter."
+  (let ((modes-and-interpreters '(("js-mode"     . "node")
+                                  ("python-mode" . "python3")
+                                  ("perl-mode"   . "perl")
+                                  ("sh-mode"     . "bash")))
+        (interpreter nil))
+    (dolist (m-and-i modes-and-interpreters)
+      (when (string= major-mode (car m-and-i))
+        (setq interpreter (cdr m-and-i))))
+    (if (null interpreter)
+        (error "No interpreter for the major mode")
+      (shell-command-on-region (point-min)
+                               (point-max)
+                               interpreter))))
+
 (defun my-pipe (prompt output-buffer replace)
   "Pipe a whole buffer if no selection. Otherwise pipe just a selected region."
   (let ((start (point-min))
@@ -349,25 +373,6 @@ press an extra C-u after passing a digit argument."
   "Pipe and NOT replace a whole buffer or selected region."
   (interactive)
   (my-pipe " > " nil nil))
-
-(defun my-eval-buffer (interpreter)
-  "Feed current buffer to some interpreter (Python, Bash, etc)."
-  (shell-command-on-region 1 (point-max) interpreter))
-
-(defun my-eval-buffer-python3 ()
-  "Feed current buffer to Python 3 interpreter."
-  (interactive)
-  (my-eval-buffer "python3"))
-
-(defun my-eval-buffer-node ()
-  "Feed current buffer to Node.js interpreter."
-  (interactive)
-  (my-eval-buffer "node"))
-
-(defun my-eval-buffer-bash ()
-  "Feed current buffer to Bash interpreter."
-  (interactive)
-  (my-eval-buffer "bash"))
 
 (defun my-move-after-tag ()
   "Find the next `>` and move point after."
@@ -666,15 +671,13 @@ press an extra C-u after passing a digit argument."
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
 
+;; Eval buffer
+(global-set-key (kbd "M-SPC") 'my-eval-buffer)
+
 ;; Piping
-(define-prefix-command 'my-m-spc)
-(global-set-key (kbd "M-SPC") 'my-m-spc)
-(define-key my-m-spc (kbd "M-SPC") 'my-pipe-replace)
-(define-key my-m-spc (kbd ".") 'my-pipe-do-not-replace)
-(define-key my-m-spc (kbd "e") 'eval-buffer)
-(define-key my-m-spc (kbd "p") 'my-eval-buffer-python3)
-(define-key my-m-spc (kbd "n") 'my-eval-buffer-node)
-(define-key my-m-spc (kbd "b") 'my-eval-buffer-bash)
+(global-set-key (kbd "M-|") 'my-pipe-replace)
+(global-set-key (kbd "M->") 'my-pipe-do-not-replace)
+(global-unset-key (kbd "M-<"))
 
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
