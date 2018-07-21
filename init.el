@@ -676,8 +676,7 @@ press an extra C-u after passing a digit argument."
 
 ;; Piping
 (global-set-key (kbd "M-|") 'my-pipe-replace)
-(global-set-key (kbd "M->") 'my-pipe-do-not-replace)
-(global-unset-key (kbd "M-<"))
+(global-set-key (kbd "M-\"") 'my-pipe-do-not-replace)
 
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
