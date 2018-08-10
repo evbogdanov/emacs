@@ -672,7 +672,7 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "C-M-y") 'my-yank-line)
 
 ;; Eval buffer
-(global-set-key (kbd "M-SPC") 'my-eval-buffer)
+(global-set-key (kbd "M-RET") 'my-eval-buffer)
 
 ;; Piping
 (global-set-key (kbd "M-|") 'my-pipe-replace)
