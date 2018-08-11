@@ -155,30 +155,6 @@ Return `t` or `nil` as appropriate."
   (let ((res (search str (my-current-line))))
     (and (numberp res) (zerop res))))
 
-(defun my-current-position-in-line ()
-  "Function `(current-column)` has a fatal flaw: it doesn't treat tab as a
-single character. In order to use functions which work with char indexes, I need
-something else."
-  (save-excursion
-    (let ((p1 (point))
-          (p2))
-      (move-beginning-of-line nil)
-      (setq p2 (point))
-      (- p1 p2))))
-
-(defun my-move-beginning-of-line ()
-  "Call `(move-beginning-of-line)` or `(back-to-indentation)` depending on
-the point position."
-  (interactive)
-  (let* ((pos (my-current-position-in-line))
-         (ss (substring (my-current-line) 0 pos))
-         (ch (char-after)))
-    (if (= pos 0)
-        (back-to-indentation)
-      (if (and (string-match "^[ |\t]+$" ss) (/= ch ? ) (/= ch ?\t))
-          (move-beginning-of-line nil)
-        (back-to-indentation)))))
-
 (defun my-scroll-other-window-down ()
   "Scroll text of other window down."
   (interactive)
@@ -591,10 +567,6 @@ press an extra C-u after passing a digit argument."
 ;; M-h was mapped to `mark-paragraph`
 (global-set-key (kbd "M-h") help-map)
 (global-set-key (kbd "M-h M-h") 'help-for-help)
-
-;; Enhanced C-a
-(global-set-key (kbd "C-a") 'my-move-beginning-of-line)
-(define-key visual-line-mode-map (kbd "C-a") 'beginning-of-visual-line)
 
 ;; Easier scrolling
 (global-set-key (kbd "C-z") 'scroll-down-command)
