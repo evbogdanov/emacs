@@ -33,9 +33,6 @@
 ;; Fat-free yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Turn off syntax highlighting
-(global-font-lock-mode 0)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tabs and spaces
