@@ -562,6 +562,9 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-o (kbd "C-t") 'my-move-to-neotree)
 (define-key my-c-o (kbd "C-j") 'dired-jump-other-window)
 
+;; Shortcut for C-o C-o
+(global-set-key (kbd "M-o") 'ace-window)
+
 ;; Better 'move-to-window-line-top-bottom
 (global-set-key (kbd "M-r") 'avy-goto-line)
 
