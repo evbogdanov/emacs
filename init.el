@@ -524,6 +524,11 @@ press an extra C-u after passing a digit argument."
   ;; Dired Extra (enables dired-jump C-x C-j)
   (require 'dired-x))
 
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
