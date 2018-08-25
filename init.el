@@ -71,8 +71,25 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Performance
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Garbage collection will happen happen on each 32MB (default was 0.8MB)
+(setq gc-cons-threshold 32000000)
+
+;; Warn when opening files bigger than 64MB (default was 10MB)
+(setq large-file-warning-threshold 64000000)
+
+;; Always load newest byte code
+(setq load-prefer-newer t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Little helpers
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Automatically refresh buffers when underlying files are changed externally
+(global-auto-revert-mode t)
 
 ;; Automatically indent new lines
 (electric-indent-mode t)
@@ -85,6 +102,9 @@
 
 ;; Show matched parentheses
 (show-paren-mode t)
+
+;; Easily navigate CamelCasedWords
+(global-subword-mode t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -577,7 +597,7 @@ press an extra C-u after passing a digit argument."
 (global-set-key (kbd "M-r") 'avy-goto-line)
 
 ;; Better than tons of unused commands
-(global-set-key (kbd "M-s") 'avy-goto-word-1)
+(global-set-key (kbd "M-s") 'avy-goto-word-or-subword-1)
 
 ;; Enable C-x C-u and C-x C-l.
 ;; Add similar combo for heading (C-x C-h is undefined by default)
@@ -634,6 +654,19 @@ press an extra C-u after passing a digit argument."
 ;; macOS-like behaviour of Fn+Left/Right arrows
 (global-set-key (kbd "<home>") 'beginning-of-buffer)
 (global-set-key (kbd "<end>") 'end-of-buffer)
+
+;; `hippie-expand' instead of `dabbrev-expand'
+(setq hippie-expand-try-functions-list '(try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-expand-list
+                                         try-expand-line
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol))
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
