@@ -552,6 +552,10 @@ press an extra C-u after passing a digit argument."
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode)))
 
+(use-package magit
+  :ensure t
+  :bind (("C-x m" . magit-status)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
