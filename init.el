@@ -77,6 +77,9 @@
 ;; Automatically indent new lines
 (electric-indent-mode t)
 
+;; Automatically close pairs: ', ", (, {, [
+(electric-pair-mode t)
+
 ;; Typed text replaces the selection
 (delete-selection-mode t)
 
