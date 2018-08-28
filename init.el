@@ -38,7 +38,9 @@
 ;;; Tabs and spaces
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default tab-width 2)
+;; Indent with 2 spaces!
+;; (but make it easier to distinguish between tabs and spaces)
+(setq-default tab-width 8)
 
 ;; No tabs, use spaces
 (setq-default indent-tabs-mode nil)
