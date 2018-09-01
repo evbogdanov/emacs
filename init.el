@@ -457,6 +457,12 @@ and refresh it."
   (message "Move line up (p) or down (n)")
   (set-transient-map my-transpose-lines-map t))
 
+(defun my-dired-at-point ()
+  "Open the thing at point inside `dired'"
+  (interactive)
+  (let ((dir (thing-at-point 'filename)))
+    (dired dir)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -719,6 +725,9 @@ and refresh it."
                                          try-complete-lisp-symbol-partially
                                          try-complete-lisp-symbol))
 (global-set-key (kbd "M-/") 'hippie-expand)
+
+;; Replace `list-directory' with something useful
+(global-set-key (kbd "C-x C-d") 'my-dired-at-point)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
