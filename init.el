@@ -467,6 +467,10 @@ and refresh it."
   :config
   (osx-clipboard-mode +1))
 
+;; `my-windmove-' functions won't work without enabling `windmove' first
+(use-package windmove
+  :ensure t)
+
 (use-package ace-window
   :ensure t
   :config
