@@ -601,7 +601,7 @@ and refresh it."
   :ensure t
   :bind (("C-x m" . magit-status)))
 
-;; Tweak `grep' and `rgrep' modes
+;; Tweak `grep', `lgrep' and `rgrep'
 ;; (which are built on top of `compile' mode)
 (use-package compile
   :config
@@ -658,7 +658,8 @@ and refresh it."
 (define-key search-map "\M-s" 'avy-goto-word-or-subword-1)
 (define-key search-map "s" 'avy-goto-word-or-subword-1)
 (define-key search-map "g" 'grep)
-(define-key search-map "r" 'rgrep)
+(define-key search-map "l" 'lgrep) ; searches in the current directory
+(define-key search-map "r" 'rgrep) ; searches the current directory tree
 
 ;; Enable C-x C-u and C-x C-l.
 ;; Add similar combo for heading (C-x C-h is undefined by default)
