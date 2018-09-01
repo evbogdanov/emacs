@@ -593,6 +593,13 @@ and refresh it."
   :ensure t
   :bind (("C-x m" . magit-status)))
 
+;; Tweak `grep' and `rgrep' modes
+;; (which are built on top of `compile' mode)
+(use-package compile
+  :config
+  (define-key compilation-minor-mode-map "\C-o" nil)
+  (define-key compilation-minor-mode-map "o" 'compilation-display-error))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -639,8 +646,11 @@ and refresh it."
 ;; Better 'move-to-window-line-top-bottom
 (global-set-key (kbd "M-r") 'avy-goto-line)
 
-;; Better than tons of unused commands
-(global-set-key (kbd "M-s") 'avy-goto-word-or-subword-1)
+;; M-s ... key bindings
+(define-key search-map "\M-s" 'avy-goto-word-or-subword-1)
+(define-key search-map "s" 'avy-goto-word-or-subword-1)
+(define-key search-map "g" 'grep)
+(define-key search-map "r" 'rgrep)
 
 ;; Enable C-x C-u and C-x C-l.
 ;; Add similar combo for heading (C-x C-h is undefined by default)
