@@ -547,7 +547,17 @@ and refresh it."
   (define-key neotree-mode-map (kbd "f")
     (neotree-make-executor :file-fn 'neo-open-file
                            :dir-fn  'neo-open-dir))
-  (define-key neotree-mode-map (kbd "b") 'neotree-select-up-node))
+  (define-key neotree-mode-map (kbd "b") 'neotree-select-up-node)
+
+  ;; Magit style:
+  (define-key neotree-mode-map (kbd "M-p") 'neotree-select-previous-sibling-node)
+  (define-key neotree-mode-map (kbd "M-n") 'neotree-select-next-sibling-node)
+
+  ;; Dired style:
+  (define-key neotree-mode-map (kbd "+") 'neotree-create-node)
+  (define-key neotree-mode-map (kbd "C") 'neotree-copy-node)
+  (define-key neotree-mode-map (kbd "R") 'neotree-rename-node)
+  (define-key neotree-mode-map (kbd "D") 'neotree-delete-node))
 
 (use-package dired
   :config
