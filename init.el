@@ -93,6 +93,10 @@
 ;; Automatically refresh buffers when underlying files are changed externally
 (global-auto-revert-mode t)
 
+;; Automatically refresh dired (quietly!)
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+
 ;; Automatically indent new lines
 (electric-indent-mode t)
 
