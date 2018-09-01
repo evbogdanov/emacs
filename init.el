@@ -407,15 +407,32 @@ press an extra C-u after passing a digit argument."
   (interactive)
   (ace-window 4))
 
-(defun my-move-to-neotree ()
-  "Move to the window containing Neotree buffer."
+(defun my-windmove-furthest (dir)
+  "Select the furthest window to the 'left, 'right, 'up or 'down."
+  (let (other-window)
+    (cl-loop (setq other-window (windmove-find-other-window dir))
+             (if (null other-window)
+                 (cl-return)
+               (windmove-do-window-select dir)))))
+
+(defun my-windmove-leftmost ()
+  "Select the leftmost window."
   (interactive)
-  (let ((i 1) (max-tries 5))
-    (loop (windmove-left)
-          (if (or (string= (buffer-name) " *NeoTree*")
-                  (> i max-tries))
-              (return)
-            (setq i (+ i 1))))))
+  (my-windmove-furthest 'left))
+
+(defun my-windmove-rightmost ()
+  "Select the rightmost window."
+  (interactive)
+  (my-windmove-furthest 'right))
+
+(defun my-move-to-neotree-and-refresh ()
+  "Select the window containing Neotree buffer (the leftmost one)
+and refresh it."
+  (interactive)
+  (my-windmove-leftmost)
+  (if (string= (buffer-name) " *NeoTree*")
+      (neotree-refresh)
+    (user-error "No buffer called NeoTree")))
 
 (defun my-transpose-lines (direction previous-line-n-times)
   "Do transposing."
@@ -595,9 +612,11 @@ press an extra C-u after passing a digit argument."
 (define-key my-c-o (kbd "C-b") 'windmove-left)
 (define-key my-c-o (kbd "C-p") 'windmove-up)
 (define-key my-c-o (kbd "C-n") 'windmove-down)
+(define-key my-c-o (kbd "C-a") 'my-windmove-leftmost)
+(define-key my-c-o (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-c-o (kbd "C-s") 'my-ace-window-swap)
 (define-key my-c-o (kbd "t") 'neotree-toggle)
-(define-key my-c-o (kbd "C-t") 'my-move-to-neotree)
+(define-key my-c-o (kbd "C-t") 'my-move-to-neotree-and-refresh)
 (define-key my-c-o (kbd "C-j") 'dired-jump-other-window)
 
 ;; Shortcut for C-o C-o
