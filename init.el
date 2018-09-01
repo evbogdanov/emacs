@@ -587,7 +587,10 @@ and refresh it."
   (setq dired-recursive-copies 'always)
 
   ;; Dired Extra (enables dired-jump C-x C-j)
-  (require 'dired-x))
+  (require 'dired-x)
+
+  ;; Move files between two dired buffers
+  (setq dired-dwim-target t))
 
 (use-package markdown-mode
   :ensure t
