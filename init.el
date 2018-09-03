@@ -608,6 +608,12 @@ and refresh it."
   (define-key compilation-minor-mode-map "\C-o" nil)
   (define-key compilation-minor-mode-map "o" 'compilation-display-error))
 
+(use-package ibuffer
+  :config
+  (define-key ibuffer-mode-map (kbd "C-o") nil)
+  (define-key ibuffer-mode-map (kbd "M-o") nil)
+  (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -624,9 +630,6 @@ and refresh it."
 
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(define-key ibuffer-mode-map (kbd "C-o") nil)
-(define-key ibuffer-mode-map (kbd "M-o") nil)
-(define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect)
 
 ;; Alias to C-x C-f
 (global-set-key (kbd "C-x f") 'find-file)
