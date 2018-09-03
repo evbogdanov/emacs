@@ -573,6 +573,9 @@ and refresh it."
   ;; Don't mess with my keybindings
   (define-key dired-mode-map (kbd "C-o") nil)
 
+  ;; Look at file without switching to it
+  (define-key dired-mode-map (kbd "SPC") 'dired-display-file)
+
   ;; Go directory/file forward
   (define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
