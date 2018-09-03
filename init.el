@@ -622,9 +622,11 @@ and refresh it."
 (global-set-key (kbd "C-z") 'scroll-down-command)
 (global-set-key (kbd "C-M-z") 'my-scroll-other-window-down)
 
-;; List all buffers in the current window
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-(define-key Buffer-menu-mode-map (kbd "C-o") nil)
+;; Replace `list-buffers' with `ibuffer'
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(define-key ibuffer-mode-map (kbd "C-o") nil)
+(define-key ibuffer-mode-map (kbd "M-o") nil)
+(define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect)
 
 ;; Alias to C-x C-f
 (global-set-key (kbd "C-x f") 'find-file)
