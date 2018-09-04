@@ -567,6 +567,12 @@ and refresh it."
 
 (use-package dired
   :config
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              ;; I'm sick and tired of hiding details manually by pressing `('
+              ;; all the time. Dired, please hide details for me.
+              (dired-hide-details-mode)))
+
   ;; Open files and directories right in the dired buffer
   (put 'dired-find-alternate-file 'disabled nil)
 
