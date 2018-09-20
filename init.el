@@ -342,7 +342,7 @@ press an extra C-u after passing a digit argument."
 
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
-  (let ((modes-and-interpreters '(("js-mode"     . "node")
+  (let ((modes-and-interpreters '(("js2-mode"     . "node")
                                   ("python-mode" . "python3")
                                   ("perl-mode"   . "perl")
                                   ("sh-mode"     . "bash")))
@@ -463,6 +463,16 @@ and refresh it."
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
 
+(defun my-emmet-expand-line (arg)
+  "Tweak `emmet-expand-line' for a better JSX support."
+  (interactive "P")
+  ;; In JSX, I want 'className' instead of 'class'
+  (when (string= major-mode "rjsx-mode")
+    (setq emmet-expand-jsx-className? t))
+  (emmet-expand-line arg)
+  ;; Switch back to 'class'
+  (setq emmet-expand-jsx-className? nil))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -523,12 +533,23 @@ and refresh it."
   :config
   (setq expand-region-contract-fast-key ","))
 
+(use-package js2-mode
+  :ensure t
+  :config
+  (setq js-indent-level 2)
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
+
+(use-package rjsx-mode
+  :ensure t)
+
 (use-package web-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.vue?\\'" . web-mode))
   (setq web-mode-markup-indent-offset 2
+        css-indent-offset 2
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2
         web-mode-style-padding 2
@@ -540,9 +561,11 @@ and refresh it."
   :ensure t
   :config
   (setq emmet-self-closing-tag-style "")
-  (add-hook 'html-mode-hook 'emmet-mode)
+  (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
-  (add-hook 'web-mode-hook  'emmet-mode))
+  (add-hook 'web-mode-hook  'emmet-mode)
+  (add-hook 'rjsx-mode-hook 'emmet-mode)
+  (define-key emmet-mode-keymap (kbd "C-j") 'my-emmet-expand-line))
 
 (use-package neotree
   :ensure t
@@ -746,15 +769,6 @@ and refresh it."
 
 ;; Replace `list-directory' with something useful
 (global-set-key (kbd "C-x C-d") 'my-dired-at-point)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Front end
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq css-indent-offset 2)
-(setq js-indent-level 2)
-(add-to-list 'auto-mode-alist '("\\.ts$" . javascript-mode))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
