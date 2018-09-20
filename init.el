@@ -463,15 +463,25 @@ and refresh it."
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
 
+(defun my-emmet-make-self-closing-tag ()
+  "Convert <MyTag>`point'</MyTag> to <MyTag/>."
+  (zap-to-char 1 ?>)
+  (backward-char)
+  (insert "/")
+  (forward-char))
+
 (defun my-emmet-expand-line (arg)
   "Tweak `emmet-expand-line' for a better JSX support."
   (interactive "P")
-  ;; In JSX, I want 'className' instead of 'class'
-  (when (string= major-mode "rjsx-mode")
-    (setq emmet-expand-jsx-className? t))
-  (emmet-expand-line arg)
-  ;; Switch back to 'class'
-  (setq emmet-expand-jsx-className? nil))
+  (if (and (eq (char-before) ?>)
+           (eq (char-after) ?<))
+      (my-emmet-make-self-closing-tag)
+    ;; In JSX, I want 'className' instead of 'class'
+    (when (string= major-mode "rjsx-mode")
+      (setq emmet-expand-jsx-className? t))
+    (emmet-expand-line arg)
+    ;; Switch back to 'class'
+    (setq emmet-expand-jsx-className? nil)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
