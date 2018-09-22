@@ -467,7 +467,7 @@ and refresh it."
   "Convert <MyTag>`point'</MyTag> to <MyTag/>."
   (zap-to-char 1 ?>)
   (backward-char)
-  (insert "/")
+  (insert " /")
   (forward-char))
 
 (defun my-emmet-expand-line (arg)
@@ -570,7 +570,7 @@ and refresh it."
 (use-package emmet-mode
   :ensure t
   :config
-  (setq emmet-self-closing-tag-style "")
+  (setq emmet-self-closing-tag-style " /")
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'web-mode-hook  'emmet-mode)
