@@ -459,6 +459,18 @@ and refresh it."
   (message "Move line up (p) or down (n)")
   (set-transient-map my-transpose-lines-map t))
 
+(defvar my-join-line-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "p" 'join-line)
+    (define-key map "n" '(lambda () (interactive) (join-line 1)))
+    map))
+
+(defun my-join-line-interactively ()
+  "Join line interactively."
+  (interactive)
+  (message "Join this line with (p) previous line or (n) next line")
+  (set-transient-map my-join-line-map t))
+
 (defun my-dired-at-point ()
   "Open the thing at point inside `dired'"
   (interactive)
@@ -761,6 +773,9 @@ and refresh it."
 ;; Transposing lines
 (global-set-key (kbd "C-x C-t") 'my-transpose-lines-simple)      ; was `transpose-lines`
 (global-set-key (kbd "C-x t") 'my-transpose-lines-interactively) ; was undefined
+
+;; Join line
+(global-set-key (kbd "M-j") 'my-join-line-interactively)  ; was `indent-new-comment-line'
 
 ;; macOS-like behaviour of Fn+Left/Right arrows
 (global-set-key (kbd "<home>") 'beginning-of-buffer)
