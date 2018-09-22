@@ -565,7 +565,10 @@ and refresh it."
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
 
 (use-package rjsx-mode
-  :ensure t)
+  :ensure t
+  :config
+  (define-key rjsx-mode-map (kbd "M-a") 'my-move-beginning-of-tag)
+  (define-key rjsx-mode-map (kbd "M-e") 'my-move-after-tag))
 
 (use-package web-mode
   :ensure t
