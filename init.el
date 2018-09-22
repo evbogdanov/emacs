@@ -163,8 +163,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; The same keys for ace-window and avy
-(setq my-ace-avy-keys (number-sequence ?a ?z))
+(setq my-var-ace-avy-keys (number-sequence ?a ?z))
 
+;; How to close tags like <br /> and <input />
+(setq my-var-self-closing-tag-style " /")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; My functions
@@ -467,7 +469,7 @@ and refresh it."
   "Convert <MyTag>`point'</MyTag> to <MyTag/>."
   (zap-to-char 1 ?>)
   (backward-char)
-  (insert " /")
+  (insert my-var-self-closing-tag-style)
   (forward-char))
 
 (defun my-emmet-expand-line (arg)
@@ -500,7 +502,7 @@ and refresh it."
 (use-package ace-window
   :ensure t
   :config
-  (setq aw-keys my-ace-avy-keys))
+  (setq aw-keys my-var-ace-avy-keys))
 
 (use-package avy
   :ensure t
@@ -512,7 +514,7 @@ and refresh it."
    '(avy-lead-face-2 ((t (:foreground "red")))))
   (setq avy-all-windows nil
         avy-background t
-        avy-keys my-ace-avy-keys))
+        avy-keys my-var-ace-avy-keys))
 
 (use-package ido
   :ensure t
@@ -570,7 +572,7 @@ and refresh it."
 (use-package emmet-mode
   :ensure t
   :config
-  (setq emmet-self-closing-tag-style " /")
+  (setq emmet-self-closing-tag-style my-var-self-closing-tag-style)
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'web-mode-hook  'emmet-mode)
