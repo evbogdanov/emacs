@@ -757,6 +757,7 @@ and refresh it."
 (define-key my-c-spc (kbd "l") 'my-mark-line)
 (define-key my-c-spc (kbd "p") 'my-mark-paragraph)
 (define-key my-c-spc (kbd "b") 'mark-whole-buffer)
+(define-key my-c-spc (kbd "r") 'rectangle-mark-mode)
 (define-key my-c-spc (kbd ".") 'er/expand-region)
 
 ;; C-M-y is undefined by default
