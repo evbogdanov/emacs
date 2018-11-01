@@ -202,9 +202,9 @@ Return `t` or `nil` as appropriate."
 (defun my-heading-with-symbol (comment-symbol)
   "Create heading with a given comment symbol."
   (let* ((comment-symbol-str (char-to-string comment-symbol))
-          (comment-str (concat comment-symbol-str comment-symbol-str
-                               comment-symbol-str " "))
-          (comment-str-sep (make-string 80 comment-symbol)))
+         (comment-str (concat comment-symbol-str comment-symbol-str
+                              comment-symbol-str " "))
+         (comment-str-sep (make-string 80 comment-symbol)))
     (move-beginning-of-line 1)
     (insert comment-str-sep)
     (newline)
