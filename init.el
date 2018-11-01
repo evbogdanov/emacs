@@ -188,38 +188,23 @@ Return `t` or `nil` as appropriate."
   (interactive)
   (scroll-other-window `-))
 
-(defun my-heading-c-style ()
-  "Create a pretty C-style heading. This type of heading starts with `/*`"
+(defun my-css-heading ()
+  "Create CSS heading."
   (move-beginning-of-line 1)
-  (forward-char)
-  (insert "*******************************************************************************")
+  (insert "/******************************************************************************")
   (newline)
-  (insert " **")
+  (insert " ** ")
   (end-of-line)
   (newline)
   (insert " ******************************************************************************/")
   (newline))
 
-(defun my-heading-other ()
-  "Create a non-C-style heading."
-  (move-beginning-of-line 1)
-  (let* ((comment-symbols '(?# ?% ?/ ?\;))
-         (default-comment-symbol (car comment-symbols))
-         (char-at-beginning-of-line (char-after))
-         (comment-symbol (if (member char-at-beginning-of-line comment-symbols)
-                             char-at-beginning-of-line
-                           default-comment-symbol))
-         (comment-symbol-str (char-to-string comment-symbol))
-         (comment-str (concat comment-symbol-str comment-symbol-str
-                              comment-symbol-str " "))
-         (comment-str-sep (make-string 80 comment-symbol)))
-
-    (cl-loop
-     (let ((ch (char-after)))
-       (if (or (eq ch ? ) (eq ch comment-symbol))
-           (delete-char 1)
-         (cl-return))))
-
+(defun my-heading-with-symbol (comment-symbol)
+  "Create heading with a given comment symbol."
+  (let* ((comment-symbol-str (char-to-string comment-symbol))
+          (comment-str (concat comment-symbol-str comment-symbol-str
+                               comment-symbol-str " "))
+          (comment-str-sep (make-string 80 comment-symbol)))
     (move-beginning-of-line 1)
     (insert comment-str-sep)
     (newline)
@@ -230,11 +215,11 @@ Return `t` or `nil` as appropriate."
     (newline)))
 
 (defun my-heading ()
-  "Create a pretty heading. C-style or not."
+  "Create a pretty heading."
   (interactive)
-  (if (my-line-starts-with "/*")
-      (my-heading-c-style)
-    (my-heading-other)))
+  (cond ((string= major-mode "css-mode") (my-css-heading))
+        ((null comment-start) (my-heading-with-symbol ?#))
+        (t (my-heading-with-symbol (aref comment-start 0)))))
 
 (defun my-str-join (words)
   "Good old words join like in many other programming languages."
