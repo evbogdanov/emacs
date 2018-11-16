@@ -658,6 +658,12 @@ and refresh it."
   (define-key ibuffer-mode-map (kbd "M-o") nil)
   (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect))
 
+(use-package replace
+  :config
+  (define-key occur-mode-map "\C-o" nil)
+  (define-key occur-mode-map "n" 'occur-next)
+  (define-key occur-mode-map "p" 'occur-prev))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
