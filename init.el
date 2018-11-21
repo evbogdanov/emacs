@@ -658,12 +658,6 @@ and refresh it."
   (define-key ibuffer-mode-map (kbd "M-o") nil)
   (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect))
 
-(use-package replace
-  :config
-  (define-key occur-mode-map "\C-o" nil)
-  (define-key occur-mode-map "n" 'occur-next)
-  (define-key occur-mode-map "p" 'occur-prev))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -715,6 +709,11 @@ and refresh it."
 (define-key search-map "g" 'grep)
 (define-key search-map "l" 'lgrep) ; searches in the current directory
 (define-key search-map "r" 'rgrep) ; searches the current directory tree
+
+;; Keys in `occur' buffer
+(define-key occur-mode-map "\C-o" nil)
+(define-key occur-mode-map "p" 'occur-prev)
+(define-key occur-mode-map "n" 'occur-next)
 
 ;; Enable C-x C-u and C-x C-l.
 ;; Add similar combo for heading (C-x C-h is undefined by default)
