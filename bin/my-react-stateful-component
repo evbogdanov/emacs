@@ -11,6 +11,10 @@ const name = args[0];
 console.log(`import React, { Component } from 'react';
 
 class ${name} extends Component {
+  state = {
+
+  }
+
   render() {
     return (
       
