@@ -482,6 +482,13 @@ and refresh it."
     ;; Switch back to 'class'
     (setq emmet-expand-jsx-className? nil)))
 
+(defun my-prettify-buffer ()
+  "Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
+  (interactive)
+  (untabify (point-min) (point-max))
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -720,6 +727,10 @@ and refresh it."
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (global-set-key (kbd "C-x C-h") 'my-heading)
+
+;; `mark-page' is useless, replace it!
+(global-set-key (kbd "C-x C-p") 'my-prettify-buffer)
+(global-set-key (kbd "C-x p") 'my-prettify-buffer)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
 (global-set-key (kbd "C-h") 'delete-backward-char)
