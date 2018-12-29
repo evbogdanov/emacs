@@ -559,6 +559,7 @@ and refresh it."
   :ensure t
   :config
   (setq js-indent-level 2)
+  (setq-default js2-strict-missing-semi-warning nil)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
 
