@@ -278,7 +278,7 @@ press an extra C-u after passing a digit argument."
   "Kill word backward or go with defaults and kill region."
   (interactive "p")
   (if (use-region-p)
-      (kill-region (region-beginning) (region-end))    
+      (kill-region (region-beginning) (region-end))
     (backward-kill-word arg)))
 
 (defun my-mark-word ()
@@ -329,7 +329,7 @@ press an extra C-u after passing a digit argument."
 
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
-  (let ((modes-and-interpreters '(("js2-mode"     . "node")
+  (let ((modes-and-interpreters '(("js2-mode"    . "node")
                                   ("python-mode" . "python3")
                                   ("perl-mode"   . "perl")
                                   ("sh-mode"     . "bash")))
@@ -488,6 +488,12 @@ and refresh it."
   (untabify (point-min) (point-max))
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max)))
+
+(defun my-prettier ()
+  "Run prettier on the current buffer."
+  (interactive)
+  (let ((prettier (concat "prettier --stdin-filepath " buffer-file-name)))
+    (shell-command-on-region (point-min) (point-max) prettier t t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -730,7 +736,7 @@ and refresh it."
 
 ;; `mark-page' is useless, replace it!
 (global-set-key (kbd "C-x C-p") 'my-prettify-buffer)
-(global-set-key (kbd "C-x p") 'my-prettify-buffer)
+(global-set-key (kbd "C-x p") 'my-prettier)
 
 ;; Familiar shell-like behaviour for C-h, C-w and C-u
 (global-set-key (kbd "C-h") 'delete-backward-char)
