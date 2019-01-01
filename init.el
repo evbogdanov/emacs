@@ -330,7 +330,6 @@ press an extra C-u after passing a digit argument."
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
   (let ((modes-and-interpreters '(("js2-mode"    . "node")
-                                  ("python-mode" . "python3")
                                   ("perl-mode"   . "perl")
                                   ("sh-mode"     . "bash")))
         (interpreter nil))
@@ -808,19 +807,6 @@ and refresh it."
 
 ;; Replace `list-directory' with something useful
 (global-set-key (kbd "C-x C-d") 'my-dired-at-point)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Python
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (setq tab-width 4)
-            (setq python-indent 4)
-            (custom-set-variables
-             '(python-guess-indent nil)
-             '(python-indent-offset 4))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
