@@ -329,9 +329,8 @@ press an extra C-u after passing a digit argument."
 
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
-  (let ((modes-and-interpreters '(("js2-mode"    . "node")
-                                  ("perl-mode"   . "perl")
-                                  ("sh-mode"     . "bash")))
+  (let ((modes-and-interpreters '(("js2-mode" . "node")
+                                  ("sh-mode" . "bash")))
         (interpreter nil))
     (dolist (m-and-i modes-and-interpreters)
       (when (string= major-mode (car m-and-i))
