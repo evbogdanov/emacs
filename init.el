@@ -168,6 +168,7 @@
 ;; How to close tags like <br /> and <input />
 (setq my-var-self-closing-tag-style " /")
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; My functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -261,25 +262,6 @@ see its code to understand what's going on here."
   "Delete a whole isearch line."
   (interactive)
   (my-isearch-del "line"))
-
-(defun my-backward-kill-line (&optional arg)
-  "Kill line(s) backward.
-
-TODO: Make it work nicely with multiple lines. Now I have to
-press an extra C-u after passing a digit argument."
-  (interactive "p")
-  (if (> arg 1)
-      (kill-line (- (- arg 1)))
-    (if (= 0 (current-column))
-        (delete-backward-char 1)
-      (kill-line 0))))
-
-(defun my-backward-kill-word-or-region (&optional arg)
-  "Kill word backward or go with defaults and kill region."
-  (interactive "p")
-  (if (use-region-p)
-      (kill-region (region-beginning) (region-end))
-    (backward-kill-word arg)))
 
 (defun my-mark-word ()
   "Better 'mark-word', IMO."
@@ -493,6 +475,19 @@ and refresh it."
   (let ((prettier (concat "prettier --stdin-filepath " buffer-file-name)))
     (shell-command-on-region (point-min) (point-max) prettier t t)))
 
+(defun my-delete-line ()
+  "Delete the current line without copying it."
+  (delete-region (line-beginning-position)
+                 (line-end-position)))
+
+(defun my-delete-lines (&optional arg)
+  "Delete N lines without copying them."
+  (interactive "p")
+  (dotimes (i (abs arg) nil)
+    (my-delete-line)
+    (if (> arg 0) (delete-char 1)
+      (delete-char -1))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -675,20 +670,12 @@ and refresh it."
 ;;; Keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Quicker access to help
-;; M-h was mapped to `mark-paragraph`
-(global-set-key (kbd "M-h") help-map)
-(global-set-key (kbd "M-h M-h") 'help-for-help)
-
 ;; Easier scrolling
 (global-set-key (kbd "C-z") 'scroll-down-command)
 (global-set-key (kbd "C-M-z") 'my-scroll-other-window-down)
 
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
-;; Alias to C-x C-f
-(global-set-key (kbd "C-x f") 'find-file)
 
 ;; Stuff in other window
 (define-prefix-command 'my-c-o)
@@ -736,20 +723,6 @@ and refresh it."
 ;; `mark-page' is useless, replace it!
 (global-set-key (kbd "C-x C-p") 'my-prettify-buffer)
 (global-set-key (kbd "C-x p") 'my-prettier)
-
-;; Familiar shell-like behaviour for C-h, C-w and C-u
-(global-set-key (kbd "C-h") 'delete-backward-char)
-(global-set-key (kbd "C-w") 'my-backward-kill-word-or-region)
-(global-set-key (kbd "C-u") 'my-backward-kill-line)
-(define-key isearch-mode-map (kbd "C-h") 'isearch-del-char)
-(define-key isearch-mode-map (kbd "C-w") 'my-isearch-del-word)
-(define-key isearch-mode-map (kbd "C-u") 'my-isearch-del-line)
-(add-hook
- 'ido-setup-hook
- (lambda ()
-   (define-key ido-completion-map (kbd "C-h") 'ido-delete-backward-updir)
-   (define-key ido-completion-map (kbd "C-w") 'ido-delete-backward-word-updir)
-   (define-key ido-completion-map (kbd "M-h f") 'smex-describe-function)))
 
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
@@ -806,6 +779,14 @@ and refresh it."
 
 ;; Replace `list-directory' with something useful
 (global-set-key (kbd "C-x C-d") 'my-dired-at-point)
+
+;; Tweak isearch
+(define-key isearch-mode-map (kbd "DEL") 'isearch-del-char)
+(define-key isearch-mode-map (kbd "M-DEL") 'my-isearch-del-word)
+(define-key isearch-mode-map (kbd "M-k") 'my-isearch-del-line)
+
+;; M-k used to execute `kill-sentence' -- what a waste!
+(global-set-key (kbd "M-k") 'my-delete-lines)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
