@@ -712,9 +712,9 @@ and refresh it."
 (put 'downcase-region 'disabled nil)
 (global-set-key (kbd "C-x C-h") 'my-heading)
 
-;; `mark-page' is useless, replace it!
-(global-set-key (kbd "C-x C-p") 'my-prettify-buffer)
-(global-set-key (kbd "C-x p") 'my-prettier)
+;; Prettify code
+(global-set-key (kbd "C-x p") 'my-prettify-buffer)
+(global-set-key (kbd "C-c p") 'my-prettier)
 
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
