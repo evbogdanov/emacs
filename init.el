@@ -552,6 +552,10 @@ and refresh it."
   (setq js-indent-level 2)
   (setq-default js2-strict-missing-semi-warning nil)
   (define-key js2-mode-map (kbd "M-.") nil) ;; don't override my expand-region
+  (define-key js2-mode-map (kbd "C-c -") 'js2-mode-hide-element)
+  (define-key js2-mode-map (kbd "C-c =") 'js2-mode-show-element)
+  (define-key js2-mode-map (kbd "C-c +") 'js2-mode-show-all)
+  (define-key js2-mode-map (kbd "C-c C-d") 'js2-jump-to-definition)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
 
