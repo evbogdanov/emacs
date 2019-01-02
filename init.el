@@ -408,28 +408,16 @@ and refresh it."
       (neotree-refresh)
     (user-error "No buffer called NeoTree")))
 
-(defun my-transpose-lines (direction previous-line-n-times)
-  "Do transposing."
+(defun my-move-line (direction previous-line-n-times)
+  "Do line moving."
   (when (eq direction 'down) (next-line))
   (transpose-lines 1)
   (previous-line previous-line-n-times)
   (end-of-line))
 
-(defun my-transpose-lines-simple () (interactive) (my-transpose-lines 'up 1))
-(defun my-transpose-lines-up     () (interactive) (my-transpose-lines 'up 2))
-(defun my-transpose-lines-down   () (interactive) (my-transpose-lines 'down 1))
-
-(defvar my-transpose-lines-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "p" 'my-transpose-lines-up)
-    (define-key map "n" 'my-transpose-lines-down)
-    map))
-
-(defun my-transpose-lines-interactively ()
-  "Activate interactive transposing."
-  (interactive)
-  (message "Move line up (p) or down (n)")
-  (set-transient-map my-transpose-lines-map t))
+(defun my-transpose-lines () (interactive) (my-move-line 'up 1))
+(defun my-move-line-up    () (interactive) (my-move-line 'up 2))
+(defun my-move-line-down  () (interactive) (my-move-line 'down 1))
 
 (defun my-join-line ()
   "Join line forward in the manner of WebStorm."
@@ -759,9 +747,10 @@ and refresh it."
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
 (global-set-key (kbd "M-'") 'comment-dwim)     ; used to be `abbrev-prefix-mark`
 
-;; Transposing lines
-(global-set-key (kbd "C-x C-t") 'my-transpose-lines-simple)      ; was `transpose-lines`
-(global-set-key (kbd "C-x t") 'my-transpose-lines-interactively) ; was undefined
+;; Moving lines
+(global-set-key (kbd "C-x C-t") 'my-transpose-lines) ; was `transpose-lines`
+(global-set-key (kbd "ESC <down>") 'my-move-line-down)
+(global-set-key (kbd "ESC <up>") 'my-move-line-up)
 
 ;; Join line
 (global-set-key (kbd "M-j") 'my-join-line)
@@ -794,6 +783,7 @@ and refresh it."
 
 ;; M-k used to execute `kill-sentence' -- what a waste!
 (global-set-key (kbd "M-k") 'my-delete-lines)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
