@@ -551,15 +551,14 @@ and refresh it."
   :ensure t)
 
 (use-package expand-region
-  :ensure t
-  :config
-  (setq expand-region-contract-fast-key ","))
+  :ensure t)
 
 (use-package js2-mode
   :ensure t
   :config
   (setq js-indent-level 2)
   (setq-default js2-strict-missing-semi-warning nil)
+  (define-key js2-mode-map (kbd "M-.") nil) ;; don't override my expand-region
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
 
@@ -744,7 +743,10 @@ and refresh it."
 (define-key my-m-spc (kbd "p") 'my-mark-paragraph)
 (define-key my-m-spc (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
 (define-key my-m-spc (kbd "r") 'rectangle-mark-mode)
-(define-key my-m-spc (kbd ".") 'er/expand-region)
+
+;; In WebStorm, it's called "extend / shrink selection"
+(global-set-key (kbd "M-.") 'er/expand-region)
+(global-set-key (kbd "M-,") 'er/contract-region)
 
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
