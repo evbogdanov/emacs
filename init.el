@@ -264,12 +264,19 @@ see its code to understand what's going on here."
   (my-isearch-del "line"))
 
 (defun my-mark-word ()
-  "Better 'mark-word', IMO."
+  "Better `mark-word', IMO."
   (interactive)
   (forward-word)
   (backward-word)
   (mark-word)
   (exchange-point-and-mark))
+
+(defun my-mark-word-and-copy ()
+  "I copy the marked word quite often. Create shortcut for it!"
+  (interactive)
+  (save-excursion
+    (my-mark-word)
+    (kill-ring-save (point) (mark))))
 
 (defun my-mark-line ()
   "Function name says it all."
@@ -729,15 +736,15 @@ and refresh it."
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Marking
-(define-prefix-command 'my-c-spc)
-(global-set-key (kbd "C-@") 'my-c-spc)
-(define-key my-c-spc (kbd "C-@") 'set-mark-command)
-(define-key my-c-spc (kbd "w") 'my-mark-word)
-(define-key my-c-spc (kbd "l") 'my-mark-line)
-(define-key my-c-spc (kbd "p") 'my-mark-paragraph)
-(define-key my-c-spc (kbd "b") 'mark-whole-buffer)
-(define-key my-c-spc (kbd "r") 'rectangle-mark-mode)
-(define-key my-c-spc (kbd ".") 'er/expand-region)
+(define-prefix-command 'my-m-spc)
+(global-set-key (kbd "M-SPC") 'my-m-spc)
+(define-key my-m-spc (kbd "M-SPC") 'my-mark-word-and-copy)
+(define-key my-m-spc (kbd "w") 'my-mark-word)
+(define-key my-m-spc (kbd "l") 'my-mark-line)
+(define-key my-m-spc (kbd "p") 'my-mark-paragraph)
+(define-key my-m-spc (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
+(define-key my-m-spc (kbd "r") 'rectangle-mark-mode)
+(define-key my-m-spc (kbd ".") 'er/expand-region)
 
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
