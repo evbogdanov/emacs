@@ -721,14 +721,16 @@ and refresh it."
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Marking
-(define-prefix-command 'my-m-spc)
-(global-set-key (kbd "M-SPC") 'my-m-spc)
-(define-key my-m-spc (kbd "M-SPC") 'my-mark-word-and-copy)
-(define-key my-m-spc (kbd "w") 'my-mark-word)
-(define-key my-m-spc (kbd "l") 'my-mark-line)
-(define-key my-m-spc (kbd "p") 'my-mark-paragraph)
-(define-key my-m-spc (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
-(define-key my-m-spc (kbd "r") 'rectangle-mark-mode)
+;; Why M-h for marking? Firstly, "h" can stand for "highlight". Secondly, M-h
+;; used to mark by default (but only paragraph).
+(define-prefix-command 'my-mark-key)
+(global-set-key (kbd "M-h") 'my-mark-key)
+(define-key my-mark-key (kbd "M-w") 'my-mark-word-and-copy)
+(define-key my-mark-key (kbd "w") 'my-mark-word)
+(define-key my-mark-key (kbd "l") 'my-mark-line)
+(define-key my-mark-key (kbd "p") 'my-mark-paragraph)
+(define-key my-mark-key (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
+(define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
 
 ;; In WebStorm, it's called "extend / shrink selection"
 (global-set-key (kbd "M-.") 'er/expand-region)
