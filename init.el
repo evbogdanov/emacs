@@ -551,8 +551,8 @@ and refresh it."
 (use-package rjsx-mode
   :ensure t
   :config
-  (define-key rjsx-mode-map (kbd "M-a") 'my-move-beginning-of-tag)
-  (define-key rjsx-mode-map (kbd "M-e") 'my-move-after-tag))
+  (define-key rjsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
+  (define-key rjsx-mode-map (kbd "C-M-e") 'my-move-after-tag))
 
 (use-package web-mode
   :ensure t
@@ -565,8 +565,8 @@ and refresh it."
         web-mode-code-indent-offset 2
         web-mode-style-padding 2
         web-mode-script-padding 2)
-  (define-key web-mode-map (kbd "M-a") 'my-move-beginning-of-tag)
-  (define-key web-mode-map (kbd "M-e") 'my-move-after-tag))
+  (define-key web-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
+  (define-key web-mode-map (kbd "C-M-e") 'my-move-after-tag))
 
 (use-package emmet-mode
   :ensure t
