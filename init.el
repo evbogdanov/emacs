@@ -410,10 +410,17 @@ and refresh it."
 
 (defun my-move-line (direction previous-line-n-times)
   "Do line moving."
+
+  ;; Content should fit in one line. Otherwise, I'll have a nasty bug.
+  (toggle-truncate-lines)
+
   (when (eq direction 'down) (next-line))
   (transpose-lines 1)
   (previous-line previous-line-n-times)
-  (end-of-line))
+  (end-of-line)
+
+  ;; Bring my beautiful untruncated lines back.
+  (toggle-truncate-lines))
 
 (defun my-transpose-lines () (interactive) (my-move-line 'up 1))
 (defun my-move-line-up    () (interactive) (my-move-line 'up 2))
