@@ -411,7 +411,8 @@ and refresh it."
 (defun my-move-line (direction previous-line-n-times)
   "Do line moving."
 
-  ;; Content should fit in one line. Otherwise, I'll have a nasty bug.
+  ;; Content should fit in one line. Otherwise, I'll have a nasty bug on a
+  ;; narrow screen.
   (toggle-truncate-lines)
 
   (when (eq direction 'down) (next-line))
