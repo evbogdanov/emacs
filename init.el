@@ -484,6 +484,13 @@ and refresh it."
     (if (> arg 0) (delete-char 1)
       (delete-char -1))))
 
+(defun my-ido-recentf-open ()
+  "Open a recent file."
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -665,6 +672,11 @@ and refresh it."
   (define-key ibuffer-mode-map (kbd "M-o") nil)
   (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect))
 
+(use-package recentf
+  :config
+  (setq recentf-max-saved-items 100)
+  (recentf-mode t))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -796,6 +808,9 @@ and refresh it."
 
 ;; M-k used to execute `kill-sentence' -- what a waste!
 (global-set-key (kbd "M-k") 'my-delete-lines)
+
+;; recentf
+(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
