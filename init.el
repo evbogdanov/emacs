@@ -284,6 +284,13 @@ see its code to understand what's going on here."
   (end-of-line)
   (set-mark (line-beginning-position)))
 
+(defun my-mark-line-and-copy ()
+  "I copy lines quite often!"
+  (interactive)
+  (save-excursion
+    (my-mark-line)
+    (kill-ring-save (point) (mark))))
+
 (defun my-yank-line ()
   "Copy and paste current line."
   (interactive)
@@ -751,6 +758,7 @@ and refresh it."
 (define-key my-mark-key (kbd "M-w") 'my-mark-word-and-copy)
 (define-key my-mark-key (kbd "w") 'my-mark-word)
 (define-key my-mark-key (kbd "l") 'my-mark-line)
+(define-key my-mark-key (kbd "M-l") 'my-mark-line-and-copy)
 (define-key my-mark-key (kbd "p") 'my-mark-paragraph)
 (define-key my-mark-key (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
 (define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
