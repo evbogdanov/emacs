@@ -318,10 +318,10 @@ see its code to understand what's going on here."
 (defun my-eval-buffer ()
   "Eval current buffer depending on the major mode."
   (interactive)
-  (if (or (string= major-mode "lisp-mode")
-          (string= major-mode "emacs-lisp-mode"))
-      (eval-buffer)
-    (my-eval-buffer-interpreted)))
+  (cond ((or (string= major-mode "lisp-mode")
+             (string= major-mode "emacs-lisp-mode")) (eval-buffer))
+        ((string= major-mode "elixir-mode") (my-elixir-playground))
+        (t (my-eval-buffer-interpreted))))
 
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
@@ -336,6 +336,23 @@ see its code to understand what's going on here."
       (shell-command-on-region (point-min)
                                (point-max)
                                interpreter))))
+
+(defun my-elixir-playground ()
+  "Play with Elixir."
+  (interactive)
+  (let* ((elixir-playground-buffer-name "playground.exs")
+         (elixir-playground-file (concat "~/github/emacs/" elixir-playground-buffer-name)))
+    (when (null (get-buffer "*eshell*"))
+      (eshell)
+      (previous-buffer))
+    (if (string= (buffer-name) elixir-playground-buffer-name)
+        (progn
+          (save-buffer)
+          (switch-to-buffer-other-window "*eshell*")
+          (insert (concat "elixir " elixir-playground-file))
+          (eshell-send-input)
+          (switch-to-buffer-other-window elixir-playground-buffer-name))
+      (find-file elixir-playground-file))))
 
 (defun my-pipe (prompt output-buffer replace)
   "Pipe a whole buffer if no selection. Otherwise pipe just a selected region."
@@ -685,6 +702,8 @@ and refresh it."
   (setq recentf-max-saved-items 100)
   (recentf-mode t))
 
+(use-package elixir-mode
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
