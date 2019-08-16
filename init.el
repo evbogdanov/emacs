@@ -709,7 +709,10 @@ and refresh it."
   :ensure t)
 
 (use-package wgrep
-  :ensure t)
+  :ensure t
+  :config
+  ;; Use same keybinding as occur
+  (setq wgrep-enable-key "e"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
