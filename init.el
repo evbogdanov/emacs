@@ -585,6 +585,7 @@ and refresh it."
   (define-key js2-mode-map (kbd "C-c +") 'js2-mode-show-all)
   (define-key js2-mode-map (kbd "C-c d") 'js2-jump-to-definition)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
 
 (use-package rjsx-mode
