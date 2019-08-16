@@ -14,6 +14,16 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Working directory
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Remember the directory where Emacs was started
+(setq my-working-directory default-directory)
+(setq my-working-directory-abs
+      (concat (getenv "HOME") (substring my-working-directory 1)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -515,6 +525,32 @@ and refresh it."
       (message "Opening file...")
     (message "Aborting")))
 
+(defun my-do-grep (&optional is-working-directory)
+  "My own grepping."
+  (let* ((input (read-shell-command "Grep: "))
+         (wd (if (null is-working-directory) "" my-working-directory))
+         (ag "ag --nocolor --noheading")
+         (sed-remove-emty-lines "-e '/^[[:space:]]*$/d'")
+         (sed-hide-abs-path (if (null is-working-directory) ""
+                              (concat " -e 's|^" my-working-directory-abs "||'")))
+         (sed (concat "sed " sed-remove-emty-lines sed-hide-abs-path))
+         (cmd (concat ag " " input " " wd " | " sed))
+         (grep-use-null-device nil) ;; don't append /dev/null to `cmd`'
+         (default-directory (if (null is-working-directory)
+                                default-directory
+                              my-working-directory)))
+    (grep cmd)))
+
+(defun my-grep-working-directory ()
+  "Grep files in my working directory."
+  (interactive)
+  (my-do-grep t))
+
+(defun my-grep ()
+  "Grep files relative to `default-directory'."
+  (interactive)
+  (my-do-grep))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -850,6 +886,10 @@ and refresh it."
 
 ;; recentf
 (global-set-key (kbd "C-x C-r") 'my-ido-recentf-open)
+
+;; `C-x C-g` and `C-x g` were undefined
+(global-set-key (kbd "C-x C-g") 'my-grep-working-directory)
+(global-set-key (kbd "C-x g") 'my-grep)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
