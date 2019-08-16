@@ -705,6 +705,9 @@ and refresh it."
 (use-package elixir-mode
   :ensure t)
 
+(use-package yaml-mode
+  :ensure t)
+
 (use-package wgrep
   :ensure t)
 
