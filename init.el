@@ -529,12 +529,10 @@ and refresh it."
   "My own grepping."
   (let* ((input (read-shell-command "Grep: "))
          (wd (if (null is-working-directory) "" my-working-directory))
-         (ag "ag --nocolor --noheading")
-         (sed-remove-emty-lines "-e '/^[[:space:]]*$/d'")
-         (sed-hide-abs-path (if (null is-working-directory) ""
-                              (concat " -e 's|^" my-working-directory-abs "||'")))
-         (sed (concat "sed " sed-remove-emty-lines sed-hide-abs-path))
-         (cmd (concat ag " " input " " wd " | " sed))
+         (ag "ag --nocolor --nogroup")
+         (maybe-sed (if (null is-working-directory) ""
+                      (concat " | sed 's|^" my-working-directory-abs "||'")))
+         (cmd (concat ag " " input " " wd maybe-sed))
          (grep-use-null-device nil) ;; don't append /dev/null to `cmd`'
          (default-directory (if (null is-working-directory)
                                 default-directory
