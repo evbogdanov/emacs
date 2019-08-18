@@ -472,6 +472,23 @@ and refresh it."
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
 
+(defun my-dired-hide-file ()
+  "In Dired, hide the file (or directory) on this line in another window.
+Useful when I did `dired-display-file' and then want to hide it."
+  (interactive)
+  (dired-find-file-other-window)
+  (kill-buffer)
+  (delete-window))
+
+(defun my-ibuffer-hide-buffer ()
+  "In IBuffer, hide the buffer on this line in another window.
+Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to hide it."
+  (interactive)
+  (ibuffer-visit-buffer-other-window)
+  (kill-buffer)
+  (delete-window)
+  (ibuffer-update nil))
+
 (defun my-emmet-make-self-closing-tag ()
   "Convert <MyTag>`point'</MyTag> to <MyTag/>."
   (zap-to-char 1 ?>)
@@ -688,8 +705,9 @@ and refresh it."
   ;; Don't mess with my keybindings
   (define-key dired-mode-map (kbd "C-o") nil)
 
-  ;; Look at file without switching to it
+  ;; Display or hide file in another window
   (define-key dired-mode-map (kbd "SPC") 'dired-display-file)
+  (define-key dired-mode-map (kbd "h") 'my-dired-hide-file)
 
   ;; Go directory/file forward
   (define-key dired-mode-map (kbd "f") 'dired-find-alternate-file)
@@ -733,7 +751,8 @@ and refresh it."
   :config
   (define-key ibuffer-mode-map (kbd "C-o") nil)
   (define-key ibuffer-mode-map (kbd "M-o") nil)
-  (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect))
+  (define-key ibuffer-mode-map (kbd "SPC") 'ibuffer-visit-buffer-other-window-noselect)
+  (define-key ibuffer-mode-map (kbd "h") 'my-ibuffer-hide-buffer))
 
 (use-package recentf
   :config
