@@ -472,6 +472,16 @@ and refresh it."
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
 
+(defun my-dired-open-working-directory ()
+  "Quickly go to my working directory."
+  (interactive)
+  (dired my-working-directory))
+
+(defun my-dired-open-working-directory-in-other-window ()
+  "Quickly go to my working directory in another window."
+  (interactive)
+  (dired-other-window my-working-directory))
+
 (defun my-dired-hide-file ()
   "In Dired, hide the file (or directory) on this line in another window.
 Useful when I did `dired-display-file' and then want to hide it."
@@ -789,6 +799,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key my-c-o (kbd "C-o") 'ace-window)
 (define-key my-c-o (kbd "b") 'switch-to-buffer-other-window)
 (define-key my-c-o (kbd "d") 'dired-other-window)
+(define-key my-c-o (kbd "C-d") 'my-dired-open-working-directory-in-other-window)
 (define-key my-c-o (kbd "f") 'find-file-other-window)
 (define-key my-c-o (kbd "r") 'find-file-read-only-other-window)
 (define-key my-c-o (kbd "C-f") 'windmove-right)
@@ -893,8 +904,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
                                          try-complete-lisp-symbol))
 (global-set-key (kbd "M-/") 'hippie-expand)
 
-;; Replace `list-directory' with something useful
-(global-set-key (kbd "C-x C-d") 'my-dired-at-point)
+;; Useful dired commands
+(global-set-key (kbd "C-x C-d") 'my-dired-open-working-directory)
+(global-set-key (kbd "C-x D") 'my-dired-at-point)
 
 ;; Tweak isearch
 (define-key isearch-mode-map (kbd "DEL") 'isearch-del-char)
