@@ -700,6 +700,9 @@ and refresh it."
                                          (interactive)
                                          (find-alternate-file "..")))
 
+  ;; Edit dired buffer with wdired (use same keybinding as occur and wgrep)
+  (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only)
+
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
