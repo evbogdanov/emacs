@@ -735,6 +735,11 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
 
+  ;; Use `ls` from GNU (get it: `brew install coreutils`)
+  (setq insert-directory-program (executable-find "gls"))
+  ;; By default it's just `-al`, but I really want to list directories first
+  (setq dired-listing-switches "-al --group-directories-first")
+
   ;; Dired Extra (enables dired-jump C-x C-j)
   (require 'dired-x)
 
