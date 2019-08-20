@@ -556,7 +556,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   "My own grepping."
   (let* ((input (read-shell-command "Grep: "))
          (wd (if (null is-working-directory) "" my-working-directory))
-         (ag "ag --nocolor --nogroup")
+         (ag "ag --nocolor --nogroup --path-to-ignore ~/github/dotfiles/.ignore_global")
          (maybe-sed (if (null is-working-directory) ""
                       (concat " | sed 's|^" my-working-directory-abs "||'")))
          (cmd (concat ag " " input " " wd maybe-sed))
