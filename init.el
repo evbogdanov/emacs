@@ -335,7 +335,7 @@ see its code to understand what's going on here."
 
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
-  (let ((modes-and-interpreters '(("js2-mode" . "node")
+  (let ((modes-and-interpreters '(("js-mode" . "node")
                                   ("sh-mode" . "bash")))
         (interpreter nil))
     (dolist (m-and-i modes-and-interpreters)
@@ -513,7 +513,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
            (eq (char-after) ?<))
       (my-emmet-make-self-closing-tag)
     ;; In JSX, I want 'className' instead of 'class'
-    (when (string= major-mode "rjsx-mode")
+    (when (string= major-mode "js-jsx-mode")
       (setq emmet-expand-jsx-className? t))
     (emmet-expand-line arg)
     ;; Switch back to 'class'
@@ -576,6 +576,20 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (interactive)
   (my-do-grep))
 
+(defun my-buffer-contains-string (string)
+  "Check if current buffer contains a string."
+  (save-excursion
+    (save-match-data
+      (goto-char (point-min))
+      (search-forward string nil t))))
+
+(defun my-js-mode-activate-jsx ()
+  "Maybe activate JSX inside JS mode."
+  (interactive)
+  (cond ((string= major-mode "js-mode") (js-jsx-mode))
+        ((string= major-mode "js-jsx-mode") (message "You're in JSX mode"))
+        (t (message "Not in JS mode"))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -634,50 +648,13 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (use-package expand-region
   :ensure t)
 
-(use-package js2-mode
-  :ensure t
-  :config
-  (setq js-indent-level 2)
-  (setq-default js2-strict-missing-semi-warning nil)
-  (setq-default js2-strict-inconsistent-return-warning nil)
-  (define-key js2-mode-map (kbd "M-.") nil) ;; don't override my expand-region
-  (define-key js2-mode-map (kbd "C-c -") 'js2-mode-hide-element)
-  (define-key js2-mode-map (kbd "C-c =") 'js2-mode-show-element)
-  (define-key js2-mode-map (kbd "C-c +") 'js2-mode-show-all)
-  (define-key js2-mode-map (kbd "C-c d") 'js2-jump-to-definition)
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.ts\\'" . js2-mode)))
-
-(use-package rjsx-mode
-  :ensure t
-  :config
-  (define-key rjsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
-  (define-key rjsx-mode-map (kbd "C-M-e") 'my-move-after-tag))
-
-(use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.vue?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.hbs?\\'" . web-mode))
-  (setq web-mode-markup-indent-offset 2
-        css-indent-offset 2
-        web-mode-css-indent-offset 2
-        web-mode-code-indent-offset 2
-        web-mode-style-padding 2
-        web-mode-script-padding 2)
-  (define-key web-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
-  (define-key web-mode-map (kbd "C-M-e") 'my-move-after-tag))
-
 (use-package emmet-mode
   :ensure t
   :config
   (setq emmet-self-closing-tag-style my-var-self-closing-tag-style)
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
-  (add-hook 'web-mode-hook  'emmet-mode)
-  (add-hook 'rjsx-mode-hook 'emmet-mode)
+  (add-hook 'js-jsx-mode-hook 'emmet-mode)
   (define-key emmet-mode-keymap (kbd "C-j") 'my-emmet-expand-line))
 
 (use-package neotree
@@ -785,6 +762,28 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   :config
   ;; Use same keybinding as occur
   (setq wgrep-enable-key "e"))
+
+(use-package css-mode
+  :config
+  (setq css-indent-offset 2))
+
+(use-package js
+  :config
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (when (my-buffer-contains-string "import React")
+                (my-js-mode-activate-jsx))))
+
+  (setq js-indent-level 2)
+
+  (define-key js-mode-map (kbd "C-c x") 'my-js-mode-activate-jsx)
+  ;; TODO: more `C-c ...` keybindings
+
+  ;; don't override my expand-region
+  (define-key js-mode-map (kbd "M-.") nil)
+
+  (define-key js-jsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
+  (define-key js-jsx-mode-map (kbd "C-M-e") 'my-move-after-tag))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
