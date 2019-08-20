@@ -590,6 +590,30 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
         ((string= major-mode "js-jsx-mode") (message "You're in JSX mode"))
         (t (message "Not in JS mode"))))
 
+(defun my-js-search-symbol-at-point (re-search-function)
+  "General functionality for searching symbols at point."
+  (let* (;; Search becomes case sensitive just inside this function
+         (case-fold-search nil)
+         (symbol (js--guess-symbol-at-point))
+         (symbol-without-leading-crap
+          (replace-regexp-in-string "^\\W*" "" symbol))
+         (symbol-without-trailing-crap
+          (replace-regexp-in-string "\\W.*$" ""symbol-without-leading-crap))
+         ;; Search for exact match. I'm not interested in partial results.
+         (symbol-to-search (concat "\\b" symbol-without-trailing-crap "\\b")))
+    (message "Searching symbol '%s'" symbol)
+    (funcall re-search-function symbol-to-search)))
+
+(defun my-js-search-backward-symbol-at-point ()
+  "Search backward symbol at point."
+  (interactive)
+  (my-js-search-symbol-at-point 're-search-backward))
+
+(defun my-js-search-forward-symbol-at-point ()
+  "Search forward symbol at point."
+  (interactive)
+  (my-js-search-symbol-at-point 're-search-forward))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -777,9 +801,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (setq js-indent-level 2)
 
   (define-key js-mode-map (kbd "C-c x") 'my-js-mode-activate-jsx)
-  ;; TODO: more `C-c ...` keybindings
-
-  ;; don't override my expand-region
+  (define-key js-mode-map (kbd "M-p") 'my-js-search-backward-symbol-at-point)
+  (define-key js-mode-map (kbd "M-n") 'my-js-search-forward-symbol-at-point)
   (define-key js-mode-map (kbd "M-.") nil)
 
   (define-key js-jsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
