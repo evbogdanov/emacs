@@ -545,12 +545,17 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
     (if (> arg 0) (delete-char 1)
       (delete-char -1))))
 
-(defun my-ido-recentf-open ()
-  "Open a recent file."
+(defun my-find-recent-file ()
+  "Find a recent file."
   (interactive)
-  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+  (if (find-file (ido-completing-read "Recent file: " recentf-list))
       (message "Opening file...")
     (message "Aborting")))
+
+(defun my-find-recent-dir ()
+  "Find recently visited dired directory."
+  (interactive)
+  (dired (ido-completing-read "Recent directory: " dired-recent-directories)))
 
 (defun my-do-grep (&optional is-working-directory)
   "My own grepping."
@@ -771,9 +776,16 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (define-key ibuffer-mode-map (kbd "h") 'my-ibuffer-hide-buffer))
 
 (use-package recentf
+  :init (recentf-mode t)
   :config
-  (setq recentf-max-saved-items 100)
-  (recentf-mode t))
+  (setq recentf-max-saved-items 500))
+
+(use-package dired-recent
+  :ensure t
+  :init (dired-recent-mode 1)
+  :config
+  (setq dired-recent-max-directories 500)
+  (define-key dired-recent-mode-map (kbd "C-x C-d") 'my-find-recent-dir))
 
 (use-package elixir-mode
   :ensure t)
@@ -839,6 +851,13 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key my-c-o (kbd "t") 'neotree-toggle)
 (define-key my-c-o (kbd "C-t") 'my-move-to-neotree-and-refresh)
 (define-key my-c-o (kbd "C-j") 'dired-jump-other-window)
+
+;; Open different things in Dired
+(define-prefix-command 'my-dired-prefix)
+(global-set-key (kbd "C-x d") 'my-dired-prefix)
+(define-key my-dired-prefix (kbd "d") 'ido-dired)
+(define-key my-dired-prefix (kbd "/") 'my-dired-open-working-directory)
+(define-key my-dired-prefix (kbd ".") 'my-dired-at-point)
 
 ;; Shortcut for C-o C-o
 (global-set-key (kbd "M-o") 'ace-window)
@@ -931,10 +950,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
                                          try-complete-lisp-symbol))
 (global-set-key (kbd "M-/") 'hippie-expand)
 
-;; Useful dired commands
-(global-set-key (kbd "C-x C-d") 'my-dired-open-working-directory)
-(global-set-key (kbd "C-x D") 'my-dired-at-point)
-
 ;; Tweak isearch
 (define-key isearch-mode-map (kbd "DEL") 'isearch-del-char)
 (define-key isearch-mode-map (kbd "M-DEL") 'my-isearch-del-word)
@@ -943,8 +958,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; M-k used to execute `kill-sentence' -- what a waste!
 (global-set-key (kbd "M-k") 'my-delete-lines)
 
-;; recentf
-(global-set-key (kbd "C-x C-r") 'my-ido-recentf-open)
+;; Find recent files (similar to C-x C-d for directories)
+(global-set-key (kbd "C-x C-r") 'my-find-recent-file)
 
 ;; `C-x C-g` and `C-x g` were undefined
 (global-set-key (kbd "C-x C-g") 'my-grep-working-directory)
