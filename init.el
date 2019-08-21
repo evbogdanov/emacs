@@ -761,8 +761,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   :ensure t
   :bind (("C-x m" . magit-status)))
 
-;; Tweak `grep', `lgrep' and `rgrep'
-;; (which are built on top of `compile' mode)
+;; Tweak `grep' (which is built on top of `compile' mode)
 (use-package compile
   :config
   (define-key compilation-minor-mode-map "\C-o" nil)
@@ -868,11 +867,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; M-a and M-e were used to move by sentence. Meh.
 (global-set-key (kbd "M-a") 'avy-goto-word-or-subword-1)
 ;; TODO: make a better use of M-e
-
-;; M-s ... key bindings
-(define-key search-map "g" 'grep)
-(define-key search-map "l" 'lgrep) ; searches in the current directory
-(define-key search-map "r" 'rgrep) ; searches the current directory tree
 
 ;; Keys in `occur' buffer
 (define-key occur-mode-map "\C-o" nil)
