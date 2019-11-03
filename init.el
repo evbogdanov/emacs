@@ -540,16 +540,13 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (defun my-delete-line ()
   "Delete the current line without copying it."
+  (interactive)
   (delete-region (line-beginning-position)
-                 (line-end-position)))
-
-(defun my-delete-lines (&optional arg)
-  "Delete N lines without copying them."
-  (interactive "p")
-  (dotimes (i (abs arg) nil)
-    (my-delete-line)
-    (if (> arg 0) (delete-char 1)
-      (delete-char -1))))
+                 (line-end-position))
+  (save-excursion
+    (move-end-of-line nil)
+    (if (eobp) (delete-char -1)
+      (delete-char 1))))
 
 (defun my-find-recent-file ()
   "Find a recent file."
@@ -991,7 +988,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key isearch-mode-map (kbd "M-k") 'my-isearch-del-line)
 
 ;; M-k used to execute `kill-sentence' -- what a waste!
-(global-set-key (kbd "M-k") 'my-delete-lines)
+(global-set-key (kbd "M-k") 'my-delete-line)
 
 ;; Find recent files (similar to C-x C-d for directories)
 (global-set-key (kbd "C-x C-r") 'my-find-recent-file)
