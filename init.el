@@ -528,9 +528,11 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (defun my-prettify-buffer ()
   "Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
   (interactive)
-  (untabify (point-min) (point-max))
-  (delete-trailing-whitespace)
-  (indent-region (point-min) (point-max)))
+  (if (string= major-mode "elixir-mode")
+      (elixir-format)
+    (untabify (point-min) (point-max))
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max))))
 
 (defun my-delete-line ()
   "Delete the current line without copying it."
