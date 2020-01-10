@@ -532,12 +532,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max)))
 
-(defun my-prettier ()
-  "Run prettier on the current buffer."
-  (interactive)
-  (let ((prettier (concat "prettier --stdin-filepath " buffer-file-name)))
-    (shell-command-on-region (point-min) (point-max) prettier t t)))
-
 (defun my-delete-line ()
   "Delete the current line without copying it."
   (interactive)
@@ -919,7 +913,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 ;; Prettify code
 (global-set-key (kbd "C-x p") 'my-prettify-buffer)
-(global-set-key (kbd "C-c p") 'my-prettier)
 
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
