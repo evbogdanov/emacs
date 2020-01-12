@@ -629,6 +629,19 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 "))
     (save-buffer)))
 
+(defun my-start-searching-symbol-at-point-backward ()
+  "Start searching symbol at point backward."
+  (interactive)
+  (isearch-forward-symbol-at-point)
+  (isearch-repeat-backward)
+  (isearch-repeat-backward))
+
+(defun my-start-searching-symbol-at-point-forward ()
+  "Start searching symbol at point forward."
+  (interactive)
+  (isearch-forward-symbol-at-point)
+  (isearch-repeat-forward))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
@@ -965,6 +978,10 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; `C-x C-g` and `C-x g` were undefined
 (global-set-key (kbd "C-x C-g") 'my-grep-working-directory)
 (global-set-key (kbd "C-x g") 'my-grep)
+
+;; `M-s C-r` and `M-s C-s` rock when I want to jump between symbols quickly
+(define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
+(define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
