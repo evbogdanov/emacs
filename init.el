@@ -809,6 +809,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (setq dired-recent-max-directories 500)
   (define-key dired-recent-mode-map (kbd "C-x C-d") 'my-find-recent-dir))
 
+(use-package erlang
+  :ensure t)
+
 (use-package elixir-mode
   :ensure t)
 
