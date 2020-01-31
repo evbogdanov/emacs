@@ -342,6 +342,7 @@ see its code to understand what's going on here."
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
   (let ((modes-and-interpreters '(("js-mode" . "node")
+                                  ("ruby-mode" . "ruby")
                                   ("sh-mode" . "bash")))
         (interpreter nil))
     (dolist (m-and-i modes-and-interpreters)
