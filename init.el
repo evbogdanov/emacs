@@ -783,7 +783,10 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (use-package magit
   :ensure t
-  :bind (("C-x m" . magit-status)))
+  :bind (("C-x m" . magit-status))
+  :config
+  ;; Magit wants `C-x g` to show me git status. I don't think so.
+  (define-key magit-file-mode-map (kbd "C-x g") nil))
 
 ;; Tweak `grep' (which is built on top of `compile' mode)
 (use-package compile
