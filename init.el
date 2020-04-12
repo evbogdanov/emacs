@@ -897,10 +897,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; Better 'move-to-window-line-top-bottom
 (global-set-key (kbd "M-r") 'avy-goto-line)
 
-;; M-a and M-e were used to move by sentence. Meh.
-(global-set-key (kbd "M-a") 'avy-goto-word-or-subword-1)
-;; TODO: make a better use of M-e
-
 ;; Keys in `occur' buffer
 (define-key occur-mode-map "\C-o" nil)
 (define-key occur-mode-map "p" 'occur-prev)
@@ -987,9 +983,10 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; Find recent files (similar to C-x C-d for directories)
 (global-set-key (kbd "C-x C-r") 'my-find-recent-file)
 
-;; `M-s C-r` and `M-s C-s` rock when I want to jump between symbols quickly
+;; Add more useful `M-s ...` commands
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
+(define-key search-map (kbd "M-s") 'avy-goto-word-or-subword-1)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
