@@ -886,6 +886,12 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key my-dired-prefix (kbd "/") 'my-dired-open-working-directory)
 (define-key my-dired-prefix (kbd ".") 'my-dired-at-point)
 
+;; `C-x g` was undefined. Let it be my grepping
+(define-prefix-command 'my-grep-prefix)
+(global-set-key (kbd "C-x g") 'my-grep-prefix)
+(define-key my-grep-prefix (kbd "g") 'my-grep)
+(define-key my-grep-prefix (kbd "/") 'my-grep-working-directory)
+
 ;; Shortcut for C-o C-o
 (global-set-key (kbd "M-o") 'ace-window)
 
@@ -981,10 +987,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 ;; Find recent files (similar to C-x C-d for directories)
 (global-set-key (kbd "C-x C-r") 'my-find-recent-file)
-
-;; `C-x C-g` and `C-x g` were undefined
-(global-set-key (kbd "C-x C-g") 'my-grep-working-directory)
-(global-set-key (kbd "C-x g") 'my-grep)
 
 ;; `M-s C-r` and `M-s C-s` rock when I want to jump between symbols quickly
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
