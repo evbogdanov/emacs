@@ -779,7 +779,10 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (use-package markdown-mode
   :ensure t
   :mode (("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode)))
+         ("\\.markdown\\'" . gfm-mode))
+  :config
+  ;; Disable prompt when I insert ```
+  (define-key gfm-mode-map (kbd "`") nil))
 
 (use-package magit
   :ensure t
