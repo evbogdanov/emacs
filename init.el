@@ -850,6 +850,11 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (define-key js-jsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
   (define-key js-jsx-mode-map (kbd "C-M-e") 'my-move-after-tag))
 
+(use-package typescript-mode
+  :ensure t
+  :config
+  (setq typescript-indent-level 2))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
