@@ -343,6 +343,7 @@ see its code to understand what's going on here."
   "Feed current buffer to some interpreter."
   (let ((modes-and-interpreters '(("js-mode" . "node")
                                   ("ruby-mode" . "ruby")
+                                  ("python-mode" . "python3")
                                   ("sh-mode" . "bash")))
         (interpreter nil))
     (dolist (m-and-i modes-and-interpreters)
