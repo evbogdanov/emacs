@@ -905,6 +905,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 ;; Better 'move-to-window-line-top-bottom
 (global-set-key (kbd "M-r") 'avy-goto-line)
+;; It kinda like C-] in bash
+(global-set-key (kbd "C-]") 'avy-goto-word-or-subword-1)
 
 ;; Keys in `occur' buffer
 (define-key occur-mode-map "\C-o" nil)
@@ -995,7 +997,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; Add more useful `M-s ...` commands
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
-(define-key search-map (kbd "M-s") 'avy-goto-word-or-subword-1)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
