@@ -547,17 +547,18 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (defun my-do-grep (&optional is-working-directory)
   "My own grepping."
+  (when is-working-directory
+    (cd my-working-directory-abs))
   (let* ((input (read-shell-command "Grep: "))
          (wd (if (null is-working-directory) "" my-working-directory))
          (ag "ag --nocolor --nogroup --path-to-ignore ~/github/dotfiles/.ignore_global")
          (maybe-sed (if (null is-working-directory) ""
                       (concat " | sed 's|^" my-working-directory-abs "||'")))
          (cmd (concat ag " " input " " wd maybe-sed))
-         (grep-use-null-device nil) ;; don't append /dev/null to `cmd`'
-         (default-directory (if (null is-working-directory)
-                                default-directory
-                              my-working-directory)))
-    (grep cmd)))
+         (grep-use-null-device nil)) ;; don't append /dev/null to `cmd`'
+    (grep cmd)
+    (switch-to-buffer "*grep*")
+    (delete-other-windows)))
 
 (defun my-grep-working-directory ()
   "Grep files in my working directory."
@@ -875,12 +876,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key my-dired-prefix (kbd "/") 'my-dired-open-working-directory)
 (define-key my-dired-prefix (kbd ".") 'my-dired-at-point)
 
-;; `C-x g` was undefined. Let it be my grepping
-(define-prefix-command 'my-grep-prefix)
-(global-set-key (kbd "C-x g") 'my-grep-prefix)
-(define-key my-grep-prefix (kbd "g") 'my-grep)
-(define-key my-grep-prefix (kbd "/") 'my-grep-working-directory)
-
 ;; Shortcut for C-o C-o
 (global-set-key (kbd "M-o") 'ace-window)
 
@@ -979,6 +974,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 ;; Add more useful `M-s ...` commands
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
+(define-key search-map (kbd "s") 'my-grep)
+(define-key search-map (kbd "M-s") 'my-grep-working-directory)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
