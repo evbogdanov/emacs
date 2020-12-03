@@ -307,6 +307,13 @@ see its code to understand what's going on here."
     (my-mark-line)
     (kill-ring-save (point) (mark))))
 
+(defun my-mark-whole-buffer-and-copy ()
+  "Copy it all!"
+  (interactive)
+  (save-excursion
+    (mark-whole-buffer)
+    (kill-ring-save (point) (mark))))
+
 (defun my-yank-line ()
   "Copy and paste current line."
   (interactive)
@@ -930,7 +937,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (define-key my-mark-key (kbd "l") 'my-mark-line)
 (define-key my-mark-key (kbd "M-l") 'my-mark-line-and-copy)
 (define-key my-mark-key (kbd "p") 'my-mark-paragraph)
-(define-key my-mark-key (kbd "a") 'mark-whole-buffer) ;; aka "select [A]ll"
+(define-key my-mark-key (kbd "a") 'mark-whole-buffer) ;; aka "Mark [A]ll"
+(define-key my-mark-key (kbd "M-a") 'my-mark-whole-buffer-and-copy)
 (define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
 
 ;; In WebStorm, it's called "extend / shrink selection"
