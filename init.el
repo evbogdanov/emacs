@@ -838,6 +838,38 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   :config
   (setq typescript-indent-level 2))
 
+(use-package company
+  :ensure t
+  ;; Uncomment for global Company:
+  ;; :config
+  ;; (add-hook 'after-init-hook 'global-company-mode)
+  )
+
+(use-package flycheck
+  :ensure t
+  ;; Uncomment for global Flycheck:
+  ;; :config
+  ;; (add-hook 'after-init-hook 'global-flycheck-mode)
+  )
+
+(use-package tide
+  :ensure t
+  :config
+  (define-key tide-mode-map (kbd "M-.") nil)
+  (define-key tide-mode-map (kbd "M-,") nil)
+  (define-key tide-mode-map (kbd "C-c C-f") 'tide-jump-to-definition)
+  (define-key tide-mode-map (kbd "C-c C-b") 'tide-jump-back)
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+
+              (company-mode +1)
+              (flycheck-mode +1)
+
+              (setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (eldoc-mode +1)
+              (tide-hl-identifier-mode +1))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
