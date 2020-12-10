@@ -547,8 +547,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (defun my-do-grep (&optional is-working-directory)
   "My own grepping."
-  (when is-working-directory
-    (cd my-working-directory-abs))
   (let* ((input (read-shell-command "Grep: "))
          (wd (if (null is-working-directory) "" my-working-directory))
          (ag "ag --hidden --nocolor --nogroup --path-to-ignore ~/github/dotfiles/.ignore_global")
@@ -556,6 +554,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
                       (concat " | sed 's|^" my-working-directory-abs "||'")))
          (cmd (concat ag " " input " " wd maybe-sed))
          (grep-use-null-device nil)) ;; don't append /dev/null to `cmd`'
+    (when is-working-directory
+      (switch-to-buffer "*grep*")
+      (cd my-working-directory-abs))
     (grep cmd)
     (switch-to-buffer "*grep*")
     (delete-other-windows)))
