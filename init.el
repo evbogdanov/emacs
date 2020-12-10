@@ -836,6 +836,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (use-package typescript-mode
   :ensure t
+  :mode "\\.tsx\\'"
   :config
   (setq typescript-indent-level 2))
 
