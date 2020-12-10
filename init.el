@@ -463,8 +463,16 @@ and refresh it."
   (interactive)
   (join-line 1))
 
+(defun my-find-file-at-point ()
+  "Open the file at point."
+  (interactive)
+  (let ((filename (thing-at-point 'filename)))
+    (if (file-readable-p filename)
+        (find-file filename)
+      (user-error "No such file"))))
+
 (defun my-dired-at-point ()
-  "Open the thing at point inside `dired'"
+  "Open the thing at point inside `dired'."
   (interactive)
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
@@ -817,7 +825,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (use-package css-mode
   :config
-  (setq css-indent-offset 2))
+  (setq css-indent-offset 2)
+  (define-key css-mode-map (kbd "C-c C-f") 'my-find-file-at-point))
 
 (use-package js
   :config
