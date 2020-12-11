@@ -381,27 +381,6 @@ see its code to understand what's going on here."
   (interactive)
   (my-pipe " > " nil nil))
 
-(defun my-move-after-tag ()
-  "Find the next `>` and move point after."
-  (interactive)
-  (loop (forward-char)
-        (if (= (point) (point-max))
-            (return)
-          (let ((ch (string (char-after))))
-            (when (string= ch ">")
-              (forward-char)
-              (return))))))
-
-(defun my-move-beginning-of-tag ()
-  "Find `<` and move point to it."
-  (interactive)
-  (loop (backward-char)
-        (if (= (point) (point-min))
-            (return)
-          (let ((ch (string (char-after))))
-            (when (string= ch "<")
-              (return))))))
-
 (defun my-comment-line ()
   "Comment or uncomment current line and leave point where it was."
   (interactive)
@@ -585,13 +564,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
     (save-match-data
       (goto-char (point-min))
       (search-forward string nil t))))
-
-(defun my-js-mode-activate-jsx ()
-  "Maybe activate JSX inside JS mode."
-  (interactive)
-  (cond ((string= major-mode "js-mode") (js-jsx-mode))
-        ((string= major-mode "js-jsx-mode") (message "You're in JSX mode"))
-        (t (message "Not in JS mode"))))
 
 (defun my-spendings-load-categories ()
   "Load list of spending categories from `my-spendings-categories-file'."
@@ -830,18 +802,8 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
 (use-package js
   :config
-  (add-hook 'js-mode-hook
-            (lambda ()
-              (when (my-buffer-contains-string "import React")
-                (my-js-mode-activate-jsx))))
-
   (setq js-indent-level 2)
-
-  (define-key js-mode-map (kbd "C-c x") 'my-js-mode-activate-jsx)
-  (define-key js-mode-map (kbd "M-.") nil)
-
-  (define-key js-jsx-mode-map (kbd "C-M-a") 'my-move-beginning-of-tag)
-  (define-key js-jsx-mode-map (kbd "C-M-e") 'my-move-after-tag))
+  (define-key js-mode-map (kbd "M-.") nil))
 
 (use-package typescript-mode
   :ensure t
