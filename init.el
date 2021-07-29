@@ -27,7 +27,7 @@
   "Remember the directory where Emacs was started.")
 
 (defvar my-working-directory-abs
-  (concat (getenv "HOME") (substring my-working-directory 1))
+  (file-truename my-working-directory)
   "Absolute path to my working directory.")
 
 (defvar my-spendings-categories nil
@@ -118,7 +118,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Automatically refresh buffers when underlying files are changed externally
-(global-auto-revert-mode t)
+;; !!! Investigate bugs on macOS + FUSE
+;; (global-auto-revert-mode t)
 
 ;; Automatically refresh dired (quietly!)
 (setq global-auto-revert-non-file-buffers t)
@@ -795,21 +796,26 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   ;; Use same keybinding as occur
   (setq wgrep-enable-key "e"))
 
+;; aka html-mode
+(use-package sgml-mode
+  :config
+  (setq sgml-basic-offset 4))
+
 (use-package css-mode
   :config
-  (setq css-indent-offset 2)
+  (setq css-indent-offset 4)
   (define-key css-mode-map (kbd "C-c C-f") 'my-find-file-at-point))
 
 (use-package js
   :config
-  (setq js-indent-level 2)
+  (setq js-indent-level 4)
   (define-key js-mode-map (kbd "M-.") nil))
 
 (use-package typescript-mode
   :ensure t
   :mode "\\.tsx\\'"
   :config
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 4))
 
 (use-package company
   :ensure t
