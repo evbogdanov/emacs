@@ -190,6 +190,10 @@
 ;;; My functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun my-system-is-macos ()
+  "Check if my machine runs under macOS"
+  (eq system-type 'darwin))
+
 (defun my-current-line ()
   "Read current line as a string.
 Note that this also returns any newline at the end of the line."
@@ -737,7 +741,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (setq dired-recursive-copies 'always)
 
   ;; Use `ls` from GNU (get it: `brew install coreutils`)
-  (setq insert-directory-program (executable-find "gls"))
+  (when (my-system-is-macos)
+    (setq insert-directory-program (executable-find "gls")))
+
   ;; By default it's just `-al`, but I really want to list directories first
   (setq dired-listing-switches "-al --group-directories-first")
 
