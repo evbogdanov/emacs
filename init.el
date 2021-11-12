@@ -809,6 +809,7 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 (use-package js
   :config
   (setq js-indent-level 4)
+  (setq js-switch-indent-offset 4)
   (define-key js-mode-map (kbd "M-.") nil))
 
 (use-package typescript-mode
