@@ -361,7 +361,7 @@ see its code to understand what's going on here."
       (when (string= major-mode (car m-and-i))
         (setq interpreter (cdr m-and-i))))
     (if (null interpreter)
-        (error "No interpreter for the major mode")
+        (user-error "No interpreter for the major mode")
       (shell-command-on-region (point-min)
                                (point-max)
                                interpreter))))
@@ -619,6 +619,46 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (isearch-repeat-forward))
 
 
+(defun my-markdown-insert-code-block ()
+  "Insert code block without asking the programming language."
+  (interactive)
+  (markdown-insert-gfm-code-block ""))
+
+(defun my-markdown-insert-heading (level)
+  "Insert heading of a given level."
+
+  (markdown-insert-header level nil nil)
+
+  ;; Markdown formats headings like:
+  ;; # Level 1 #
+  ;; ## Level 2 ##
+  ;; ### Level 3 ###
+  ;; Let's delete trailing `#` chars
+  (end-of-line)
+  (search-backward " #")
+  (zap-to-char level ?#))
+
+(defun my-markdown-insert-heading-1 ()
+  "Insert heading level 1."
+  (interactive)
+  (my-markdown-insert-heading 1))
+
+(defun my-markdown-insert-heading-2 ()
+  "Insert heading level 2."
+  (interactive)
+  (my-markdown-insert-heading 2))
+
+(defun my-markdown-insert-heading-3 ()
+  "Insert heading level 3."
+  (interactive)
+  (my-markdown-insert-heading 3))
+
+(defun my-markdown-insert-heading-4 ()
+  "Insert heading level 4."
+  (interactive)
+  (my-markdown-insert-heading 4))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -758,8 +798,17 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  ;; Disable prompt when I insert ```
-  (define-key gfm-mode-map (kbd "`") nil))
+  (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
+  (define-key gfm-mode-map (kbd "M-RET") nil)
+  (define-key gfm-mode-map (kbd "C-c 1") 'my-markdown-insert-heading-1)
+  (define-key gfm-mode-map (kbd "C-c 2") 'my-markdown-insert-heading-2)
+  (define-key gfm-mode-map (kbd "C-c 3") 'my-markdown-insert-heading-3)
+  (define-key gfm-mode-map (kbd "C-c 4") 'my-markdown-insert-heading-4)
+  (define-key gfm-mode-map (kbd "C-c b") 'markdown-insert-bold)
+  (define-key gfm-mode-map (kbd "C-c c") 'markdown-insert-code)
+  (define-key gfm-mode-map (kbd "C-c `") 'my-markdown-insert-code-block)
+  (define-key gfm-mode-map (kbd "C-c [") 'markdown-insert-gfm-checkbox)
+  (define-key gfm-mode-map (kbd "C-c x") 'markdown-toggle-gfm-checkbox))
 
 (use-package magit
   :ensure t
