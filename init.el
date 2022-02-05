@@ -730,10 +730,12 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   :config
   (setq-default neo-show-hidden-files t)
   (setq-default neo-theme 'ascii)
-  (define-key neotree-mode-map (kbd "F") 'neotree-change-root)
+
+  (define-key neotree-mode-map (kbd "s") 'my-grep)
+  (define-key neotree-mode-map (kbd ".") 'neotree-change-root)
   (define-key neotree-mode-map (kbd "f")
     (neotree-make-executor :file-fn 'neo-open-file
-                           :dir-fn  'neo-open-dir))
+                           :dir-fn  'neo-open-dired))
   (define-key neotree-mode-map (kbd "b") 'neotree-select-up-node)
 
   ;; Magit style:
@@ -756,6 +758,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
 
   ;; Open files and directories right in the dired buffer
   (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; Search faster!
+  (define-key dired-mode-map (kbd "s") 'my-grep)
 
   ;; Don't mess with my keybindings
   (define-key dired-mode-map (kbd "C-o") nil)
