@@ -585,13 +585,11 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (markdown-insert-header level nil nil)
 
   ;; Markdown formats headings like:
-  ;; # Level 1 #
-  ;; ## Level 2 ##
   ;; ### Level 3 ###
   ;; Let's delete trailing `#` chars
   (end-of-line)
   (search-backward " #")
-  (zap-to-char level ?#))
+  (delete-char (1+ level)))
 
 (defun my-markdown-insert-heading-1 ()
   "Insert heading level 1."
