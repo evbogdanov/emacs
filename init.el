@@ -656,9 +656,8 @@ http://ru-emacs.livejournal.com/83575.html"
 ;;; Setup my keyboard
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(if (my-system-is-macos)
-    (my-setup-mac-keyboard)
-  (setq default-input-method "russian-computer"))
+;; Use (setq default-input-method "russian-computer") on Linux machine
+(my-setup-mac-keyboard)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
