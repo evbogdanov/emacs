@@ -733,7 +733,7 @@ http://ru-emacs.livejournal.com/83575.html"
   (setq-default neo-theme 'ascii)
 
   (define-key neotree-mode-map (kbd "s") 'my-grep)
-  (define-key neotree-mode-map (kbd ".") 'neotree-change-root)
+  (define-key neotree-mode-map (kbd "F") 'neotree-change-root)
   (define-key neotree-mode-map (kbd "f")
     (neotree-make-executor :file-fn 'neo-open-file
                            :dir-fn  'neo-open-dired))
