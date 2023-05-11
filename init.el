@@ -60,6 +60,9 @@
 ;; Fat-free yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Disable lock files (ones that look like .#filename)
+(setq create-lockfiles nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tabs and spaces
