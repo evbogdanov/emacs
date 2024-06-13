@@ -13,3 +13,4 @@ playground.exs
 transient/
 dired-history
 flycheck_init.el
+tramp
