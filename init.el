@@ -807,12 +807,14 @@ http://ru-emacs.livejournal.com/83575.html"
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
+  (setq markdown-disable-tooltip-prompt t)
   (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
   (define-key gfm-mode-map (kbd "M-RET") nil)
   (define-key gfm-mode-map (kbd "C-c 1") 'my-markdown-insert-heading-1)
   (define-key gfm-mode-map (kbd "C-c 2") 'my-markdown-insert-heading-2)
   (define-key gfm-mode-map (kbd "C-c 3") 'my-markdown-insert-heading-3)
   (define-key gfm-mode-map (kbd "C-c 4") 'my-markdown-insert-heading-4)
+  (define-key gfm-mode-map (kbd "C-c l") 'markdown-insert-link)
   (define-key gfm-mode-map (kbd "C-c b") 'markdown-insert-bold)
   (define-key gfm-mode-map (kbd "C-c c") 'markdown-insert-code)
   (define-key gfm-mode-map (kbd "C-c `") 'my-markdown-insert-code-block)
