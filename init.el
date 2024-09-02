@@ -810,6 +810,7 @@ http://ru-emacs.livejournal.com/83575.html"
   (setq markdown-disable-tooltip-prompt t)
   (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
   (define-key gfm-mode-map (kbd "M-RET") nil)
+  (define-key gfm-mode-map (kbd "C-c C-f") 'my-find-file-at-point)
   (define-key gfm-mode-map (kbd "C-c 1") 'my-markdown-insert-heading-1)
   (define-key gfm-mode-map (kbd "C-c 2") 'my-markdown-insert-heading-2)
   (define-key gfm-mode-map (kbd "C-c 3") 'my-markdown-insert-heading-3)
