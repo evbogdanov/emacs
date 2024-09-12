@@ -576,7 +576,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (isearch-forward-symbol-at-point)
   (isearch-repeat-forward))
 
-
 (defun my-markdown-insert-code-block ()
   "Insert code block without asking the programming language."
   (interactive)
@@ -613,6 +612,12 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   "Insert heading level 4."
   (interactive)
   (my-markdown-insert-heading 4))
+
+(defun my-revert-buffer-without-confirmation ()
+  "Revert buffer and don't make me confirm it."
+  (interactive)
+  (revert-buffer nil t)
+  (message (format "Reverted: %s" (buffer-name))))
 
 (defun my-setup-mac-keyboard ()
   "`russian-computer' doesn't work flawlessly with mac keyboard:
@@ -928,6 +933,10 @@ http://ru-emacs.livejournal.com/83575.html"
 
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; Unset key bindings starting with `C-x r`'. Use it for buffer reverting.
+(keymap-global-unset "C-x r")
+(global-set-key (kbd "C-x r") 'my-revert-buffer-without-confirmation)
 
 ;; Stuff in other window
 (define-prefix-command 'my-other-win-prefix)
