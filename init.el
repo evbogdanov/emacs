@@ -30,15 +30,6 @@
   (file-truename my-working-directory)
   "Absolute path to my working directory.")
 
-(defvar my-spendings-categories nil
-  "List of spending categories.")
-
-(defvar my-spendings-categories-file "~/Dropbox/spendings/list-of-categories"
-  "Where to load spending categories from.")
-
-(defvar my-spendings-file "~/Dropbox/spendings/spendings.js"
-  "Where my spendings are.")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -527,41 +518,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
     (save-match-data
       (goto-char (point-min))
       (search-forward string nil t))))
-
-(defun my-spendings-load-categories ()
-  "Load list of spending categories from `my-spendings-categories-file'."
-  (interactive)
-  (when (file-readable-p my-spendings-categories-file)
-    (with-temp-buffer
-      (insert-file-contents my-spendings-categories-file)
-      (goto-char (point-min))
-      (setq my-spendings-categories (read (current-buffer))))))
-
-(defun my-spendings-select-category ()
-  "Select spending category."
-  (when (null my-spendings-categories)
-    (my-spendings-load-categories))
-  (ido-completing-read "Category: " my-spendings-categories))
-
-(defun my-spendings-add ()
-  "Add a new entry to the list of spendings."
-  (interactive)
-  (let ((date (read-from-minibuffer "Date: " (format-time-string "%Y-%m-%d")))
-        (money (read-from-minibuffer "Money: "))
-        (category (my-spendings-select-category))
-        (notes (read-from-minibuffer "Notes: ")))
-    (find-file my-spendings-file)
-    (end-of-buffer)
-    (search-backward "]")
-    (move-beginning-of-line 1)
-    (insert (concat "  {
-    date: '" date "',
-    money: " money ",
-    category: " category ",
-    notes: '" notes "',
-  },
-"))
-    (save-buffer)))
 
 (defun my-start-searching-symbol-at-point-backward ()
   "Start searching symbol at point backward."
