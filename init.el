@@ -17,6 +17,12 @@
 ;;; My variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar my-default-paragraph-start paragraph-start
+  "Save default `paragraph-start' for later usage in `gfm-mode'")
+
+(defvar my-default-paragraph-separate paragraph-separate
+  "Save default `paragraph-separate' for later usage in `gfm-mode'")
+
 (defvar my-var-ace-avy-keys (number-sequence ?a ?z)
   "The same keys for `ace-window' and `avy'.")
 
@@ -768,7 +774,16 @@ http://ru-emacs.livejournal.com/83575.html"
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  (setq markdown-disable-tooltip-prompt t)
+  (add-hook 'gfm-mode-hook (lambda ()
+                             (setq markdown-disable-tooltip-prompt t
+                                   ;; Restore default paragraph variables
+                                   paragraph-start my-default-paragraph-start
+                                   paragraph-separate my-default-paragraph-separate)))
+  ;; I don't want custom `backward-paragraph' and `forward-paragraph'.
+  ;; Defaults are the best
+  (define-key gfm-mode-map [remap backward-paragraph] nil)
+  (define-key gfm-mode-map [remap forward-paragraph] nil)
+
   (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
   (define-key gfm-mode-map (kbd "M-RET") nil)
   (define-key gfm-mode-map (kbd "C-c C-f") 'my-find-file-at-point)
