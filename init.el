@@ -539,9 +539,19 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (isearch-repeat-forward))
 
 (defun my-markdown-insert-code-block ()
-  "Insert code block without asking the programming language."
+  "`markdown-insert-gfm-code-block' is overkill for my typical usage.
+I want something simpler."
   (interactive)
-  (markdown-insert-gfm-code-block ""))
+  (save-excursion
+    (let ((has-selected-code nil))
+      (when (use-region-p)
+        (setq has-selected-code t)
+        (kill-region (region-beginning) (region-end)))
+      (insert "```\n")
+      (when has-selected-code
+        (yank))
+      (insert "\n```")))
+  (next-line))
 
 (defun my-markdown-insert-heading (level)
   "Insert heading of a given level."
