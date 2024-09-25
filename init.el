@@ -873,10 +873,8 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package company
   :ensure t
-  ;; Uncomment for global Company:
-  ;; :config
-  ;; (add-hook 'after-init-hook 'global-company-mode)
-  )
+  :hook
+  (emacs-lisp-mode . company-mode))
 
 (use-package flycheck
   :ensure t
