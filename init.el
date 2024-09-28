@@ -198,11 +198,15 @@ Return `t` or `nil` as appropriate."
         ((null comment-start) (my-heading-with-symbol ?#))
         (t (my-heading-with-symbol (aref comment-start 0)))))
 
-(defun my-str-join (words)
-  "Good old words join like in many other programming languages."
-  (cl-reduce
-   (lambda (w1 w2) (concat w1 " " w2))
-   words))
+(defun my-str-join (list-of-strings &optional separator)
+  "Create a string by concatenating all of the elements in the list,
+separated by spaces or a specified SEPARATOR."
+  (let ((separator (or separator " "))
+        (first-string (car list-of-strings))
+        (rest-strings (cdr list-of-strings)))
+    (concat (or first-string "")
+            (if rest-strings separator "")
+            (if rest-strings (my-str-join rest-strings separator) ""))))
 
 (defun my-str-kill-last-word (str)
   "Return string without last word."
@@ -352,12 +356,11 @@ see its code to understand what's going on here."
   (ace-window 4))
 
 (defun my-windmove-furthest (dir)
-  "Select the furthest window to the 'left, 'right, 'up or 'down."
-  (let (other-window)
-    (cl-loop (setq other-window (windmove-find-other-window dir))
-             (if (null other-window)
-                 (cl-return)
-               (windmove-do-window-select dir)))))
+  "Select the furthest window to the `left', `right', `up' or `down'."
+  (let ((other-window (windmove-find-other-window dir)))
+    (unless (null other-window)
+      (windmove-do-window-select dir)
+      (my-windmove-furthest dir))))
 
 (defun my-windmove-leftmost ()
   "Select the leftmost window."
