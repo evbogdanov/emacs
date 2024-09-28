@@ -810,10 +810,7 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package magit
   :ensure t
-  :bind (("C-x m" . magit-status))
-  :config
-  ;; Magit wants `C-x g` to show me git status. I don't think so.
-  (define-key magit-file-mode-map (kbd "C-x g") nil))
+  :bind (("C-x m" . magit-status)))
 
 ;; Tweak `grep' (which is built on top of `compile' mode)
 (use-package compile
