@@ -647,6 +647,11 @@ http://ru-emacs.livejournal.com/83575.html"
 ;;; Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package calendar
+  :config
+  ;; Weeks in `calendar' should start on Monday
+  (setq calendar-week-start-day 1))
+
 (use-package osx-clipboard
   :ensure t
   :config
