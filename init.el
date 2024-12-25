@@ -906,6 +906,9 @@ http://ru-emacs.livejournal.com/83575.html"
               (eldoc-mode +1)
               (tide-hl-identifier-mode +1))))
 
+(use-package rust-mode
+  :ensure t)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
