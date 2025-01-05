@@ -820,9 +820,11 @@ http://ru-emacs.livejournal.com/83575.html"
   :ensure t
   :bind (("C-x m" . magit-status)))
 
-;; Tweak `grep' (which is built on top of `compile' mode)
 (use-package compile
   :config
+  (define-key compilation-mode-map "\C-o" nil)
+
+  ;; Tweak `grep' (which is built on top of `compile' mode)
   (define-key compilation-minor-mode-map "\C-o" nil)
   (define-key compilation-minor-mode-map "o" 'compilation-display-error))
 
