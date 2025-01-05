@@ -822,7 +822,8 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package compile
   :config
-  (setq compilation-always-kill t)
+  (setq compilation-always-kill t
+        compilation-ask-about-save nil)
   (define-key compilation-mode-map "\C-o" nil)
 
   ;; Tweak `grep' (which is built on top of `compile' mode)
@@ -910,7 +911,18 @@ http://ru-emacs.livejournal.com/83575.html"
               (tide-hl-identifier-mode +1))))
 
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  :config
+  (define-key rust-mode-map (kbd "C-c C-f") 'xref-find-definitions)
+  (define-key rust-mode-map (kbd "C-c C-b") '  xref-go-back)
+  (define-key rust-mode-map (kbd "C-x p") 'rust-format-buffer)
+  (define-key rust-mode-map (kbd "M-RET") 'rust-run)
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (eglot-ensure)
+              (company-mode +1)
+              (flycheck-mode +1)
+              (eldoc-mode +1))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
