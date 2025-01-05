@@ -822,6 +822,7 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package compile
   :config
+  (setq compilation-always-kill t)
   (define-key compilation-mode-map "\C-o" nil)
 
   ;; Tweak `grep' (which is built on top of `compile' mode)
