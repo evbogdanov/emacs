@@ -811,6 +811,7 @@ http://ru-emacs.livejournal.com/83575.html"
   (define-key gfm-mode-map (kbd "C-c 4") 'my-markdown-insert-heading-4)
   (define-key gfm-mode-map (kbd "C-c l") 'markdown-insert-link)
   (define-key gfm-mode-map (kbd "C-c b") 'markdown-insert-bold)
+  (define-key gfm-mode-map (kbd "C-c i") 'markdown-insert-italic)
   (define-key gfm-mode-map (kbd "C-c c") 'markdown-insert-code)
   (define-key gfm-mode-map (kbd "C-c `") 'my-markdown-insert-code-block)
   (define-key gfm-mode-map (kbd "C-c [") 'markdown-insert-gfm-checkbox)
