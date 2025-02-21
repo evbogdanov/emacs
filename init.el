@@ -911,6 +911,11 @@ http://ru-emacs.livejournal.com/83575.html"
               (eldoc-mode +1)
               (tide-hl-identifier-mode +1))))
 
+(use-package prettier-js
+  :ensure t
+  :hook ((js-mode . prettier-js-mode)
+         (typescript-mode . prettier-js-mode)))
+
 (use-package rust-mode
   :ensure t
   :config
