@@ -499,10 +499,10 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   "My own grepping."
   (let* ((input (read-shell-command "Grep: "))
          (wd (if (null is-working-directory) "" my-working-directory))
-         (ag "ag --hidden --nocolor --nogroup --path-to-ignore ~/github/dotfiles/.ignore_global")
+         (ripgrep "rg --color=never --no-heading --line-number --smart-case")
          (maybe-sed (if (null is-working-directory) ""
                       (concat " | sed 's|^" my-working-directory-abs "||'")))
-         (cmd (concat ag " " input " " wd maybe-sed))
+         (cmd (concat ripgrep " " input " " wd maybe-sed))
          (grep-use-null-device nil)) ;; don't append /dev/null to `cmd`'
     (when is-working-directory
       (switch-to-buffer "*grep*")
