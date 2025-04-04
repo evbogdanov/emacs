@@ -4,6 +4,7 @@ auto-save-list/*
 bak/*
 elpa/*
 eshell/*
+eln-cache/
 games/*
 ido.last
 smex-items

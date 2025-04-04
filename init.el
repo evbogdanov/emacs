@@ -41,8 +41,10 @@
 ;;; Naked Emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Hide top menu
+;; Hide top menu and toolbar
 (menu-bar-mode 0)
+(tool-bar-mode -1)
+
 
 ;; Hide welcome screen
 (setq inhibit-startup-screen t)
