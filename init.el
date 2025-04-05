@@ -1040,6 +1040,8 @@ http://ru-emacs.livejournal.com/83575.html"
 (global-set-key (kbd "C-x C-t") 'my-transpose-lines) ; was `transpose-lines`
 (global-set-key (kbd "ESC <down>") 'my-move-line-down)
 (global-set-key (kbd "ESC <up>") 'my-move-line-up)
+(global-set-key (kbd "M-<down>") 'my-move-line-down)
+(global-set-key (kbd "M-<up>") 'my-move-line-up)
 
 ;; Join line
 (global-set-key (kbd "M-j") 'my-join-line)
