@@ -120,8 +120,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Automatically refresh buffers when underlying files are changed externally
-;; !!! Investigate bugs on macOS + FUSE
-;; (global-auto-revert-mode t)
+(global-auto-revert-mode t)
 
 ;; Automatically refresh dired (quietly!)
 (setq global-auto-revert-non-file-buffers t)
