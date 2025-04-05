@@ -916,11 +916,12 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package prettier-js
   :ensure t
-  :hook ((js-mode . prettier-js-mode)
-         (typescript-mode . prettier-js-mode))
-  :config
-  (define-key js-mode-map (kbd "C-x f") 'prettier-js)
-  (define-key typescript-mode-map (kbd "C-x f") 'prettier-js))
+  :hook ((js-mode . (lambda ()
+                      (prettier-js-mode 1)
+                      (define-key js-mode-map (kbd "C-x f") 'prettier-js)))
+         (typescript-mode . (lambda ()
+                              (prettier-js-mode 1)
+                              (define-key typescript-mode-map (kbd "C-x f") 'prettier-js)))))
 
 (use-package rust-mode
   :ensure t
