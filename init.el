@@ -468,8 +468,9 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
     ;; Switch back to 'class'
     (setq emmet-expand-jsx-className? nil)))
 
-(defun my-prettify-buffer ()
-  "Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
+(defun my-format-buffer ()
+  "Simple formatting.
+Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
   (interactive)
   (untabify (point-min) (point-max))
   (delete-trailing-whitespace)
@@ -916,14 +917,17 @@ http://ru-emacs.livejournal.com/83575.html"
 (use-package prettier-js
   :ensure t
   :hook ((js-mode . prettier-js-mode)
-         (typescript-mode . prettier-js-mode)))
+         (typescript-mode . prettier-js-mode))
+  :config
+  (define-key js-mode-map (kbd "C-x f") 'prettier-js)
+  (define-key typescript-mode-map (kbd "C-x f") 'prettier-js))
 
 (use-package rust-mode
   :ensure t
   :config
   (define-key rust-mode-map (kbd "C-c C-f") 'xref-find-definitions)
   (define-key rust-mode-map (kbd "C-c C-b") '  xref-go-back)
-  (define-key rust-mode-map (kbd "C-x p") 'rust-format-buffer)
+  (define-key rust-mode-map (kbd "C-x f") 'rust-format-buffer)
   (define-key rust-mode-map (kbd "M-RET") 'rust-run)
   (add-hook 'rust-mode-hook
             (lambda ()
@@ -994,7 +998,7 @@ http://ru-emacs.livejournal.com/83575.html"
 (global-set-key (kbd "C-x C-h") 'my-heading)
 
 ;; Prettify code
-(global-set-key (kbd "C-x p") 'my-prettify-buffer)
+(global-set-key (kbd "C-x f") 'my-format-buffer)
 
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
