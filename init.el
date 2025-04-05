@@ -1059,10 +1059,6 @@ http://ru-emacs.livejournal.com/83575.html"
 (global-set-key (kbd "M-j") 'my-join-line)
 (global-set-key (kbd "M-J") 'join-line)
 
-;; macOS-like behaviour of Fn+Left/Right arrows
-(global-set-key (kbd "<home>") 'beginning-of-buffer)
-(global-set-key (kbd "<end>") 'end-of-buffer)
-
 ;; `hippie-expand' instead of `dabbrev-expand'
 (setq hippie-expand-try-functions-list '(try-expand-dabbrev
                                          try-expand-dabbrev-all-buffers
