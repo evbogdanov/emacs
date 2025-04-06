@@ -854,13 +854,18 @@ http://ru-emacs.livejournal.com/83575.html"
 (use-package recentf
   :init (recentf-mode t)
   :config
-  (setq recentf-max-saved-items 500))
+  (setq recentf-max-saved-items 5000)
+
+  ;; Don't show me symlinked files inside ~/.emacs.d/ directory
+  (when (and (boundp 'recentf-list) recentf-list) ; non-nil, non-empty
+    (setq recentf-list
+          (seq-remove (lambda (elem) (string-match-p "/.emacs.d/" elem)) recentf-list))))
 
 (use-package dired-recent
   :ensure t
   :init (dired-recent-mode 1)
   :config
-  (setq dired-recent-max-directories 500)
+  (setq dired-recent-max-directories 5000)
   (define-key dired-recent-mode-map (kbd "C-x C-d") 'my-find-recent-dir))
 
 (use-package yaml-mode
