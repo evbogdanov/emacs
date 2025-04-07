@@ -722,10 +722,10 @@ http://ru-emacs.livejournal.com/83575.html"
   :ensure t
   :config
   (setq emmet-self-closing-tag-style my-var-self-closing-tag-style)
-  (add-hook 'sgml-mode-hook 'emmet-mode)
-  (add-hook 'css-mode-hook  'emmet-mode)
-  (add-hook 'js-jsx-mode-hook 'emmet-mode)
-  (define-key emmet-mode-keymap (kbd "C-j") 'my-emmet-expand-line))
+  (define-key emmet-mode-keymap (kbd "C-j") 'my-emmet-expand-line)
+  :hook ((sgml-mode . emmet-mode)
+         (css-mode . emmet-mode)
+         (js-json-mode . emmet-mode)))
 
 (use-package neotree
   :ensure t
@@ -902,7 +902,8 @@ http://ru-emacs.livejournal.com/83575.html"
 (use-package company
   :ensure t
   :hook
-  (emacs-lisp-mode . company-mode))
+  ((emacs-lisp-mode . company-mode)
+   (css-mode . company-mode)))
 
 (use-package flycheck
   :ensure t
@@ -945,12 +946,12 @@ http://ru-emacs.livejournal.com/83575.html"
   (define-key rust-mode-map (kbd "C-c C-b") '  xref-go-back)
   (define-key rust-mode-map (kbd "C-x f") 'rust-format-buffer)
   (define-key rust-mode-map (kbd "M-RET") 'rust-run)
-  (add-hook 'rust-mode-hook
-            (lambda ()
-              (eglot-ensure)
-              (company-mode +1)
-              (flycheck-mode +1)
-              (eldoc-mode +1))))
+  :hook
+  (rust-mode . (lambda ()
+                 (eglot-ensure)
+                 (company-mode +1)
+                 (flycheck-mode +1)
+                 (eldoc-mode +1))))
 
 ;; To make it work I had to "brew install cmake; brew install libtool"
 (use-package vterm
