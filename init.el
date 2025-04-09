@@ -641,6 +641,16 @@ http://ru-emacs.livejournal.com/83575.html"
 
   (setq default-input-method "my-russian-computer"))
 
+(defun my-deepseek ()
+  "Make deepseek buffer. If there's one, switch to it."
+  (interactive)
+  (let* ((deepseek-buffer-name "*deepseek*")
+         (is-deepseek-buffer-created (get-buffer deepseek-buffer-name)))
+    (switch-to-buffer (get-buffer-create deepseek-buffer-name))
+    (unless is-deepseek-buffer-created
+      (gfm-mode)
+      (gptel-mode))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -1105,6 +1115,15 @@ http://ru-emacs.livejournal.com/83575.html"
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
 (define-key search-map (kbd "s") 'my-grep)
 (define-key search-map (kbd "M-s") 'my-grep-working-directory)
+
+(use-package gptel
+  :ensure t
+  :config
+  (setq gptel-model 'deepseek-chat
+        gptel-backend (gptel-make-deepseek "DeepSeek"
+                        :stream t
+                        :key (getenv "DEEPSEEK_API_KEY")))
+  (global-set-key (kbd "s-d") 'my-deepseek))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
