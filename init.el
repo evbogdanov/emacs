@@ -1125,6 +1125,9 @@ http://ru-emacs.livejournal.com/83575.html"
 (define-key search-map (kbd "s") 'my-grep)
 (define-key search-map (kbd "M-s") 'my-grep-working-directory)
 
+;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
+(global-set-key (kbd "C--") 'undo)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The end
