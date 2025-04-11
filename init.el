@@ -975,6 +975,15 @@ http://ru-emacs.livejournal.com/83575.html"
   :ensure t
   :after vterm)
 
+(use-package gptel
+  :ensure t
+  :config
+  (setq gptel-model 'deepseek-chat
+        gptel-backend (gptel-make-deepseek "DeepSeek"
+                        :stream t
+                        :key (getenv "DEEPSEEK_API_KEY")))
+  (global-set-key (kbd "s-d") 'my-deepseek))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Keys
@@ -1115,15 +1124,6 @@ http://ru-emacs.livejournal.com/83575.html"
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
 (define-key search-map (kbd "s") 'my-grep)
 (define-key search-map (kbd "M-s") 'my-grep-working-directory)
-
-(use-package gptel
-  :ensure t
-  :config
-  (setq gptel-model 'deepseek-chat
-        gptel-backend (gptel-make-deepseek "DeepSeek"
-                        :stream t
-                        :key (getenv "DEEPSEEK_API_KEY")))
-  (global-set-key (kbd "s-d") 'my-deepseek))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
