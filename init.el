@@ -761,13 +761,10 @@ http://ru-emacs.livejournal.com/83575.html"
   (define-key neotree-mode-map (kbd "D") 'neotree-delete-node))
 
 (use-package dired
-  :config
-  (add-hook 'dired-mode-hook
-            (lambda ()
-              ;; I'm sick and tired of hiding details manually by pressing `('
-              ;; all the time. Dired, please hide details for me.
-              (dired-hide-details-mode)))
+  :hook
+  (dired-mode . dired-hide-details-mode)
 
+  :config
   ;; Open files and directories right in the dired buffer
   (put 'dired-find-alternate-file 'disabled nil)
 
@@ -812,14 +809,18 @@ http://ru-emacs.livejournal.com/83575.html"
 
 (use-package markdown-mode
   :ensure t
+
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
+
+  :hook
+  (gfm-mode . (lambda ()
+                (setq markdown-disable-tooltip-prompt t
+                      ;; Restore default paragraph variables
+                      paragraph-start my-default-paragraph-start
+                      paragraph-separate my-default-paragraph-separate)))
+
   :config
-  (add-hook 'gfm-mode-hook (lambda ()
-                             (setq markdown-disable-tooltip-prompt t
-                                   ;; Restore default paragraph variables
-                                   paragraph-start my-default-paragraph-start
-                                   paragraph-separate my-default-paragraph-separate)))
   ;; I don't want custom `backward-paragraph' and `forward-paragraph'.
   ;; Defaults are the best
   (define-key gfm-mode-map [remap backward-paragraph] nil)
@@ -916,29 +917,25 @@ http://ru-emacs.livejournal.com/83575.html"
    (css-mode . company-mode)))
 
 (use-package flycheck
-  :ensure t
-  ;; Uncomment for global Flycheck:
-  ;; :config
-  ;; (add-hook 'after-init-hook 'global-flycheck-mode)
-  )
+  :ensure t)
 
 (use-package tide
   :ensure t
+
   :config
   (define-key tide-mode-map (kbd "M-.") nil)
   (define-key tide-mode-map (kbd "M-,") nil)
   (define-key tide-mode-map (kbd "C-c C-f") 'tide-jump-to-definition)
   (define-key tide-mode-map (kbd "C-c C-b") 'tide-jump-back)
-  (add-hook 'typescript-mode-hook
-            (lambda ()
-              (tide-setup)
 
-              (company-mode +1)
-              (flycheck-mode +1)
-
-              (setq flycheck-check-syntax-automatically '(save mode-enabled))
-              (eldoc-mode +1)
-              (tide-hl-identifier-mode +1))))
+  :hook
+  (typescript-mode . (lambda ()
+                       (tide-setup)
+                       (company-mode +1)
+                       (flycheck-mode +1)
+                       (setq flycheck-check-syntax-automatically '(save mode-enabled))
+                       (eldoc-mode +1)
+                       (tide-hl-identifier-mode +1))))
 
 (use-package prettier-js
   :ensure t
