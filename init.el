@@ -966,7 +966,8 @@ http://ru-emacs.livejournal.com/83575.html"
   :config
   (setq vterm-shell "/bin/bash")
   (setq vterm-max-scrollback 50000)
-  (define-key vterm-mode-map (kbd "C-o") nil))
+  (define-key vterm-mode-map (kbd "C-o") nil)
+  (define-key vterm-mode-map (kbd "C-\\") nil))
 
 (use-package multi-vterm
   :ensure t
