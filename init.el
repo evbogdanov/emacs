@@ -325,11 +325,11 @@ see its code to understand what's going on here."
     (dolist (m-and-i modes-and-interpreters)
       (when (string= major-mode (car m-and-i))
         (setq interpreter (cdr m-and-i))))
-    (if (null interpreter)
-        (user-error "No interpreter for the major mode")
-      (shell-command-on-region (point-min)
-                               (point-max)
-                               interpreter))))
+    (unless interpreter
+      (user-error "No interpreter for the major mode"))
+    (shell-command-on-region (point-min)
+                             (point-max)
+                             interpreter)))
 
 (defun my-pipe (prompt output-buffer replace)
   "Pipe a whole buffer if no selection. Otherwise pipe just a selected region."
@@ -383,9 +383,9 @@ see its code to understand what's going on here."
 and refresh it."
   (interactive)
   (my-windmove-leftmost)
-  (if (string= (buffer-name) " *NeoTree*")
-      (neotree-refresh)
-    (user-error "No buffer called NeoTree")))
+  (unless (string= (buffer-name) " *NeoTree*")
+    (user-error "No buffer called NeoTree"))
+  (neotree-refresh))
 
 (defun my-move-line (direction previous-line-n-times)
   "Do line moving."
@@ -415,9 +415,9 @@ and refresh it."
   "Open the file at point."
   (interactive)
   (let ((filename (thing-at-point 'filename)))
-    (if (file-readable-p filename)
-        (find-file filename)
-      (user-error "No such file"))))
+    (unless (file-readable-p filename)
+      (user-error "No such file"))
+    (find-file filename)))
 
 (defun my-dired-at-point ()
   "Open the thing at point inside `dired'."
