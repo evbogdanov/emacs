@@ -378,7 +378,7 @@ see its code to understand what's going on here."
   (interactive)
   (my-windmove-furthest 'right))
 
-(defun my-move-to-neotree-and-refresh ()
+(defun my-neotree-refresh ()
   "Select the window containing Neotree buffer (the leftmost one)
 and refresh it."
   (interactive)
@@ -386,6 +386,15 @@ and refresh it."
   (unless (string= (buffer-name) " *NeoTree*")
     (user-error "No buffer called NeoTree"))
   (neotree-refresh))
+
+(defun my-neotree-open-current-file-directory ()
+  "Open `neotree' in the current file's directory.
+Inside `neotree' jump to the current file."
+  (interactive)
+  (let ((current-file (buffer-file-name)))
+    (unless current-file
+      (user-error "Directory for the current file not found"))
+    (neotree-find current-file)))
 
 (defun my-move-line (direction previous-line-n-times)
   "Do line moving."
@@ -1014,7 +1023,8 @@ http://ru-emacs.livejournal.com/83575.html"
 (define-key my-other-win-prefix (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
-(define-key my-other-win-prefix (kbd "C-t") 'my-move-to-neotree-and-refresh)
+(define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
+(define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
 
 ;; Open different things in Dired
