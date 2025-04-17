@@ -517,12 +517,15 @@ Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
          (grep-cmd (concat ripgrep-cmd " " what-to-search))
          (grep-buf-name "*grep*")
          (grep-buf (get-buffer-create grep-buf-name))
-         (grep-use-null-device nil)) ;; don't append /dev/null to `cmd`'
+         (grep-use-null-device nil) ;; don't append /dev/null to `cmd`'
+         (saved-default-directory default-directory))
 
     (with-current-buffer grep-buf
-      (when (and (stringp where-to-search)
-                 (file-directory-p where-to-search))
-        (setq default-directory where-to-search))
+      (setq default-directory
+            (if (and (stringp where-to-search)
+                     (file-directory-p where-to-search))
+                where-to-search
+              saved-default-directory))
       (grep grep-cmd))
 
     (switch-to-buffer grep-buf)
