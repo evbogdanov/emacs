@@ -511,31 +511,28 @@ Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
   (interactive)
   (dired (ido-completing-read "Recent directory: " dired-recent-directories)))
 
-(defun my-do-grep (&optional is-working-directory)
-  "My own grepping."
-  (let* ((input (read-shell-command "Grep: "))
-         (wd (if (null is-working-directory) "" my-working-directory))
-         (ripgrep "rg --color=never --no-heading --line-number --smart-case")
-         (maybe-sed (if (null is-working-directory) ""
-                      (concat " | sed 's|^" my-working-directory-abs "||'")))
-         (cmd (concat ripgrep " " input " " wd maybe-sed))
+(defun my-grep (what-to-search &optional where-to-search)
+  "Search files using ripgrep."
+  (let* ((ripgrep-cmd "rg --color=never --no-heading --line-number --smart-case")
+         (grep-cmd (concat ripgrep-cmd " " what-to-search))
+         (grep-buf-name "*grep*")
+         (grep-buf (get-buffer-create grep-buf-name))
          (grep-use-null-device nil)) ;; don't append /dev/null to `cmd`'
-    (when is-working-directory
-      (switch-to-buffer "*grep*")
-      (cd my-working-directory-abs))
-    (grep cmd)
-    (switch-to-buffer "*grep*")
+
+    (with-current-buffer grep-buf
+      (when (and (stringp where-to-search)
+                 (file-directory-p where-to-search))
+        (setq default-directory where-to-search))
+      (grep grep-cmd))
+
+    (switch-to-buffer grep-buf)
     (delete-other-windows)))
 
-(defun my-grep-working-directory ()
-  "Grep files in my working directory."
+(defun my-grep-in-default-directory ()
+  "Search files in `default-directory' using ripgrep."
   (interactive)
-  (my-do-grep t))
-
-(defun my-grep ()
-  "Grep files relative to `default-directory'."
-  (interactive)
-  (my-do-grep))
+  (let ((what-to-search (read-shell-command "Search: ")))
+    (my-grep what-to-search)))
 
 (defun my-buffer-contains-string (string)
   "Check if current buffer contains a string."
@@ -752,7 +749,7 @@ http://ru-emacs.livejournal.com/83575.html"
   (setq-default neo-show-hidden-files t)
   (setq-default neo-theme 'ascii)
 
-  (define-key neotree-mode-map (kbd "s") 'my-grep)
+  (define-key neotree-mode-map (kbd "s") 'my-grep-in-default-directory)
   (define-key neotree-mode-map (kbd "F") 'neotree-change-root)
   (define-key neotree-mode-map (kbd "f")
     (neotree-make-executor :file-fn 'neo-open-file
@@ -778,7 +775,7 @@ http://ru-emacs.livejournal.com/83575.html"
   (put 'dired-find-alternate-file 'disabled nil)
 
   ;; Search faster!
-  (define-key dired-mode-map (kbd "s") 'my-grep)
+  (define-key dired-mode-map (kbd "s") 'my-grep-in-default-directory)
 
   ;; Don't mess with my keybindings
   (define-key dired-mode-map (kbd "C-o") nil)
@@ -863,6 +860,10 @@ http://ru-emacs.livejournal.com/83575.html"
   ;; Tweak `grep' (which is built on top of `compile' mode)
   (define-key compilation-minor-mode-map "\C-o" nil)
   (define-key compilation-minor-mode-map "o" 'compilation-display-error))
+
+(use-package grep
+  :config
+  (setq grep-save-buffers nil))
 
 (use-package ibuffer
   :config
@@ -990,6 +991,16 @@ http://ru-emacs.livejournal.com/83575.html"
                         :stream t
                         :key (getenv "DEEPSEEK_API_KEY")))
   (global-set-key (kbd "s-d") 'my-deepseek))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; My own packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package my-search-mode
+  :load-path "~/github/emacs/my-search/"
+  :commands (my-search)  ;; autoload `M-x my-search`
+  :bind (:map search-map ("M-s" . my-search)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1130,8 +1141,7 @@ http://ru-emacs.livejournal.com/83575.html"
 ;; Add more useful `M-s ...` commands
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
-(define-key search-map (kbd "s") 'my-grep)
-(define-key search-map (kbd "M-s") 'my-grep-working-directory)
+(define-key search-map (kbd "s") 'my-grep-in-default-directory)
 
 ;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
 (global-set-key (kbd "C--") 'undo)
