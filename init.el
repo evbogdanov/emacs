@@ -537,13 +537,6 @@ Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
   (let ((what-to-search (read-shell-command "Search: ")))
     (my-grep what-to-search)))
 
-(defun my-buffer-contains-string (string)
-  "Check if current buffer contains a string."
-  (save-excursion
-    (save-match-data
-      (goto-char (point-min))
-      (search-forward string nil t))))
-
 (defun my-start-searching-symbol-at-point-backward ()
   "Start searching symbol at point backward."
   (interactive)
