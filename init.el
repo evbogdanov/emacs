@@ -653,6 +653,34 @@ http://ru-emacs.livejournal.com/83575.html"
       (gfm-mode)
       (gptel-mode))))
 
+(defun my-get-executable-in-node-modules (program)
+  "Get executable PROGRAM either in node_modules or as a global."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (global (executable-find program))
+         (local (expand-file-name (concat "node_modules/.bin/" program)
+                                  root)))
+    (if (file-executable-p local) local global)))
+
+(defun my-flycheck-eslint-mode (js-or-ts-mode)
+  "Initialize `flycheck-mode' with `javascript-eslint' checker included.
+JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
+  (flycheck-mode +1)
+  (flycheck-add-mode 'javascript-eslint js-or-ts-mode)
+
+  (when (eq js-or-ts-mode 'typescript-mode)
+    (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
+
+  (setq-local flycheck-javascript-eslint-executable
+              (my-get-executable-in-node-modules "eslint")))
+
+(defun my-flycheck-eslint-mode-js ()
+  (my-flycheck-eslint-mode 'js-mode))
+
+(defun my-flycheck-eslint-mode-ts ()
+  (my-flycheck-eslint-mode 'typescript-mode))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -920,10 +948,17 @@ http://ru-emacs.livejournal.com/83575.html"
   :ensure t
   :hook
   ((emacs-lisp-mode . company-mode)
-   (css-mode . company-mode)))
+   (css-mode . company-mode)
+   (js-mode . company-mode)
+   (typescript-mode . company-mode)))
 
 (use-package flycheck
-  :ensure t)
+  :ensure t
+  :config
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  :hook
+  ((js-mode         . my-flycheck-eslint-mode-js)
+   (typescript-mode . my-flycheck-eslint-mode-ts)))
 
 (use-package tide
   :ensure t
@@ -938,8 +973,6 @@ http://ru-emacs.livejournal.com/83575.html"
   (typescript-mode . (lambda ()
                        (tide-setup)
                        (company-mode +1)
-                       (flycheck-mode +1)
-                       (setq flycheck-check-syntax-automatically '(save mode-enabled))
                        (eldoc-mode +1)
                        (tide-hl-identifier-mode +1))))
 
@@ -1033,6 +1066,7 @@ http://ru-emacs.livejournal.com/83575.html"
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
+(define-key my-other-win-prefix (kbd "e") 'flycheck-list-errors)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)

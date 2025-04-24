@@ -2,6 +2,7 @@
 .mc-lists.el
 auto-save-list/*
 bak/*
+play.el
 elpa/*
 eshell/*
 eln-cache/
@@ -12,6 +13,7 @@ url/*
 recentf
 playground.exs
 transient/
+tree-sitter/
 dired-history
 flycheck_init.el
 tramp
