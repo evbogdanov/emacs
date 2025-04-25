@@ -2,6 +2,7 @@
 .mc-lists.el
 auto-save-list/*
 bak/*
+bak.el
 play.el
 elpa/*
 eshell/*
