@@ -841,7 +841,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
   (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
   (define-key gfm-mode-map (kbd "M-RET") nil)
-  (define-key gfm-mode-map (kbd "C-c C-f") 'my-find-file-at-point)
   (define-key gfm-mode-map (kbd "C-c 1") 'my-markdown-insert-heading-1)
   (define-key gfm-mode-map (kbd "C-c 2") 'my-markdown-insert-heading-2)
   (define-key gfm-mode-map (kbd "C-c 3") 'my-markdown-insert-heading-3)
@@ -912,14 +911,12 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
 (use-package css-mode
   :config
-  (setq css-indent-offset 4)
-  (define-key css-mode-map (kbd "C-c C-f") 'my-find-file-at-point))
+  (setq css-indent-offset 4))
 
 (use-package js
   :config
   (setq js-indent-level 4)
-  (setq js-switch-indent-offset 4)
-  (define-key js-mode-map (kbd "M-.") nil))
+  (setq js-switch-indent-offset 4))
 
 (use-package typescript-mode
   :ensure t
@@ -933,7 +930,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   ((emacs-lisp-mode . company-mode)
    (css-mode . company-mode)
    (js-mode . company-mode)
-   (typescript-mode . company-mode)))
+   (typescript-mode . company-mode)
+   (python-mode . company-mode)))
 
 (use-package flycheck
   :ensure t
@@ -945,13 +943,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
 (use-package tide
   :ensure t
-
-  :config
-  (define-key tide-mode-map (kbd "M-.") nil)
-  (define-key tide-mode-map (kbd "M-,") nil)
-  (define-key tide-mode-map (kbd "C-c C-f") 'tide-jump-to-definition)
-  (define-key tide-mode-map (kbd "C-c C-b") 'tide-jump-back)
-
   :hook
   (typescript-mode . (lambda ()
                        (tide-setup)
@@ -971,8 +962,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (use-package rust-mode
   :ensure t
   :config
-  (define-key rust-mode-map (kbd "C-c C-f") 'xref-find-definitions)
-  (define-key rust-mode-map (kbd "C-c C-b") '  xref-go-back)
   (define-key rust-mode-map (kbd "C-x f") 'rust-format-buffer)
   (define-key rust-mode-map (kbd "M-RET") 'rust-run)
   :hook
@@ -1003,6 +992,12 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
                         :stream t
                         :key (getenv "DEEPSEEK_API_KEY")))
   (global-set-key (kbd "s-d") 'my-deepseek))
+
+(use-package dumb-jump
+  :ensure t
+  :config
+  (setq dumb-jump-force-searcher 'rg)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1097,8 +1092,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
 
 ;; In WebStorm, it's called "extend / shrink selection"
-(global-set-key (kbd "M-.") 'er/expand-region)
-(global-set-key (kbd "M-,") 'er/contract-region)
+(global-set-key (kbd "M-]") 'er/expand-region)
+(global-set-key (kbd "M-[") 'er/contract-region)
 
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
