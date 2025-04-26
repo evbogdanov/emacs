@@ -994,6 +994,10 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
                         :key (getenv "DEEPSEEK_API_KEY")))
   (global-set-key (kbd "s-d") 'my-deepseek))
 
+(use-package xref
+  :config
+  (define-key xref--xref-buffer-mode-map (kbd "C-o") nil))
+
 (use-package dumb-jump
   :ensure t
   :config
