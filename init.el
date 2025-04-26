@@ -29,13 +29,6 @@
 (defvar my-var-self-closing-tag-style " /"
   "How to close tags like <br /> and <input />")
 
-(defvar my-working-directory default-directory
-  "Remember the directory where Emacs was started.")
-
-(defvar my-working-directory-abs
-  (file-truename my-working-directory)
-  "Absolute path to my working directory.")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -433,16 +426,6 @@ Inside `neotree' jump to the current file."
   (interactive)
   (let ((dir (thing-at-point 'filename)))
     (dired dir)))
-
-(defun my-dired-open-working-directory ()
-  "Quickly go to my working directory."
-  (interactive)
-  (dired my-working-directory))
-
-(defun my-dired-open-working-directory-in-other-window ()
-  "Quickly go to my working directory in another window."
-  (interactive)
-  (dired-other-window my-working-directory))
 
 (defun my-dired-hide-file ()
   "In Dired, hide the file (or directory) on this line in another window.
@@ -1053,7 +1036,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-o") 'ace-window)
 (define-key my-other-win-prefix (kbd "b") 'switch-to-buffer-other-window)
 (define-key my-other-win-prefix (kbd "d d") 'dired-other-window)
-(define-key my-other-win-prefix (kbd "d /") 'my-dired-open-working-directory-in-other-window)
 (define-key my-other-win-prefix (kbd "f") 'find-file-other-window)
 (define-key my-other-win-prefix (kbd "C-f") 'windmove-right)
 (define-key my-other-win-prefix (kbd "C-b") 'windmove-left)
@@ -1072,7 +1054,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-prefix-command 'my-dired-prefix)
 (global-set-key (kbd "C-x d") 'my-dired-prefix)
 (define-key my-dired-prefix (kbd "d") 'ido-dired)
-(define-key my-dired-prefix (kbd "/") 'my-dired-open-working-directory)
 (define-key my-dired-prefix (kbd ".") 'my-dired-at-point)
 
 ;; Shortcut for C-o C-o
