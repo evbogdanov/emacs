@@ -242,41 +242,6 @@ see its code to understand what's going on here."
   (interactive)
   (my-isearch-del "line"))
 
-(defun my-mark-word ()
-  "Better `mark-word', IMO."
-  (interactive)
-  (forward-word)
-  (backward-word)
-  (mark-word)
-  (exchange-point-and-mark))
-
-(defun my-mark-word-and-copy ()
-  "I copy the marked word quite often. Create shortcut for it!"
-  (interactive)
-  (save-excursion
-    (my-mark-word)
-    (kill-ring-save (point) (mark))))
-
-(defun my-mark-line ()
-  "Function name says it all."
-  (interactive)
-  (end-of-line)
-  (set-mark (line-beginning-position)))
-
-(defun my-mark-line-and-copy ()
-  "I copy lines quite often!"
-  (interactive)
-  (save-excursion
-    (my-mark-line)
-    (kill-ring-save (point) (mark))))
-
-(defun my-mark-whole-buffer-and-copy ()
-  "Copy it all!"
-  (interactive)
-  (save-excursion
-    (mark-whole-buffer)
-    (kill-ring-save (point) (mark))))
-
 (defun my-yank-line ()
   "Copy and paste current line."
   (interactive)
@@ -1083,22 +1048,15 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Marking
-;; Why M-h for marking? Firstly, "h" can stand for "highlight". Secondly, M-h
-;; used to mark by default (but only paragraph).
 (define-prefix-command 'my-mark-key)
-(global-set-key (kbd "M-h") 'my-mark-key)
-(define-key my-mark-key (kbd "M-w") 'my-mark-word-and-copy)
-(define-key my-mark-key (kbd "w") 'my-mark-word)
-(define-key my-mark-key (kbd "l") 'my-mark-line)
-(define-key my-mark-key (kbd "M-l") 'my-mark-line-and-copy)
+(global-set-key (kbd "C-x h") 'my-mark-key)  ; C-x h used to be `mark-whole-buffer'
+(define-key my-mark-key (kbd "h") 'mark-whole-buffer)
 (define-key my-mark-key (kbd "p") 'my-mark-paragraph)
-(define-key my-mark-key (kbd "a") 'mark-whole-buffer) ;; aka "Mark [A]ll"
-(define-key my-mark-key (kbd "M-a") 'my-mark-whole-buffer-and-copy)
 (define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
 
-;; In WebStorm, it's called "extend / shrink selection"
-(global-set-key (kbd "M-]") 'er/expand-region)
-(global-set-key (kbd "M-[") 'er/contract-region)
+;; Marking: expand or contract
+(global-set-key (kbd "M-h") 'er/contract-region)
+(global-set-key (kbd "M-j") 'er/expand-region)
 
 ;; C-M-y is undefined by default
 (global-set-key (kbd "C-M-y") 'my-yank-line)
@@ -1122,8 +1080,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (global-set-key (kbd "M-<up>") 'my-move-line-up)
 
 ;; Join line
-(global-set-key (kbd "M-j") 'my-join-line)
-(global-set-key (kbd "M-J") 'join-line)
+(global-set-key (kbd "C-x j") 'my-join-line)
+(global-set-key (kbd "C-x J") 'join-line)
 
 ;; `hippie-expand' instead of `dabbrev-expand'
 (setq hippie-expand-try-functions-list '(try-expand-dabbrev
