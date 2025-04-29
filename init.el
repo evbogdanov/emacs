@@ -374,9 +374,12 @@ Inside `neotree' jump to the current file."
 (defun my-move-line-down  () (interactive) (my-move-line 'down 1))
 
 (defun my-join-line ()
-  "Join line forward in the manner of WebStorm."
+  "Join lines forward in the same way as modern text editors.
+When a region is selected, join all lines within the region."
   (interactive)
-  (join-line 1))
+  (if (use-region-p)
+      (delete-indentation nil (region-beginning) (region-end))
+    (join-line 1)))
 
 (defun my-find-file-at-point ()
   "Open the file at point."
@@ -1079,9 +1082,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (global-set-key (kbd "M-<down>") 'my-move-line-down)
 (global-set-key (kbd "M-<up>") 'my-move-line-up)
 
-;; Join line
-(global-set-key (kbd "C-x j") 'my-join-line)
-(global-set-key (kbd "C-x J") 'join-line)
+;; Join lines
+(global-set-key (kbd "C-M-j") 'my-join-line)
 
 ;; `hippie-expand' instead of `dabbrev-expand'
 (setq hippie-expand-try-functions-list '(try-expand-dabbrev
