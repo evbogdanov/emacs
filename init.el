@@ -38,7 +38,6 @@
 (menu-bar-mode 0)
 (tool-bar-mode -1)
 
-
 ;; Hide welcome screen
 (setq inhibit-startup-screen t)
 
