@@ -1118,5 +1118,29 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Custom colors
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(custom-set-faces
+ '(font-lock-comment-face ((t (:foreground "grey60"))))
+ '(font-lock-string-face ((t (:foreground "DarkGreen"))))
+ '(font-lock-keyword-face ((t (:foreground "DarkMagenta"))))
+ '(font-lock-variable-name-face ((t (:foreground "black"))))
+ '(font-lock-doc-face ((t (:foreground "black"))))
+ '(font-lock-constant-face ((t (:foreground "black"))))
+ '(font-lock-function-name-face ((t (:foreground "black"))))
+ '(font-lock-builtin-face ((t (:foreground "black"))))
+ '(font-lock-type-face ((t (:foreground "black"))))
+
+ '(compilation-info ((t (:foreground "DarkGreen" :weight bold))))
+ '(dired-header ((t (:foreground "DarkGreen"))))
+ '(dired-directory ((t (:foreground "MediumBlue"))))
+ '(neo-root-dir-face ((t (:foreground "DarkGreen"))))
+ '(markdown-code-face ((t (:foreground "dark cyan"))))
+
+ '(error ((t (:foreground "Red1")))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; The end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
