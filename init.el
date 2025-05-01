@@ -1105,6 +1105,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
 (global-set-key (kbd "C--") 'undo)
 
+;; Disable C-o in project's buffer list
+(define-key Buffer-menu-mode-map (kbd "C-o") nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Custom colors
