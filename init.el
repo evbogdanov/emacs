@@ -1128,7 +1128,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
  '(dired-header ((t (:foreground "DarkGreen"))))
  '(dired-directory ((t (:foreground "MediumBlue"))))
  '(neo-root-dir-face ((t (:foreground "DarkGreen"))))
- '(markdown-code-face ((t (:foreground "dark cyan"))))
+ '(markdown-code-face ((t (:foreground "DarkCyan"))))
 
  '(error ((t (:foreground "Red1")))))
 
