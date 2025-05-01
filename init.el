@@ -1098,6 +1098,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; Disable C-o in project's buffer list
 (define-key Buffer-menu-mode-map (kbd "C-o") nil)
 
+;; Disable C-o in bookmarks list
+(define-key bookmark-bmenu-mode-map (kbd "C-o") nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Custom colors
