@@ -142,11 +142,6 @@
   "Check if my machine runs under macOS"
   (eq system-type 'darwin))
 
-(defun my-system-is-macos-gui ()
-  "Check that Emacs is running in GUI mode on macOS."
-  (and (my-system-is-macos)
-       (eq window-system 'ns)))
-
 (defun my-current-line ()
   "Read current line as a string.
 Note that this also returns any newline at the end of the line."
@@ -653,12 +648,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   :ensure t
   :config
   (osx-clipboard-mode +1))
-
-;; Get environment variables from my shell and set them to Emacs
-(use-package exec-path-from-shell
-  :config
-  (when (my-system-is-macos-gui)
-    (exec-path-from-shell-initialize)))
 
 ;; `my-windmove-' functions won't work without enabling `windmove' first
 (use-package windmove
