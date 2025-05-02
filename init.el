@@ -1095,6 +1095,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
 (global-set-key (kbd "C--") 'undo)
 
+;; Try to open file at point
+(global-set-key (kbd "C-x .") 'my-find-file-at-point)
+
 ;; Disable C-o in project's buffer list
 (define-key Buffer-menu-mode-map (kbd "C-o") nil)
 
