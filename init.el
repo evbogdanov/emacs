@@ -1107,11 +1107,11 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-faces
+ '(font-lock-doc-face ((t (:foreground "grey50"))))
  '(font-lock-comment-face ((t (:foreground "grey50"))))
  '(font-lock-string-face ((t (:foreground "DarkGreen"))))
  '(font-lock-keyword-face ((t (:foreground "DarkMagenta"))))
  '(font-lock-variable-name-face ((t (:foreground "black"))))
- '(font-lock-doc-face ((t (:foreground "black"))))
  '(font-lock-constant-face ((t (:foreground "black"))))
  '(font-lock-function-name-face ((t (:foreground "black"))))
  '(font-lock-builtin-face ((t (:foreground "black"))))
