@@ -89,7 +89,7 @@
   (save-excursion
     (beginning-of-buffer)
     (unless (search-forward my-search-what-str nil t)
-      (user-error "Cannot find WHAT value"))
+      (user-error "Cannot find WHAT label"))
     (string-trim (buffer-substring (match-end 0) (line-end-position)))))
 
 
@@ -98,8 +98,19 @@
   (save-excursion
     (beginning-of-buffer)
     (unless (search-forward my-search-where-str nil t)
-      (user-error "Cannot find WHERE value"))
+      (user-error "Cannot find WHERE label"))
     (string-trim (buffer-substring (match-end 0) (line-end-position)))))
+
+
+(defun my-search-set-what-value (what-value)
+  "Set the input: WHAT to search"
+  (save-excursion
+    (beginning-of-buffer)
+    (unless (search-forward my-search-what-str nil t)
+      (user-error "Cannot find WHAT label"))
+    (delete-region (1+ (match-end 0)) (line-end-position))
+    (end-of-line)
+    (insert what-value)))
 
 
 (defun my-search-do-search ()
@@ -113,18 +124,27 @@
 
 ;;;###autoload
 (defun my-search ()
-  "Open or switch to the *my-search* buffer and activate `my-search-mode'."
+  "Open or switch to the *my-search* buffer and activate `my-search-mode'.
+If there's selected text, use it as WHAT to search."
   (interactive)
 
-  (let ((buf (get-buffer-create my-search-buffer-name)))
+  (let ((buf (get-buffer-create my-search-buffer-name))
+        (selected-text nil))
+    (when (use-region-p)
+      (setq selected-text (buffer-substring-no-properties (region-beginning)
+                                                          (region-end))))
     (with-current-buffer buf
       (unless (eq major-mode 'my-search-mode)
-        (message "Making %s..." my-search-buffer-name)
+        (message "my-search: making buffer...")
         (my-search-erase)
         (my-search-prepare)
         (my-search-mode)))
 
-    (switch-to-buffer-other-window buf)))
+    (switch-to-buffer-other-window buf)
+
+    (when selected-text
+      (message "my-search: using SELECTED-TEXT: %s" selected-text)
+      (my-search-set-what-value selected-text))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
