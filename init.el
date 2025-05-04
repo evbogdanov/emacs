@@ -142,17 +142,6 @@
   "Check if my machine runs under macOS"
   (eq system-type 'darwin))
 
-(defun my-current-line ()
-  "Read current line as a string.
-Note that this also returns any newline at the end of the line."
-  (thing-at-point 'line t))
-
-(defun my-line-starts-with (str)
-  "Determine whether a line begins with the specified string.
-Return `t` or `nil` as appropriate."
-  (let ((res (search str (my-current-line))))
-    (and (numberp res) (zerop res))))
-
 (defun my-scroll-other-window-down ()
   "Scroll text of other window down."
   (interactive)
@@ -270,7 +259,6 @@ see its code to understand what's going on here."
 (defun my-eval-buffer-interpreted ()
   "Feed current buffer to some interpreter."
   (let ((modes-and-interpreters '(("js-mode" . "node")
-                                  ("ruby-mode" . "ruby")
                                   ("python-mode" . "python3")
                                   ("sh-mode" . "bash")))
         (interpreter nil))
