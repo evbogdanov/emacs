@@ -910,9 +910,14 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
                  (eldoc-mode +1))))
 
 (use-package eshell
+  :defer t
   :config
-  (setq eshell-history-size 100000)
-  (define-key eshell-hist-mode-map (kbd "M-s") nil))
+  (setq eshell-history-size 100000
+        eshell-highlight-prompt nil
+        eshell-hist-ignoredups t)
+  :hook
+  (eshell-hist-mode . (lambda ()
+                        (define-key eshell-hist-mode-map (kbd "M-s") nil))))
 
 ;; To make it work I had to "brew install cmake; brew install libtool"
 (use-package vterm
@@ -989,7 +994,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
-(define-key my-other-win-prefix (kbd "e") 'flycheck-list-errors)
+(define-key my-other-win-prefix (kbd "e") 'eshell)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
