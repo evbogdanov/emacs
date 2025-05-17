@@ -909,6 +909,11 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
                  (flycheck-mode +1)
                  (eldoc-mode +1))))
 
+(use-package eshell
+  :config
+  (setq eshell-history-size 100000)
+  (define-key eshell-hist-mode-map (kbd "M-s") nil))
+
 ;; To make it work I had to "brew install cmake; brew install libtool"
 (use-package vterm
   :ensure t
