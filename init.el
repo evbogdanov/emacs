@@ -979,6 +979,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
+(define-key my-other-win-prefix (kbd "m") 'magit-status)
+(define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
