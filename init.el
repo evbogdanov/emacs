@@ -444,9 +444,10 @@ Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
   (interactive)
   (dired (ido-completing-read "Recent directory: " dired-recent-directories)))
 
-(defun my-grep (what-to-search &optional where-to-search)
+(defun my-grep (what-to-search &optional where-to-search is-regex)
   "Search files using ripgrep."
-  (let* ((ripgrep-cmd "rg --color=never --no-heading --line-number --smart-case")
+  (let* ((fixed-strings (if (null is-regex) " --fixed-strings" ""))
+         (ripgrep-cmd (concat "rg --color=never --no-heading --line-number --smart-case" fixed-strings))
          (grep-cmd (concat ripgrep-cmd " " what-to-search))
          (grep-buf-name "*grep*")
          (grep-buf (get-buffer-create grep-buf-name))

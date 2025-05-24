@@ -5,11 +5,17 @@
 (defconst my-search-buffer-name "*my-search*"
   "Name of the buffer with `my-search' interface.")
 
-(defconst my-search-what-str " What:"
-  "Label for WHAT to search")
+(defconst my-search-what-label " What:"
+  "Label for WHAT variable.")
 
-(defconst my-search-where-str "Where:"
-  "Label for WHERE to search")
+(defconst my-search-where-label "Where:"
+  "Label for WHERE variable.")
+
+(defconst my-search-regex-label "Regex:"
+  "Label for REGEX variable.")
+
+(defconst my-search-regex-default-value "no"
+  "Initial value for REGEX variable. I only expect 'no' or 'yes'")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17,110 +23,122 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun my-search-make-read-only (start end)
+  "Make text between START and END read-only."
   (add-text-properties start end '(face bold))
   (add-text-properties start end '(read-only t)))
 
-
-(defun my-search-remove-read-only (start end)
-  (let ((inhibit-read-only t))
-    (remove-text-properties start end '(read-only t))
-    (remove-text-properties start end '(face bold))))
-
-
-(defun my-search-get-what ()
+(defun my-search-get-what-label ()
+  "Get START and END for WHAT label."
   (let* ((start (point-min))
-         (end (+ start (length my-search-what-str))))
+         (end (+ start (length my-search-what-label))))
     (list start end)))
 
-
-(defun my-search-get-where ()
+(defun my-search-get-where-label ()
+  "Get START and END for WHERE label."
   (save-excursion
     (goto-char (point-min))
     (forward-line 1)
-    (unless (search-forward my-search-where-str nil t)
-      (user-error "Cannot find `my-search-where-str'"))
+    (unless (search-forward my-search-where-label nil t)
+      (user-error "Cannot find `my-search-where-label'"))
     (list (match-beginning 0) (match-end 0))))
 
+(defun my-search-get-regex-label ()
+  "Get START and END for REGEX label."
+  (save-excursion
+    (goto-char (point-min))
+    (forward-line 2)
+    (unless (search-forward my-search-regex-label nil t)
+      (user-error "Cannot find `my-search-regex-label'"))
+    (list (match-beginning 0) (match-end 0))))
 
-(defun my-search-make-what-read-only ()
-  (let* ((start-end (my-search-get-what))
+(defun my-search-make-what-label-read-only ()
+  "Make WHAT label read-only."
+  (let* ((start-end (my-search-get-what-label))
          (start (car start-end))
          (end (cadr start-end)))
     (my-search-make-read-only start end)))
 
-
-(defun my-search-make-where-read-only ()
-  (let* ((start-end (my-search-get-where))
+(defun my-search-make-where-label-read-only ()
+  "Make WHERE label read-only."
+  (let* ((start-end (my-search-get-where-label))
          (start (car start-end))
          (end (cadr start-end)))
     (my-search-make-read-only start end)))
 
-
-(defun my-search-remove-read-only-from-what ()
-  (let* ((start-end (my-search-get-what))
+(defun my-search-make-regex-label-read-only ()
+  "Make REGEX label read-only."
+  (let* ((start-end (my-search-get-regex-label))
          (start (car start-end))
          (end (cadr start-end)))
-    (my-search-remove-read-only start end)))
-
-
-(defun my-search-remove-read-only-from-where ()
-  (let* ((start-end (my-search-get-where))
-         (start (car start-end))
-         (end (cadr start-end)))
-    (my-search-remove-read-only start end)))
-
+    (my-search-make-read-only start end)))
 
 (defun my-search-erase ()
   "Erases *my-search* buffer."
   (let ((inhibit-read-only t))
     (erase-buffer)))
 
-
 (defun my-search-prepare ()
   "Prepare *my-search* buffer for searching."
-  (insert (concat my-search-what-str " \n"
-                  my-search-where-str " " default-directory))
-  (my-search-make-what-read-only)
-  (my-search-make-where-read-only))
+  (insert (concat my-search-what-label " \n"
+                  my-search-where-label " " default-directory "\n"
+                  my-search-regex-label " " my-search-regex-default-value))
 
+  (my-search-make-what-label-read-only)
+  (my-search-make-where-label-read-only)
+  (my-search-make-regex-label-read-only)
+
+  (goto-char (point-min))
+  (end-of-line))
 
 (defun my-search-get-what-value ()
   "Get the input: WHAT to search."
   (save-excursion
-    (beginning-of-buffer)
-    (unless (search-forward my-search-what-str nil t)
+    (goto-char (point-min))
+    (unless (search-forward my-search-what-label nil t)
       (user-error "Cannot find WHAT label"))
     (string-trim (buffer-substring (match-end 0) (line-end-position)))))
-
 
 (defun my-search-get-where-value ()
   "Get the input: WHERE to search"
   (save-excursion
-    (beginning-of-buffer)
-    (unless (search-forward my-search-where-str nil t)
+    (goto-char (point-min))
+    (forward-line 1)
+    (unless (search-forward my-search-where-label nil t)
       (user-error "Cannot find WHERE label"))
     (string-trim (buffer-substring (match-end 0) (line-end-position)))))
 
+(defun my-search-get-regex-p ()
+  "Get the input: should I use REGEX for search?"
+  (save-excursion
+    (goto-char (point-min))
+    (forward-line 2)
+    (unless (search-forward my-search-regex-label nil t)
+      (user-error "Cannot find REGEX label"))
+    (let ((yes-prefix "y") ;; allow Y or YES or YEP as true values
+          (regex-value (string-trim (buffer-substring (match-end 0) (line-end-position))))
+          (ignore-case t))
+      (string-prefix-p yes-prefix
+                       regex-value
+                       ignore-case))))
 
 (defun my-search-set-what-value (what-value)
   "Set the input: WHAT to search"
   (save-excursion
-    (beginning-of-buffer)
-    (unless (search-forward my-search-what-str nil t)
+    (goto-char (point-min))
+    (unless (search-forward my-search-what-label nil t)
       (user-error "Cannot find WHAT label"))
     (delete-region (1+ (match-end 0)) (line-end-position))
     (end-of-line)
     (insert what-value)))
 
-
 (defun my-search-do-search ()
   "Do search!"
   (interactive)
   (let ((what-value (my-search-get-what-value))
-        (where-value (my-search-get-where-value)))
-    (message "My search: \"%s\" in \"%s\"" what-value where-value)
-    (my-grep what-value where-value)))
-
+        (where-value (my-search-get-where-value))
+        (is-regex (my-search-get-regex-p)))
+    (message "My search: \"%s\" in \"%s\" (regex? %s)" what-value where-value is-regex)
+    (my-grep what-value where-value is-regex)))
 
 ;;;###autoload
 (defun my-search ()
