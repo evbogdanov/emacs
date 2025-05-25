@@ -77,11 +77,23 @@
   (let ((inhibit-read-only t))
     (erase-buffer)))
 
+(defun my-search-make-path-relative-to-home-directory (path)
+  "Convert absolute PATH to a path relative to the home directory using ~.
+If PATH is already relative, return it unchanged."
+  (if (file-name-absolute-p path)
+      (let ((home (expand-file-name "~")))
+        (if (string-prefix-p home path)
+            (concat "~" (substring path (length home)))
+          path))
+    path))
+
 (defun my-search-prepare ()
   "Prepare *my-search* buffer for searching."
-  (insert (concat my-search-what-label " \n"
-                  my-search-where-label " " default-directory "\n"
-                  my-search-regex-label " " my-search-regex-default-value))
+  (let ((default-dir-relative-to-home-dir (my-search-make-path-relative-to-home-directory
+                                           default-directory)))
+    (insert (concat my-search-what-label " \n"
+                    my-search-where-label " " default-dir-relative-to-home-dir "\n"
+                    my-search-regex-label " " my-search-regex-default-value)))
 
   (my-search-make-what-label-read-only)
   (my-search-make-where-label-read-only)
