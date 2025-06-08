@@ -983,7 +983,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; Stuff in other window
+;; C-o opens different stuff
 (define-prefix-command 'my-other-win-prefix)
 (global-set-key (kbd "C-o") 'my-other-win-prefix)
 (define-key my-other-win-prefix (kbd "C-o") 'ace-window)
@@ -1001,6 +1001,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "m") 'magit-status)
 (define-key my-other-win-prefix (kbd "g") 'my-browse-git-file)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
+(define-key my-other-win-prefix (kbd "p") 'project-find-file)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
