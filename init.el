@@ -922,7 +922,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   :defer t
   :config
   (setq eshell-history-size 100000
-        eshell-highlight-prompt nil
+        eshell-highlight-prompt t
         eshell-hist-ignoredups t)
   :hook
   (eshell-hist-mode . (lambda ()
