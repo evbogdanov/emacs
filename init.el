@@ -1001,7 +1001,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "m") 'magit-status)
 (define-key my-other-win-prefix (kbd "g") 'my-browse-git-file)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
-(define-key my-other-win-prefix (kbd "p") 'project-find-file)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
@@ -1101,7 +1100,6 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; Add more useful `M-s ...` commands
 (define-key search-map (kbd "C-r") 'my-start-searching-symbol-at-point-backward)
 (define-key search-map (kbd "C-s") 'my-start-searching-symbol-at-point-forward)
-(define-key search-map (kbd "s") 'my-grep-in-default-directory)
 
 ;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
 (global-set-key (kbd "C--") 'undo)
@@ -1109,10 +1107,11 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; Try to open file at point
 (global-set-key (kbd "C-x .") 'my-find-file-at-point)
 
-;; Disable C-o in project's buffer list
-(define-key Buffer-menu-mode-map (kbd "C-o") nil)
+;; Shortcut for searching files in the current project
+(global-set-key (kbd "C-x C-p") 'project-find-file)
 
-;; Disable C-o in bookmarks list
+;; Disable C-o in other mods
+(define-key Buffer-menu-mode-map (kbd "C-o") nil)
 (define-key bookmark-bmenu-mode-map (kbd "C-o") nil)
 
 
