@@ -609,6 +609,14 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (defun my-flycheck-eslint-mode-ts ()
   (my-flycheck-eslint-mode 'typescript-mode))
 
+(defun my-browse-git-file ()
+  "Browse current file in GitHub or Forgejo."
+  (interactive)
+  (let ((current-file (buffer-file-name)))
+    (unless current-file
+      (user-error "Current file not found"))
+    (async-shell-command  (concat "browse-git-file " current-file))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -991,6 +999,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
 (define-key my-other-win-prefix (kbd "m") 'magit-status)
+(define-key my-other-win-prefix (kbd "g") 'my-browse-git-file)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)

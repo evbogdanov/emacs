@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+git_file="$1"
+
+open "$(git remote get-url origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(git remote get-url origin | sed -n 's/.*github.*/blob/p')$(git remote get-url origin | sed -n 's/.*forgejo.*/src\/commit/p')/$(git rev-parse HEAD)/$(git ls-files --full-name $git_file)"
