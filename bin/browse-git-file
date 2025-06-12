@@ -3,5 +3,10 @@
 set -e
 
 git_file="$1"
+git_remote_url="$(git remote get-url origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(git remote get-url origin | sed -n 's/.*github.*/blob/p')$(git remote get-url origin | sed -n 's/.*forgejo.*/src\/commit/p')/$(git rev-parse HEAD)/$(git ls-files --full-name $git_file)"
 
-open "$(git remote get-url origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(git remote get-url origin | sed -n 's/.*github.*/blob/p')$(git remote get-url origin | sed -n 's/.*forgejo.*/src\/commit/p')/$(git rev-parse HEAD)/$(git ls-files --full-name $git_file)"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    xdg-open "$git_remote_url"
+else
+    open "$git_remote_url"
+fi
