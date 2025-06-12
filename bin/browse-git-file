@@ -7,6 +7,9 @@ git_remote_url="$(git remote get-url origin | sed 's/git@\(.*\):\(.*\).git/https
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     xdg-open "$git_remote_url"
+
+    ## hack for `xdg-open` working with async-shell-command
+    sleep 1
 else
     open "$git_remote_url"
 fi

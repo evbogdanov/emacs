@@ -617,7 +617,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (let ((current-file (buffer-file-name)))
     (unless current-file
       (user-error "Current file not found"))
-    (shell-command  (concat "browse-git-file " current-file))))
+    (async-shell-command  (concat "browse-git-file " current-file))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
