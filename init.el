@@ -331,7 +331,9 @@ and refresh it."
   "Open `neotree' in the current file's directory.
 Inside `neotree' jump to the current file."
   (interactive)
-  (let ((current-file (buffer-file-name)))
+  (let ((current-file (if (derived-mode-p 'dired-mode)
+                          (dired-get-file-for-visit)
+                        (buffer-file-name))))
     (unless current-file
       (user-error "Directory for the current file not found"))
     (neotree-find current-file)))
