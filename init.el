@@ -957,6 +957,11 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   :config
   (define-key xref--xref-buffer-mode-map (kbd "C-o") nil))
 
+(use-package hideshow
+  :hook (prog-mode . hs-minor-mode)
+  :bind (:map hs-minor-mode-map
+              ("M-i" . hs-toggle-hiding)))
+
 (use-package dumb-jump
   :ensure t
   :config
