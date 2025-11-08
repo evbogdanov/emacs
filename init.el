@@ -983,6 +983,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;;; Keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; The most convenient way to switch languages
+(global-set-key (kbd "M-SPC") 'toggle-input-method)
+
 ;; Easier scrolling
 (global-set-key (kbd "C-z") 'scroll-down-command)
 (global-set-key (kbd "C-M-z") 'my-scroll-other-window-down)
