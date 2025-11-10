@@ -856,22 +856,22 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; aka html-mode
 (use-package sgml-mode
   :config
-  (setq sgml-basic-offset 4))
+  (setq sgml-basic-offset 2))
 
 (use-package css-mode
   :config
-  (setq css-indent-offset 4))
+  (setq css-indent-offset 2))
 
 (use-package js
   :config
-  (setq js-indent-level 4)
-  (setq js-switch-indent-offset 4))
+  (setq js-indent-level 2)
+  (setq js-switch-indent-offset 2))
 
 (use-package typescript-mode
   :ensure t
   :mode "\\.tsx\\'"
   :config
-  (setq typescript-indent-level 4))
+  (setq typescript-indent-level 2))
 
 (use-package company
   :ensure t
