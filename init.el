@@ -938,6 +938,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (setq vterm-max-scrollback 50000)
   (define-key vterm-mode-map (kbd "C-o") nil)
   (define-key vterm-mode-map (kbd "M-s") nil)
+  (define-key vterm-mode-map (kbd "M-SPC") nil)
   (define-key vterm-mode-map (kbd "C-\\") nil))
 
 (use-package multi-vterm
