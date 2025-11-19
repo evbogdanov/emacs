@@ -3,13 +3,41 @@
 set -e
 
 git_file="$1"
-git_remote_url="$(git remote get-url origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(git remote get-url origin | sed -n 's/.*github.*/blob/p')$(git remote get-url origin | sed -n 's/.*forgejo.*/src\/commit/p')/$(git rev-parse HEAD)/$(git ls-files --full-name $git_file)"
+git_origin="$(git remote get-url origin)"
+git_head="$(git rev-parse HEAD)"
+git_full_name="$(git ls-files --full-name $git_file)"
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    xdg-open "$git_remote_url"
+function open_remote_url() {
+    local remote_url="$1"
 
-    ## hack for `xdg-open` working with async-shell-command
-    sleep 1
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        xdg-open "$remote_url"
+
+        ## hack for `xdg-open` working with async-shell-command
+        sleep 1
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        open "$remote_url"
+    else
+        open "Don't know how to open $remote_url on OS: $OSTYPE"
+        exit 1
+    fi
+}
+
+function handle_github_repo() {
+    local remote_url="$(echo $git_origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(echo $git_origin | sed -n 's/.*github.*/blob/p')/$git_head/$git_full_name"
+    open_remote_url $remote_url
+}
+
+function handle_bitbucket_repo() {
+    local remote_url="$(echo $git_origin | sed 's|ssh://||' | sed 's|git@\(.*\)\/\(.*\)\/\(.*\).git|https://\1/projects/\2/repos/\3/browse|')/$git_full_name?at=$git_head"
+    open_remote_url $remote_url
+}
+
+if [[ "$git_origin" == *"github"* ]]; then
+    handle_github_repo
+elif [[ "$git_origin" == *"bitbucket"* ]]; then
+    handle_bitbucket_repo
 else
-    open "$git_remote_url"
+    echo "Unknown repo. Only GitHub and Bitbucket are supported."
+    exit 1
 fi
