@@ -584,14 +584,22 @@ http://ru-emacs.livejournal.com/83575.html"
       (gptel-mode))))
 
 (defun my-get-executable-in-node-modules (program)
-  "Get executable PROGRAM either in node_modules or as a global."
-  (let* ((root (locate-dominating-file
+  "Get executable PROGRAM:
+- search in the nearest node_modules
+- try node_modules inside project root
+- fallback to global executable"
+  (let* ((local-root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
-         (global (executable-find program))
-         (local (expand-file-name (concat "node_modules/.bin/" program)
-                                  root)))
-    (if (file-executable-p local) local global)))
+         (program-bin (concat "node_modules/.bin/" program))
+         (proj (project-current nil))
+         (proj-root (when proj (project-root proj)))
+         (proj-program (expand-file-name program-bin proj-root))
+         (global (if (file-executable-p proj-program) proj-program
+                   (executable-find program)))
+         (local (expand-file-name program-bin local-root)))
+    (if (file-executable-p local) local
+      global)))
 
 (defun my-flycheck-eslint-mode (js-or-ts-mode)
   "Initialize `flycheck-mode' with `javascript-eslint' checker included.
@@ -618,6 +626,20 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
     (unless current-file
       (user-error "Current file not found"))
     (async-shell-command  (concat "browse-git-file " current-file))))
+
+(defun my-eslint-fix ()
+  "Fix current file using ESLint"
+  (interactive)
+  (let ((current-file (buffer-file-name))
+        (eslint-bin (my-get-executable-in-node-modules "eslint")))
+    (unless current-file
+      (user-error "Current file not found"))
+    (unless eslint-bin
+      (user-error "eslint not found"))
+    (shell-command  (format "%s --fix %s"
+                            eslint-bin
+                            (shell-quote-argument current-file)))
+    (revert-buffer t t t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
