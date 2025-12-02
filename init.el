@@ -583,14 +583,17 @@ http://ru-emacs.livejournal.com/83575.html"
       (gfm-mode)
       (gptel-mode))))
 
+(defun my-get-closest-node-modules-dir ()
+  "Look up node_modules directory closest to the current file"
+  (locate-dominating-file (or (buffer-file-name) default-directory)
+                          "node_modules"))
+
 (defun my-get-executable-in-node-modules (program)
   "Get executable PROGRAM:
 - search in the nearest node_modules
 - try node_modules inside project root
 - fallback to global executable"
-  (let* ((local-root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
+  (let* ((local-root (my-get-closest-node-modules-dir))
          (program-bin (concat "node_modules/.bin/" program))
          (proj (project-current nil))
          (proj-root (when proj (project-root proj)))
@@ -628,18 +631,27 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
     (async-shell-command  (concat "browse-git-file " current-file))))
 
 (defun my-eslint-fix ()
-  "Fix current file using ESLint"
+  "Fix the current file using ESLint."
   (interactive)
-  (let ((current-file (buffer-file-name))
-        (eslint-bin (my-get-executable-in-node-modules "eslint")))
-    (unless current-file
-      (user-error "Current file not found"))
-    (unless eslint-bin
-      (user-error "eslint not found"))
-    (shell-command  (format "%s --fix %s"
-                            eslint-bin
-                            (shell-quote-argument current-file)))
-    (revert-buffer t t t)))
+  (let* ((current-file (or (buffer-file-name)
+                           (user-error "Current buffer is not visiting a file")))
+         (node-modules-dir (or (my-get-closest-node-modules-dir)
+                               (user-error "No nearby node_modules directory found")))
+         (eslint-bin (or (my-get-executable-in-node-modules "eslint")
+                         (user-error "eslint executable not found")))
+         (output-buffer "*eslint-fix*"))
+
+    (with-current-buffer (get-buffer-create output-buffer)
+      (erase-buffer)
+      (let ((default-directory node-modules-dir))
+        (let ((exit (call-process eslint-bin nil output-buffer t
+                                  "--fix" current-file)))
+          (unless (eq exit 0)
+            (error "ESLint failed (exit %d). See %s buffer." exit output-buffer)))))
+
+    ;; Only revert if file was actually modified
+    (when (file-newer-than-file-p current-file (buffer-file-name))
+      (revert-buffer :ignore-auto :noconfirm))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
