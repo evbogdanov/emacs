@@ -588,22 +588,6 @@ http://ru-emacs.livejournal.com/83575.html"
   (locate-dominating-file (or (buffer-file-name) default-directory)
                           "node_modules"))
 
-(defun my-get-executable-in-node-modules (program)
-  "Get executable PROGRAM:
-- search in the nearest node_modules
-- try node_modules inside project root
-- fallback to global executable"
-  (let* ((local-root (my-get-closest-node-modules-dir))
-         (program-bin (concat "node_modules/.bin/" program))
-         (proj (project-current nil))
-         (proj-root (when proj (project-root proj)))
-         (proj-program (expand-file-name program-bin proj-root))
-         (global (if (file-executable-p proj-program) proj-program
-                   (executable-find program)))
-         (local (expand-file-name program-bin local-root)))
-    (if (file-executable-p local) local
-      global)))
-
 (defun my-flycheck-eslint-mode (js-or-ts-mode)
   "Initialize `flycheck-mode' with `javascript-eslint' checker included.
 JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
@@ -613,8 +597,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (when (eq js-or-ts-mode 'typescript-mode)
     (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
 
-  (setq-local flycheck-javascript-eslint-executable
-              (my-get-executable-in-node-modules "eslint")))
+  (setq-local flycheck-javascript-eslint-executable "eslint_d"))
 
 (defun my-flycheck-eslint-mode-js ()
   (my-flycheck-eslint-mode 'js-mode))
@@ -637,8 +620,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
                            (user-error "Current buffer is not visiting a file")))
          (node-modules-dir (or (my-get-closest-node-modules-dir)
                                (user-error "No nearby node_modules directory found")))
-         (eslint-bin (or (my-get-executable-in-node-modules "eslint")
-                         (user-error "eslint executable not found")))
+         (eslint-bin "eslint_d")
          (output-buffer "*eslint-fix*"))
 
     (with-current-buffer (get-buffer-create output-buffer)
