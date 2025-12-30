@@ -613,6 +613,23 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
       (user-error "Current file not found"))
     (async-shell-command  (concat "browse-git-file " current-file))))
 
+(defun my-search-with-google ()
+  "Search selected text or symbol at point using Google."
+  (interactive)
+  (unless (executable-find "search-with-google")
+    (user-error "search-with-google not found in PATH"))
+  (let ((text (cond
+               ((use-region-p)
+                (buffer-substring-no-properties
+                 (region-beginning) (region-end)))
+               ((thing-at-point 'symbol t))
+               (t (user-error "No text selected")))))
+    (start-process
+     "search-with-google"
+     nil
+     "search-with-google"
+     (string-trim text))))
+
 (defun my-eslint-fix ()
   "Fix the current file using ESLint."
   (interactive)
@@ -1027,6 +1044,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
 (define-key my-other-win-prefix (kbd "m") 'magit-status)
 (define-key my-other-win-prefix (kbd "g") 'my-browse-git-file)
+(define-key my-other-win-prefix (kbd "C-g") 'my-search-with-google)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if ! command -v node >/dev/null 2>&1; then
+    echo "Node.js is required to run this script"
+    exit 1
+fi
+
+encoded_query="$(
+    node -e 'console.log(encodeURIComponent(process.argv.slice(1).join(" ")))' "$@"
+)"
+google_url="https://www.google.com/search?q=$encoded_query"
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    xdg-open "$google_url"
+    ## hack for `xdg-open` working with async-shell-command
+    sleep 1
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    open "$google_url"
+else
+    open "Don't know how to open $google_url on your OS: $OSTYPE"
+    exit 1
+fi
