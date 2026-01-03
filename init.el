@@ -1043,13 +1043,17 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
 (define-key my-other-win-prefix (kbd "m") 'magit-status)
-(define-key my-other-win-prefix (kbd "g") 'my-browse-git-file)
-(define-key my-other-win-prefix (kbd "C-g") 'my-search-with-google)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
 (define-key my-other-win-prefix (kbd "e") 'eshell)
+
+;; "C-o g ..." keybindings
+(define-prefix-command 'my-other-win-prefix-g)
+(define-key my-other-win-prefix (kbd "g") 'my-other-win-prefix-g)
+(define-key my-other-win-prefix-g (kbd "i") 'my-browse-git-file)
+(define-key my-other-win-prefix-g (kbd "o") 'my-search-with-google)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
