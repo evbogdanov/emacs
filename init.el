@@ -606,7 +606,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (my-flycheck-eslint-mode 'typescript-mode))
 
 (defun my-browse-git-file ()
-  "Browse current file in GitHub or Forgejo."
+  "Browse current file in GitHub or Bitbucket."
   (interactive)
   (let ((current-file (buffer-file-name)))
     (unless current-file
