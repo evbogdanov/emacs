@@ -652,6 +652,16 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
     (when (file-newer-than-file-p current-file (buffer-file-name))
       (revert-buffer :ignore-auto :noconfirm))))
 
+(defun my-copy-buffer-file-name ()
+  "Put the current buffer's abbreviated file name into the kill ring."
+  (interactive)
+  (if-let* ((file-name (buffer-file-name))
+            (abbrev-name (abbreviate-file-name file-name)))
+      (progn
+        (kill-new abbrev-name)
+        (message "Copied: %s" abbrev-name))
+    (user-error "Current buffer is not visiting a file")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -1048,6 +1058,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
 (define-key my-other-win-prefix (kbd "e") 'eshell)
+(define-key my-other-win-prefix (kbd "w") 'my-copy-buffer-file-name)
 
 ;; "C-o g ..." keybindings
 (define-prefix-command 'my-other-win-prefix-g)
