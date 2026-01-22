@@ -846,8 +846,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (define-key gfm-mode-map (kbd "C-c x") 'markdown-toggle-gfm-checkbox))
 
 (use-package magit
-  :ensure t
-  :bind (("C-x m" . magit-status)))
+  :ensure t)
 
 (use-package compile
   :config
@@ -1052,19 +1051,27 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
 (define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
-(define-key my-other-win-prefix (kbd "m") 'magit-status)
 (define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
 (define-key my-other-win-prefix (kbd "e") 'eshell)
+(define-key my-other-win-prefix (kbd "C-g") 'my-search-with-google)
 (define-key my-other-win-prefix (kbd "w") 'my-copy-buffer-file-name)
 
-;; "C-o g ..." keybindings
+;; "C-o g ..." - git keybindings
 (define-prefix-command 'my-other-win-prefix-g)
 (define-key my-other-win-prefix (kbd "g") 'my-other-win-prefix-g)
-(define-key my-other-win-prefix-g (kbd "i") 'my-browse-git-file)
-(define-key my-other-win-prefix-g (kbd "o") 'my-search-with-google)
+(define-key my-other-win-prefix-g (kbd "g") 'my-browse-git-file)
+(define-key my-other-win-prefix-g (kbd "s") 'magit-status)
+(define-key my-other-win-prefix-g (kbd "b") 'magit-blame-addition)
+(define-key my-other-win-prefix-g (kbd "q") 'magit-blame-quit)
+
+;; "C-o l ..." - linter keybindings
+(define-prefix-command 'my-other-win-prefix-l)
+(define-key my-other-win-prefix (kbd "l") 'my-other-win-prefix-l)
+(define-key my-other-win-prefix-l (kbd "l") 'flycheck-list-errors)
+(define-key my-other-win-prefix-l (kbd "f") 'my-eslint-fix)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
