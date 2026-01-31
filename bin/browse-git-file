@@ -26,17 +26,15 @@ function open_remote_url() {
 }
 
 function handle_github_file() {
-    local git_file="$1"
-    local git_head="$2"
-    local git_full_name="$3"
+    local git_head="$1"
+    local git_full_name="$2"
     local remote_url="$(echo $git_origin | sed 's/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/')/$(echo $git_origin | sed -n 's/.*github.*/blob/p')/$git_head/$git_full_name"
     open_remote_url $remote_url
 }
 
 function handle_bitbucket_file() {
-    local git_file="$1"
-    local git_head="$2"
-    local git_full_name="$3"
+    local git_head="$1"
+    local git_full_name="$2"
     local remote_url="$(echo $git_origin | sed 's|ssh://||' | sed 's|git@\(.*\)\/\(.*\)\/\(.*\).git|https://\1/projects/\2/repos/\3/browse|')/$git_full_name?at=$git_head"
     open_remote_url $remote_url
 }
@@ -88,9 +86,9 @@ else
     git_full_name="$(git ls-files --full-name $git_file)"
 
     if [[ "$git_origin" == *"github"* ]]; then
-        handle_github_file "$git_file" "$git_head" "$git_full_name"
+        handle_github_file "$git_head" "$git_full_name"
     elif [[ "$git_origin" == *"bitbucket"* ]]; then
-        handle_bitbucket_file "$git_file" "$git_head" "$git_full_name"
+        handle_bitbucket_file "$git_head" "$git_full_name"
     else
         echo "Unknown repo. Only GitHub and Bitbucket are supported."
         exit 1
