@@ -607,6 +607,14 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (defun my-flycheck-eslint-mode-ts ()
   (my-flycheck-eslint-mode 'typescript-mode))
 
+(defun my-browse-git-commit ()
+  "Browse git commit by its hash inside GitHub or Bitbucket."
+  (interactive)
+  (let ((commit-hash (oref (magit-current-blame-chunk) orig-rev)))
+    (unless commit-hash
+      (user-error "Commit hash not found"))
+    (async-shell-command  (concat "browse-git-file --hash " commit-hash))))
+
 (defun my-browse-git-file ()
   "Browse current file in GitHub or Bitbucket."
   (interactive)
@@ -848,7 +856,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (define-key gfm-mode-map (kbd "C-c x") 'markdown-toggle-gfm-checkbox))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :bind (:map magit-blame-read-only-mode-map
+              ("g" . my-browse-git-commit)))
 
 (use-package compile
   :config
