@@ -503,38 +503,6 @@ I want something simpler."
       (insert "\n```")))
   (next-line))
 
-(defun my-markdown-insert-heading (level)
-  "Insert heading of a given level."
-
-  (markdown-insert-header level nil nil)
-
-  ;; Markdown formats headings like:
-  ;; ### Level 3 ###
-  ;; Let's delete trailing `#` chars
-  (end-of-line)
-  (search-backward " #")
-  (delete-char (1+ level)))
-
-(defun my-markdown-insert-heading-1 ()
-  "Insert heading level 1."
-  (interactive)
-  (my-markdown-insert-heading 1))
-
-(defun my-markdown-insert-heading-2 ()
-  "Insert heading level 2."
-  (interactive)
-  (my-markdown-insert-heading 2))
-
-(defun my-markdown-insert-heading-3 ()
-  "Insert heading level 3."
-  (interactive)
-  (my-markdown-insert-heading 3))
-
-(defun my-markdown-insert-heading-4 ()
-  "Insert heading level 4."
-  (interactive)
-  (my-markdown-insert-heading 4))
-
 (defun my-setup-mac-keyboard ()
   "`russian-computer' doesn't work flawlessly with mac keyboard:
 http://ru-emacs.livejournal.com/83575.html"
@@ -843,10 +811,10 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
   (define-key gfm-mode-map (kbd "`") nil) ;; Disable annoying prompt
   (define-key gfm-mode-map (kbd "M-RET") nil)
-  (define-key gfm-mode-map (kbd "C-c 1") 'my-markdown-insert-heading-1)
-  (define-key gfm-mode-map (kbd "C-c 2") 'my-markdown-insert-heading-2)
-  (define-key gfm-mode-map (kbd "C-c 3") 'my-markdown-insert-heading-3)
-  (define-key gfm-mode-map (kbd "C-c 4") 'my-markdown-insert-heading-4)
+  (define-key gfm-mode-map (kbd "C-c 1") 'markdown-insert-header-atx-1)
+  (define-key gfm-mode-map (kbd "C-c 2") 'markdown-insert-header-atx-2)
+  (define-key gfm-mode-map (kbd "C-c 3") 'markdown-insert-header-atx-3)
+  (define-key gfm-mode-map (kbd "C-c 4") 'markdown-insert-header-atx-4)
   (define-key gfm-mode-map (kbd "C-c l") 'markdown-insert-link)
   (define-key gfm-mode-map (kbd "C-c b") 'markdown-insert-bold)
   (define-key gfm-mode-map (kbd "C-c i") 'markdown-insert-italic)
