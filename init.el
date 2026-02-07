@@ -725,6 +725,10 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 
 (use-package neotree
   :ensure t
+
+  :hook
+  (neotree-mode . hl-line-mode)
+
   :config
   (setq-default neo-show-hidden-files t)
   (setq-default neo-theme 'ascii)
