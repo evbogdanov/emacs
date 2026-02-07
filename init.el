@@ -71,6 +71,9 @@
 ;; Use it to nicely format text via `M-q`
 (setq-default fill-column 80)
 
+;; Sentences end with one space
+(setq sentence-end-double-space nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Backup
