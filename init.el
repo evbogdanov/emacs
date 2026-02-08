@@ -640,6 +640,10 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
         (message "Copied: %s" abbrev-name))
     (user-error "Current buffer is not visiting a file")))
 
+(defun my-open-scratch-buffer ()
+  (interactive)
+  (switch-to-buffer-other-window "*scratch*"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -1030,7 +1034,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; C-o opens different stuff
+;; C-o keybindings
 (define-prefix-command 'my-other-win-prefix)
 (global-set-key (kbd "C-o") 'my-other-win-prefix)
 (define-key my-other-win-prefix (kbd "C-o") 'ace-window)
@@ -1044,14 +1048,19 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (define-key my-other-win-prefix (kbd "C-a") 'my-windmove-leftmost)
 (define-key my-other-win-prefix (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
-(define-key my-other-win-prefix (kbd "t") 'neotree-toggle)
-(define-key my-other-win-prefix (kbd "v") 'vterm)
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
-(define-key my-other-win-prefix (kbd "e") 'eshell)
-(define-key my-other-win-prefix (kbd "C-g") 'my-search-with-google)
 (define-key my-other-win-prefix (kbd "w") 'my-copy-buffer-file-name)
+
+;; "C-o o ..." - open different stuff
+(define-prefix-command 'my-other-win-prefix-o)
+(define-key my-other-win-prefix (kbd "o") 'my-other-win-prefix-o)
+(define-key my-other-win-prefix-o (kbd "g") 'my-search-with-google)
+(define-key my-other-win-prefix-o (kbd "e") 'eshell)
+(define-key my-other-win-prefix-o (kbd "v") 'vterm)
+(define-key my-other-win-prefix-o (kbd "t") 'neotree-toggle)
+(define-key my-other-win-prefix-o (kbd "s") 'my-open-scratch-buffer)
 
 ;; "C-o g ..." - git keybindings
 (define-prefix-command 'my-other-win-prefix-g)
