@@ -132,9 +132,6 @@
 ;; Typed text replaces the selection
 (delete-selection-mode t)
 
-;; Show matched parentheses
-(show-paren-mode t)
-
 ;; Easily navigate CamelCasedWords
 (global-subword-mode t)
 
@@ -655,6 +652,16 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Show matched parentheses
+(use-package paren
+  :ensure nil
+  :config
+  (setq show-paren-delay 0.1
+        show-paren-highlight-openparen t
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t)
+  (show-paren-mode t))
 
 (use-package calendar
   :config
