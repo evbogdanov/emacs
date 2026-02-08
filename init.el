@@ -1191,6 +1191,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
  '(markdown-code-face ((t (:foreground "DarkCyan"))))
  '(sh-heredoc ((t (:foreground "DarkGreen"))))
  '(sh-quoted-exec ((t (:foreground "DarkMagenta"))))
+ '(hl-line ((t (:background "grey95"))))
 
  '(error ((t (:foreground "Red1")))))
 
