@@ -768,6 +768,7 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
 (use-package dired
   :hook
   (dired-mode . dired-hide-details-mode)
+  (dired-mode . hl-line-mode)
 
   :config
   ;; Open files and directories right in the dired buffer
