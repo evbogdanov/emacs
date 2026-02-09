@@ -667,6 +667,10 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
         show-paren-when-point-in-periphery t)
   (show-paren-mode t))
 
+(use-package hl-line
+  :config
+  (setq hl-line-sticky-flag nil))
+
 (use-package calendar
   :config
   ;; Weeks in `calendar' should start on Monday
@@ -857,6 +861,9 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (define-key compilation-minor-mode-map "o" 'compilation-display-error))
 
 (use-package grep
+  :hook
+  (grep-mode . hl-line-mode)
+
   :config
   (setq grep-save-buffers nil))
 
@@ -1200,7 +1207,8 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
  '(font-lock-builtin-face ((t (:foreground "black"))))
  '(font-lock-type-face ((t (:foreground "black"))))
 
- '(compilation-info ((t (:foreground "DarkGreen" :weight bold))))
+ '(compilation-info ((t (:foreground "DarkGreen"))))
+ '(compilation-line-number ((t (:foreground "RoyalBlue3"))))
  '(dired-header ((t (:foreground "DarkGreen"))))
  '(dired-directory ((t (:foreground "MediumBlue"))))
  '(neo-root-dir-face ((t (:foreground "DarkGreen"))))
