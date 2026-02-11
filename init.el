@@ -796,6 +796,14 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   ;; Edit dired buffer with wdired (use same keybinding as occur and wgrep)
   (define-key dired-mode-map (kbd "e") 'dired-toggle-read-only)
 
+  ;; Jump between subdirs
+  (define-key dired-mode-map (kbd "M-p") 'dired-prev-subdir)
+  (define-key dired-mode-map (kbd "M-n") 'dired-next-subdir)
+
+  ;; Aliases to "i" and "$"
+  (define-key dired-mode-map (kbd "TAB") 'dired-maybe-insert-subdir)
+  (define-key dired-mode-map (kbd "M-i") 'dired-hide-subdir)
+
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
