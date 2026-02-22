@@ -644,6 +644,23 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (interactive)
   (switch-to-buffer-other-window "*scratch*"))
 
+(defun my-compile-goto-error-other-window ()
+  "Like `compile-goto-error', but display the result in another
+window and keep focus in the current buffer."
+  (interactive)
+  (let ((pop-up-windows t))
+    (save-selected-window
+      (compile-goto-error))))
+
+(defun my-compile-hide-buffer ()
+  "Hide buffer which was opened via `my-compile-goto-error-other-window'"
+  (interactive)
+  (let ((pop-up-windows t))
+    (save-selected-window
+      (compile-goto-error)
+      (kill-buffer)
+      (delete-window))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup my keyboard
@@ -863,18 +880,20 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   :config
   (setq compilation-always-kill t
         compilation-ask-about-save nil)
-  (define-key compilation-mode-map "\C-o" nil)
+  (define-key compilation-mode-map (kbd "C-o") nil)
 
   ;; Tweak `grep' (which is built on top of `compile' mode)
-  (define-key compilation-minor-mode-map "\C-o" nil)
-  (define-key compilation-minor-mode-map "o" 'compilation-display-error))
+  (define-key compilation-minor-mode-map (kbd "C-o") nil)
+  (define-key compilation-minor-mode-map (kbd "o") 'compilation-display-error))
 
 (use-package grep
   :hook
   (grep-mode . hl-line-mode)
 
   :config
-  (setq grep-save-buffers nil))
+  (setq grep-save-buffers nil)
+  (define-key grep-mode-map (kbd "SPC") 'my-compile-goto-error-other-window)
+  (define-key grep-mode-map (kbd "h") 'my-compile-hide-buffer))
 
 (use-package ibuffer
   :config
