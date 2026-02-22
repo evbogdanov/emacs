@@ -644,6 +644,11 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
   (interactive)
   (switch-to-buffer-other-window "*scratch*"))
 
+(defun my-open-grep-buffer ()
+  (interactive)
+  (switch-to-buffer "*grep*")
+  (delete-other-windows))
+
 (defun my-compile-goto-error-other-window ()
   "Like `compile-goto-error', but display the result in another
 window and keep focus in the current buffer."
@@ -1086,16 +1091,15 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
-(define-key my-other-win-prefix (kbd "w") 'my-copy-buffer-file-name)
 
 ;; "C-o o ..." - open different stuff
 (define-prefix-command 'my-other-win-prefix-o)
 (define-key my-other-win-prefix (kbd "o") 'my-other-win-prefix-o)
-(define-key my-other-win-prefix-o (kbd "g") 'my-search-with-google)
 (define-key my-other-win-prefix-o (kbd "e") 'eshell)
 (define-key my-other-win-prefix-o (kbd "v") 'vterm)
 (define-key my-other-win-prefix-o (kbd "t") 'neotree-toggle)
 (define-key my-other-win-prefix-o (kbd "s") 'my-open-scratch-buffer)
+(define-key my-other-win-prefix-o (kbd "g") 'my-open-grep-buffer)
 
 ;; "C-o g ..." - git keybindings
 (define-prefix-command 'my-other-win-prefix-g)
@@ -1110,6 +1114,12 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "l") 'my-other-win-prefix-l)
 (define-key my-other-win-prefix-l (kbd "l") 'flycheck-list-errors)
 (define-key my-other-win-prefix-l (kbd "f") 'my-eslint-fix)
+
+;; "C-o x ..." - extras
+(define-prefix-command 'my-other-win-prefix-x)
+(define-key my-other-win-prefix (kbd "x") 'my-other-win-prefix-x)
+(define-key my-other-win-prefix-x (kbd "g") 'my-search-with-google)
+(define-key my-other-win-prefix-x (kbd "w") 'my-copy-buffer-file-name)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
