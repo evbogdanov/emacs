@@ -28,9 +28,6 @@
 (defvar my-var-ace-avy-keys (number-sequence ?a ?z)
   "The same keys for `ace-window' and `avy'.")
 
-(defvar my-var-self-closing-tag-style " /"
-  "How to close tags like <br /> and <input />")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -398,26 +395,6 @@ Useful when I did `ibuffer-visit-buffer-other-window-noselect' and then want to 
   (delete-window)
   (ibuffer-update nil))
 
-(defun my-emmet-make-self-closing-tag ()
-  "Convert <MyTag>`point'</MyTag> to <MyTag/>."
-  (zap-to-char 1 ?>)
-  (backward-char)
-  (insert my-var-self-closing-tag-style)
-  (forward-char))
-
-(defun my-emmet-expand-line (arg)
-  "Tweak `emmet-expand-line' for a better JSX support."
-  (interactive "P")
-  (if (and (eq (char-before) ?>)
-           (eq (char-after) ?<))
-      (my-emmet-make-self-closing-tag)
-    ;; In JSX, I want 'className' instead of 'class'
-    (when (string= major-mode "js-jsx-mode")
-      (setq emmet-expand-jsx-className? t))
-    (emmet-expand-line arg)
-    ;; Switch back to 'class'
-    (setq emmet-expand-jsx-className? nil)))
-
 (defun my-format-buffer ()
   "Simple formatting.
 Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
@@ -750,15 +727,6 @@ window and keep focus in the current buffer."
 
 (use-package expand-region
   :ensure t)
-
-(use-package emmet-mode
-  :ensure t
-  :config
-  (setq emmet-self-closing-tag-style my-var-self-closing-tag-style)
-  (define-key emmet-mode-keymap (kbd "C-j") 'my-emmet-expand-line)
-  :hook ((sgml-mode . emmet-mode)
-         (css-mode . emmet-mode)
-         (js-json-mode . emmet-mode)))
 
 (use-package neotree
   :ensure t
