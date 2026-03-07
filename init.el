@@ -1088,6 +1088,8 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "x") 'my-other-win-prefix-x)
 (define-key my-other-win-prefix-x (kbd "g") 'my-search-with-google)
 (define-key my-other-win-prefix-x (kbd "w") 'my-copy-buffer-file-name)
+(define-key my-other-win-prefix-x (kbd "|") 'my-pipe-replace)
+(define-key my-other-win-prefix-x (kbd ">") 'my-pipe-do-not-replace)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
@@ -1137,10 +1139,6 @@ window and keep focus in the current buffer."
 
 ;; Eval buffer
 (global-set-key (kbd "M-RET") 'my-eval-buffer)
-
-;; Piping
-(global-set-key (kbd "M-|") 'my-pipe-replace)
-(global-set-key (kbd "M-\"") 'my-pipe-do-not-replace)
 
 ;; Comments
 (global-set-key (kbd "M-;") 'my-comment-line)  ; used to be `comment-dwim`
