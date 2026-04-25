@@ -755,6 +755,15 @@ window and keep focus in the current buffer."
   (define-key neotree-mode-map (kbd "R") 'neotree-rename-node)
   (define-key neotree-mode-map (kbd "D") 'neotree-delete-node))
 
+(use-package ediff
+  :config
+  ;; Vertical split on wide screens, horizontal split on narrow ones.
+  (setq ediff-split-window-function
+        (lambda (&optional arg)
+          (if (> (frame-width) 160)
+              (split-window-horizontally arg)
+            (split-window-vertically arg)))))
+
 (use-package dired
   :hook
   (dired-mode . dired-hide-details-mode)
@@ -1090,6 +1099,7 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix-x (kbd "w") 'my-copy-buffer-file-name)
 (define-key my-other-win-prefix-x (kbd "|") 'my-pipe-replace)
 (define-key my-other-win-prefix-x (kbd ">") 'my-pipe-do-not-replace)
+(define-key my-other-win-prefix-x (kbd "e") 'ediff)
 
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
