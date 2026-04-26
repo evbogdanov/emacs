@@ -419,12 +419,14 @@ When a region is selected, join all lines within the region."
   (when-let ((raw-filename (thing-at-point 'filename t)))
     (string-trim raw-filename "[\"']" "[\"']")))
 
-(defun my-find-file-at-point ()
-  "Open the file at point."
+(defun my-open-thing-at-point ()
+  "Open file or URL at point."
   (interactive)
-  (if-let ((filename (my-filename-at-point)))
-      (my-open-file-dispatch filename)
-    (user-error "No file at point")))
+  (if-let ((url (thing-at-point 'url t)))
+      (browse-url url)
+    (if-let ((filename (my-filename-at-point)))
+        (my-open-file-dispatch filename)
+      (user-error "Cannot open thing at point"))))
 
 (defun my-dired-at-point ()
   "Open the thing at point inside `dired'."
@@ -1230,8 +1232,8 @@ window and keep focus in the current buffer."
 ;; In macOS terminal `C--` becomes `undo' command. Use it for GUI too.
 (global-set-key (kbd "C--") 'undo)
 
-;; Try to open file at point
-(global-set-key (kbd "C-x .") 'my-find-file-at-point)
+;; Try to open thing at point
+(global-set-key (kbd "C-x .") 'my-open-thing-at-point)
 
 ;; Shortcut for searching files in the current project
 (global-set-key (kbd "C-x C-p") 'project-find-file)
