@@ -28,6 +28,10 @@
 (defvar my-var-ace-avy-keys (number-sequence ?a ?z)
   "The same keys for `ace-window' and `avy'.")
 
+(defvar my-css-aliases nil
+  "Per-project CSS aliases.")
+(put 'my-css-aliases 'safe-local-variable #'listp)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -137,6 +141,11 @@
 ;;; My functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun my-project-root ()
+  "Return path to current project."
+  (or (project-root (project-current))
+      default-directory))
+
 (defun my-system-is-macos ()
   "Check if my machine runs under macOS"
   (eq system-type 'darwin))
@@ -156,6 +165,11 @@
   (newline)
   (insert " ******************************************************************************/")
   (newline))
+
+(defun my-css-like-file-p (filename)
+  "Return non-nil if FILENAME looks like a CSS file."
+  (and (stringp filename)
+       (string-match-p "\\.\\(css\\|scss\\|sass\\|less\\)\\'" filename)))
 
 (defun my-heading-with-symbol (comment-symbol)
   "Create heading with a given comment symbol."
@@ -364,13 +378,53 @@ When a region is selected, join all lines within the region."
       (delete-indentation nil (region-beginning) (region-end))
     (join-line 1)))
 
+(defun my-css-find-file-by-alias (filename)
+  "Try to find CSS file by FILENAME using `my-css-aliases'"
+  (when (null my-css-aliases)
+    (user-error "No CSS aliases"))
+  (let* ((project-root (my-project-root))
+         (resolved-filename (catch 'resolved
+    (dolist (pair my-css-aliases)
+      (when (string-prefix-p (car pair) filename)
+        (throw 'resolved
+               (expand-file-name
+                (concat (cdr pair)
+                        (substring filename (length (car pair))))
+                project-root)))))))
+    (unless resolved-filename
+      (user-error "Cannot resolve CSS file: %s" filename))
+    (find-file resolved-filename)))
+
+(defun my-css-open-file (filename)
+  "Try to open CSS file by its FILENAME"
+  (if (file-readable-p filename)
+      (find-file filename)
+    (my-css-find-file-by-alias filename)))
+
+(defun my-open-regular-file (filename)
+  (unless (file-readable-p filename)
+    (user-error "Not a readable file: %s" filename))
+  (find-file filename))
+
+(defun my-open-file-dispatch (filename)
+  "How to open different files"
+  (cond
+   ((my-css-like-file-p filename)
+    (my-css-open-file filename))
+   (t
+    (my-open-regular-file filename))))
+
+(defun my-filename-at-point ()
+  "Return normalized filename at point"
+  (when-let ((raw-filename (thing-at-point 'filename t)))
+    (string-trim raw-filename "[\"']" "[\"']")))
+
 (defun my-find-file-at-point ()
   "Open the file at point."
   (interactive)
-  (let ((filename (thing-at-point 'filename)))
-    (unless (file-readable-p filename)
-      (user-error "No such file"))
-    (find-file filename)))
+  (if-let ((filename (my-filename-at-point)))
+      (my-open-file-dispatch filename)
+    (user-error "No file at point")))
 
 (defun my-dired-at-point ()
   "Open the thing at point inside `dired'."
