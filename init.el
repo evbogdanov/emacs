@@ -574,16 +574,6 @@ http://ru-emacs.livejournal.com/83575.html"
 
   (setq default-input-method "my-russian-computer"))
 
-(defun my-deepseek ()
-  "Make deepseek buffer. If there's one, switch to it."
-  (interactive)
-  (let* ((deepseek-buffer-name "*deepseek*")
-         (is-deepseek-buffer-created (get-buffer deepseek-buffer-name)))
-    (switch-to-buffer (get-buffer-create deepseek-buffer-name))
-    (unless is-deepseek-buffer-created
-      (gfm-mode)
-      (gptel-mode))))
-
 (defun my-get-closest-node-modules-dir ()
   "Look up node_modules directory closest to the current file"
   (locate-dominating-file (or (buffer-file-name) default-directory)
@@ -1055,15 +1045,6 @@ window and keep focus in the current buffer."
 (use-package multi-vterm
   :ensure t
   :after vterm)
-
-(use-package gptel
-  :ensure t
-  :config
-  (setq gptel-model 'deepseek-chat
-        gptel-backend (gptel-make-deepseek "DeepSeek"
-                        :stream t
-                        :key (getenv "DEEPSEEK_API_KEY")))
-  (global-set-key (kbd "s-d") 'my-deepseek))
 
 (use-package xref
   :config
