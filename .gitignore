@@ -20,3 +20,5 @@ dired-history
 flycheck_init.el
 tramp
 projects
+/.agent-shell/
+agent/
