@@ -1073,6 +1073,12 @@ window and keep focus in the current buffer."
   (setq dumb-jump-force-searcher 'rg)
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+(use-package agent-shell
+  :ensure t
+
+  ;; Unbind M-r
+  :bind (:map agent-shell-mode-map ("M-r" . nil)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; My own packages
@@ -1137,6 +1143,16 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "l") 'my-other-win-prefix-l)
 (define-key my-other-win-prefix-l (kbd "l") 'flycheck-list-errors)
 (define-key my-other-win-prefix-l (kbd "f") 'my-eslint-fix)
+
+;; "C-o a ..." - AI keybindings
+(define-prefix-command 'my-other-win-prefix-a)
+(define-key my-other-win-prefix (kbd "a") 'my-other-win-prefix-a)
+(define-key my-other-win-prefix-a (kbd "a") 'agent-shell)
+(define-key my-other-win-prefix-a (kbd "f") 'agent-shell-send-current-file)
+(define-key my-other-win-prefix-a (kbd "r") 'agent-shell-send-region)
+(define-key my-other-win-prefix-a (kbd "m") 'agent-shell-cycle-session-mode)
+(define-key my-other-win-prefix-a (kbd "l") 'agent-shell-set-session-model)
+(define-key my-other-win-prefix-a (kbd "p") 'agent-shell-prompt-compose)
 
 ;; "C-o x ..." - extras
 (define-prefix-command 'my-other-win-prefix-x)
