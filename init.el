@@ -335,9 +335,9 @@ see its code to understand what's going on here."
   "Select the window containing Neotree buffer (the leftmost one)
 and refresh it."
   (interactive)
-  (my-windmove-leftmost)
+  (neotree-show)
   (unless (string= (buffer-name) " *NeoTree*")
-    (user-error "No buffer called NeoTree"))
+    (user-error "Not in NeoTree"))
   (neotree-refresh))
 
 (defun my-neotree-open-current-file-directory ()
@@ -781,8 +781,9 @@ window and keep focus in the current buffer."
   (neotree-mode . hl-line-mode)
 
   :config
-  (setq-default neo-show-hidden-files t)
-  (setq-default neo-theme 'ascii)
+  (setq neo-window-position 'right)
+  (setq neo-show-hidden-files t)
+  (setq neo-theme 'ascii)
 
   (define-key neotree-mode-map (kbd "s") 'my-grep-in-default-directory)
   (define-key neotree-mode-map (kbd "F") 'neotree-change-root)
