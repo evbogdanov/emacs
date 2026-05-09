@@ -331,9 +331,8 @@ see its code to understand what's going on here."
   (interactive)
   (my-windmove-furthest 'right))
 
-(defun my-neotree-refresh ()
-  "Select the window containing Neotree buffer (the leftmost one)
-and refresh it."
+(defun my-neotree-show-and-refresh ()
+  "Show and refresh Neotree buffer."
   (interactive)
   (neotree-show)
   (unless (string= (buffer-name) " *NeoTree*")
@@ -1103,7 +1102,7 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "C-a") 'my-windmove-leftmost)
 (define-key my-other-win-prefix (kbd "C-e") 'my-windmove-rightmost)
 (define-key my-other-win-prefix (kbd "C-s") 'my-ace-window-swap)
-(define-key my-other-win-prefix (kbd "C-t") 'my-neotree-refresh)
+(define-key my-other-win-prefix (kbd "C-t") 'my-neotree-show-and-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
 
@@ -1112,7 +1111,6 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "o") 'my-other-win-prefix-o)
 (define-key my-other-win-prefix-o (kbd "e") 'eshell)
 (define-key my-other-win-prefix-o (kbd "v") 'vterm)
-(define-key my-other-win-prefix-o (kbd "t") 'neotree-toggle)
 (define-key my-other-win-prefix-o (kbd "s") 'my-open-scratch-buffer)
 (define-key my-other-win-prefix-o (kbd "g") 'my-open-grep-buffer)
 
