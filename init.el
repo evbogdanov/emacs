@@ -653,13 +653,23 @@ JS-OR-TS-MODE is either `js-mode' or `typescript-mode'."
       (revert-buffer :ignore-auto :noconfirm))))
 
 (defun my-copy-buffer-file-name ()
-  "Put the current buffer's abbreviated file name into the kill ring."
+  "Copy current buffer file name.
+
+If the file belongs to a project, copy the path relative to the
+project root. Otherwise copy the abbreviated absolute path."
   (interactive)
-  (if-let* ((file-name (buffer-file-name))
-            (abbrev-name (abbreviate-file-name file-name)))
-      (progn
-        (kill-new abbrev-name)
-        (message "Copied: %s" abbrev-name))
+  (if-let* ((file-name (buffer-file-name)))
+      (let* ((project (project-current nil))
+             (project-root
+              (when project
+                (expand-file-name (project-root project))))
+             (result
+              (if (and project-root
+                       (file-in-directory-p file-name project-root))
+                  (file-relative-name file-name project-root)
+                (abbreviate-file-name file-name))))
+        (kill-new result)
+        (message "Copied: %s" result))
     (user-error "Current buffer is not visiting a file")))
 
 (defun my-open-scratch-buffer ()
