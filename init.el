@@ -1075,9 +1075,9 @@ window and keep focus in the current buffer."
 
 (use-package agent-shell
   :ensure t
-
-  ;; Unbind M-r
-  :bind (:map agent-shell-mode-map ("M-r" . nil)))
+  :bind (:map agent-shell-mode-map
+              ("M-r" . nil)
+              ("TAB" . agent-shell-ui-toggle-fragment-at-point)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
