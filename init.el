@@ -1121,6 +1121,9 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "C-t") 'my-neotree-show-and-refresh)
 (define-key my-other-win-prefix (kbd ".") 'my-neotree-open-current-file-directory)
 (define-key my-other-win-prefix (kbd "C-j") 'dired-jump-other-window)
+;; pipes
+(define-key my-other-win-prefix (kbd "|") 'my-pipe-replace)
+(define-key my-other-win-prefix (kbd ">") 'my-pipe-do-not-replace)
 
 ;; "C-o o ..." - open different stuff
 (define-prefix-command 'my-other-win-prefix-o)
@@ -1159,8 +1162,6 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix (kbd "x") 'my-other-win-prefix-x)
 (define-key my-other-win-prefix-x (kbd "g") 'my-search-with-google)
 (define-key my-other-win-prefix-x (kbd "w") 'my-copy-buffer-file-name)
-(define-key my-other-win-prefix-x (kbd "|") 'my-pipe-replace)
-(define-key my-other-win-prefix-x (kbd ">") 'my-pipe-do-not-replace)
 (define-key my-other-win-prefix-x (kbd "e") 'ediff)
 
 ;; Open different things in Dired
