@@ -150,11 +150,6 @@
   "Check if my machine runs under macOS"
   (eq system-type 'darwin))
 
-(defun my-scroll-other-window-down ()
-  "Scroll text of other window down."
-  (interactive)
-  (scroll-other-window `-))
-
 (defun my-css-heading ()
   "Create CSS heading."
   (move-beginning-of-line 1)
@@ -1053,12 +1048,11 @@ window and keep focus in the current buffer."
 ;;; Keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; The most convenient way to switch languages
-(global-set-key (kbd "M-SPC") 'toggle-input-method)
+;; In case C-SPC is taken
+(global-set-key (kbd "M-SPC") 'set-mark-command)
 
-;; Easier scrolling
-(global-set-key (kbd "C-z") 'scroll-down-command)
-(global-set-key (kbd "C-M-z") 'my-scroll-other-window-down)
+;; Disable (suspend-frame)
+(global-set-key (kbd "C-z") nil)
 
 ;; Replace `list-buffers' with `ibuffer'
 (global-set-key (kbd "C-x C-b") 'ibuffer)
