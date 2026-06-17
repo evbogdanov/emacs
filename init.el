@@ -1036,7 +1036,7 @@ window and keep focus in the current buffer."
   :ensure t
   :bind (:map agent-shell-mode-map
               ("M-r" . nil)
-              ("TAB" . agent-shell-ui-toggle-fragment-at-point)))
+              ("TAB" . agent-shell-ui-toggle-fragment)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
