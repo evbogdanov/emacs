@@ -1247,6 +1247,8 @@ window and keep focus in the current buffer."
  '(sh-quoted-exec ((t (:foreground "DarkMagenta"))))
  '(hl-line ((t (:background "grey95"))))
 
+ '(org-level-1 ((t (:weight bold))))
+
  '(error ((t (:foreground "Red1")))))
 
 
