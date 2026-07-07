@@ -1048,8 +1048,8 @@ window and keep focus in the current buffer."
 ;;; Keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; In case C-SPC is taken
-(global-set-key (kbd "M-SPC") 'set-mark-command)
+;; The most convenient way to switch languages
+(global-set-key (kbd "M-SPC") 'toggle-input-method)
 
 ;; Disable (suspend-frame)
 (global-set-key (kbd "C-z") nil)
@@ -1100,6 +1100,14 @@ window and keep focus in the current buffer."
 (define-key my-other-win-prefix-l (kbd "l") 'flycheck-list-errors)
 (define-key my-other-win-prefix-l (kbd "f") 'my-eslint-fix)
 
+;; "C-o m ..." - marking keybindings
+(define-prefix-command 'my-other-win-prefix-m)
+(define-key my-other-win-prefix (kbd "m") 'my-other-win-prefix-m)
+(define-key my-other-win-prefix-m (kbd "m") 'set-mark-command)
+(define-key my-other-win-prefix-m (kbd "b") 'mark-whole-buffer)
+(define-key my-other-win-prefix-m (kbd "p") 'my-mark-paragraph)
+(define-key my-other-win-prefix-m (kbd "r") 'rectangle-mark-mode)
+
 ;; "C-o a ..." - AI keybindings
 (define-prefix-command 'my-other-win-prefix-a)
 (define-key my-other-win-prefix (kbd "a") 'my-other-win-prefix-a)
@@ -1148,13 +1156,6 @@ window and keep focus in the current buffer."
 ;; Replace 'execute-extended-command
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
-;; Marking
-(define-prefix-command 'my-mark-key)
-(global-set-key (kbd "C-x h") 'my-mark-key)  ; C-x h used to be `mark-whole-buffer'
-(define-key my-mark-key (kbd "h") 'mark-whole-buffer)
-(define-key my-mark-key (kbd "p") 'my-mark-paragraph)
-(define-key my-mark-key (kbd "r") 'rectangle-mark-mode)
 
 ;; Marking: expand or contract
 (global-set-key (kbd "M-h") 'er/contract-region)
