@@ -32,6 +32,9 @@
   "Per-project CSS aliases.")
 (put 'my-css-aliases 'safe-local-variable #'listp)
 
+(defvar my-macos-english-language "com.apple.keylayout.ABC"
+  "English language identifier on macOS (obtained via macism)")
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -653,17 +656,23 @@ window and keep focus in the current buffer."
       (kill-buffer)
       (delete-window))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Setup my keyboard
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq default-input-method "russian-computer")
+(defun my-macos-force-english-language ()
+  "Enforce English language on macOS when Emacs is active"
+  (when (and (my-system-is-macos)
+             (executable-find "macism")
+             (frame-focus-state))
+    (start-process "macism-english" nil "macism" my-macos-english-language)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package emacs
+  :config
+  ;; Setup languages
+  (setq default-input-method "russian-computer")
+  (add-function :after after-focus-change-function #'my-macos-force-english-language))
 
 ;; Show matched parentheses
 (use-package paren
