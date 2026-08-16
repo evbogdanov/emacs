@@ -533,6 +533,16 @@ I want something simpler."
       (insert "\n```")))
   (next-line))
 
+(defun my-markdown-insert-checkbox ()
+  "Insert a GFM-style checkbox at point's indentation level.
+If the line already starts with a `- ` bullet (after indentation),
+replace it instead of duplicating it."
+  (interactive)
+  (back-to-indentation)
+  (when (looking-at "- ")
+    (delete-region (point) (match-end 0)))
+  (insert "- [ ] "))
+
 (defun my-get-closest-node-modules-dir ()
   "Look up node_modules directory closest to the current file"
   (locate-dominating-file (or (buffer-file-name) default-directory)
@@ -869,7 +879,7 @@ window and keep focus in the current buffer."
   (define-key gfm-mode-map (kbd "C-c i") 'markdown-insert-italic)
   (define-key gfm-mode-map (kbd "C-c c") 'markdown-insert-code)
   (define-key gfm-mode-map (kbd "C-c `") 'my-markdown-insert-code-block)
-  (define-key gfm-mode-map (kbd "C-c [") 'markdown-insert-gfm-checkbox)
+  (define-key gfm-mode-map (kbd "C-c [") 'my-markdown-insert-checkbox)
   (define-key gfm-mode-map (kbd "C-c x") 'markdown-toggle-gfm-checkbox))
 
 (use-package magit
