@@ -16,6 +16,7 @@ recentf
 playground.exs
 transient/
 tree-sitter/
+history
 dired-history
 flycheck_init.el
 tramp

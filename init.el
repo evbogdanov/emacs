@@ -469,14 +469,14 @@ Turn tabs into spaces, ditch trailing whitespace, and indent a whole buffer."
 (defun my-find-recent-file ()
   "Find a recent file."
   (interactive)
-  (if (find-file (ido-completing-read "Recent file: " recentf-list))
+  (if (find-file (completing-read "Recent file: " recentf-list))
       (message "Opening file...")
     (message "Aborting")))
 
 (defun my-find-recent-dir ()
   "Find recently visited dired directory."
   (interactive)
-  (dired (ido-completing-read "Recent directory: " dired-recent-directories)))
+  (dired (completing-read "Recent directory: " dired-recent-directories)))
 
 (defun my-grep (what-to-search &optional where-to-search is-regex)
   "Search files using ripgrep."
@@ -728,30 +728,6 @@ window and keep focus in the current buffer."
   (setq avy-all-windows nil
         avy-background t
         avy-keys my-var-ace-avy-keys))
-
-(use-package ido
-  :ensure t
-  :config
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-max-prospects 10
-        ido-default-file-method 'selected-window
-        ido-auto-merge-work-directories-length -1
-        ido-separator "\n")
-  (ido-mode 1)
-  (ido-everywhere 1))
-
-(use-package flx-ido
-  :ensure t
-  :config
-  (flx-ido-mode 1)
-  ;; Disable ido faces to see flx highlights
-  (setq ido-use-faces nil))
-
-(use-package smex
-  :ensure t)
 
 (use-package expand-region
   :ensure t)
@@ -1052,6 +1028,23 @@ window and keep focus in the current buffer."
               ("M-r" . nil)
               ("TAB" . agent-shell-ui-toggle-fragment)))
 
+(use-package vertico
+  :ensure t
+  :init (vertico-mode))
+
+(use-package marginalia
+  :ensure t
+  :init (marginalia-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package savehist
+  :ensure t
+  :init (savehist-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; My own packages
@@ -1147,7 +1140,6 @@ window and keep focus in the current buffer."
 ;; Open different things in Dired
 (define-prefix-command 'my-dired-prefix)
 (global-set-key (kbd "C-x d") 'my-dired-prefix)
-(define-key my-dired-prefix (kbd "d") 'ido-dired)
 (define-key my-dired-prefix (kbd ".") 'my-dired-at-point)
 
 ;; Shortcut for C-o C-o
@@ -1171,10 +1163,6 @@ window and keep focus in the current buffer."
 
 ;; Prettify code
 (global-set-key (kbd "C-x f") 'my-format-buffer)
-
-;; Replace 'execute-extended-command
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Marking: expand or contract
 (global-set-key (kbd "M-h") 'er/contract-region)
