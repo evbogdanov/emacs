@@ -1040,7 +1040,11 @@ window and keep focus in the current buffer."
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
+  (vertico-cycle t)
+
+  ;; TODO: Do I really need a fuzzy search?
+  ;; (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
+
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package savehist
