@@ -1030,7 +1030,10 @@ window and keep focus in the current buffer."
 
 (use-package vertico
   :ensure t
-  :init (vertico-mode))
+  :init (vertico-mode)
+  :custom
+  (vertico-cycle t)
+  (vertico-count 10))
 
 (use-package marginalia
   :ensure t
@@ -1040,7 +1043,6 @@ window and keep focus in the current buffer."
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (vertico-cycle t)
 
   ;; TODO: Do I really need a fuzzy search?
   ;; (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
