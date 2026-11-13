@@ -533,6 +533,14 @@ I want something simpler."
       (insert "\n```")))
   (next-line))
 
+(defun my-markdown-insert-quote ()
+  "Toggle a Markdown quote marker at the current indentation."
+  (interactive)
+  (back-to-indentation)
+  (if (looking-at "> ")
+      (delete-region (point) (match-end 0))
+    (insert "> ")))
+
 (defun my-markdown-insert-checkbox ()
   "Insert a GFM-style checkbox at point's indentation level.
 If the line already starts with a `- ` bullet (after indentation),
@@ -855,6 +863,7 @@ window and keep focus in the current buffer."
   (define-key gfm-mode-map (kbd "C-c i") 'markdown-insert-italic)
   (define-key gfm-mode-map (kbd "C-c c") 'markdown-insert-code)
   (define-key gfm-mode-map (kbd "C-c `") 'my-markdown-insert-code-block)
+  (define-key gfm-mode-map (kbd "C-c q") 'my-markdown-insert-quote)
   (define-key gfm-mode-map (kbd "C-c [") 'my-markdown-insert-checkbox)
   (define-key gfm-mode-map (kbd "C-c x") 'markdown-toggle-gfm-checkbox))
 
