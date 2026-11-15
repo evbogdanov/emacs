@@ -35,6 +35,15 @@
 (defvar my-macos-english-language "com.apple.keylayout.ABC"
   "English language identifier on macOS (obtained via macism)")
 
+(defvar my-color-strings "#478f00"
+  "Color for strings")
+
+(defvar my-color-keywords "#ad3ea4"
+  "Color for keywords")
+
+(defvar my-color-comments "grey50"
+  "Color for comments")
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Naked Emacs
@@ -1251,24 +1260,24 @@ window and keep focus in the current buffer."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-faces
- '(font-lock-doc-face ((t (:foreground "grey50"))))
- '(font-lock-comment-face ((t (:foreground "grey50"))))
- '(font-lock-string-face ((t (:foreground "DarkGreen"))))
- '(font-lock-keyword-face ((t (:foreground "DarkMagenta"))))
+ `(font-lock-doc-face ((t (:foreground ,my-color-comments))))
+ `(font-lock-comment-face ((t (:foreground ,my-color-comments))))
+ `(font-lock-string-face ((t (:foreground ,my-color-strings))))
+ `(font-lock-keyword-face ((t (:foreground ,my-color-keywords))))
  '(font-lock-variable-name-face ((t (:foreground "black"))))
  '(font-lock-constant-face ((t (:foreground "black"))))
  '(font-lock-function-name-face ((t (:foreground "black"))))
  '(font-lock-builtin-face ((t (:foreground "black"))))
  '(font-lock-type-face ((t (:foreground "black"))))
 
- '(compilation-info ((t (:foreground "DarkGreen"))))
+ `(compilation-info ((t (:foreground ,my-color-strings))))
  '(compilation-line-number ((t (:foreground "RoyalBlue3"))))
- '(dired-header ((t (:foreground "DarkGreen"))))
+ `(dired-header ((t (:foreground ,my-color-strings))))
  '(dired-directory ((t (:foreground "MediumBlue"))))
- '(neo-root-dir-face ((t (:foreground "DarkGreen"))))
+ `(neo-root-dir-face ((t (:foreground ,my-color-strings))))
  '(markdown-code-face ((t (:foreground "DarkCyan"))))
- '(sh-heredoc ((t (:foreground "DarkGreen"))))
- '(sh-quoted-exec ((t (:foreground "DarkMagenta"))))
+ '(sh-heredoc ((t (:foreground ,my-color-strings))))
+ `(sh-quoted-exec ((t (:foreground ,my-color-keywords))))
  '(hl-line ((t (:background "grey95"))))
 
  '(org-level-1 ((t (:weight bold))))
